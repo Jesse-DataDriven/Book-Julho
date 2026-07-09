@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<style>
+  /* =======================================================================
+     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     ======================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
+
+  /* ================= CABEÇALHO ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+  }
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
+  }
+  
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* ================= RODAPÉ ================= */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+    flex-shrink: 0;
+  }
+  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+
+  /* ================= CONTEÚDO ESPECÍFICO ================= */
+  
+  /* --- INSIGHT BAR --- */
+  .insight-bar {
+    padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border-color); background: white; flex-shrink: 0;
+  }
+  .insight-left h2 { font-size: 22px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; letter-spacing: -0.5px;}
+  .insight-left h2 b { font-weight: 800; }
+  .insight-left p { font-size: 11px; color: var(--text-gray); font-weight: 500; }
+  
+  .insight-kpis { display: flex; gap: 25px; align-items: center; }
+  .kpi-block { text-align: center; border-left: 1px solid var(--border-color); padding-left: 25px; }
+  .kpi-block:first-child { border-left: none; padding-left: 0; }
+  .kpi-block h3 { font-size: 28px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -1px;}
+  .kpi-block p { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .kpi-pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: 800; margin-top: 4px;}
+  
+  .c-green h3 { color: #16a34a; } .c-green .kpi-pill { background: #dcfce7; color: #166534; }
+  .c-blue h3 { color: var(--agi-blue); } .c-blue .kpi-pill { background: #dbeafe; color: var(--header-bg); }
+  .c-orange h3 { color: #d97706; } .c-orange .kpi-pill { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74;}
+
+  /* --- CONTEÚDO PRINCIPAL --- */
+  .content { padding: 20px 30px; display: grid; grid-template-columns: 2.3fr 1fr; gap: 25px; flex: 1; min-height: 0; background: var(--bg-main);}
+
+  /* PAINEL ESQUERDO (Tabela + Gráfico) */
+  .left-panel { display: flex; flex-direction: column; gap: 20px; min-height: 0;}
+  
+  .table-box { background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .table-header { background: var(--header-bg); color: white; padding: 8px 15px; font-size: 10px; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; gap: 8px;}
+  .table-header .dot { width: 8px; height: 8px; background: var(--agi-green); border-radius: 50%; }
+  
+  table.fin-table { width: 100%; border-collapse: collapse; text-align: right; font-size: 11px; }
+  /* Padding reduzido para caber a nova coluna de Junho */
+  table.fin-table th { background: #f8fafc; color: var(--text-gray); font-weight: 800; padding: 8px 10px; border-bottom: 2px solid var(--border-color); text-transform: uppercase; font-size: 9px;}
+  table.fin-table th:first-child, table.fin-table td:first-child { text-align: left; font-weight: 700; color: var(--text-dark);}
+  table.fin-table td { padding: 10px 10px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); }
+  table.fin-table tr:last-child td { border-bottom: none; }
+  
+  .val-red { color: var(--agi-red) !important; font-weight: 800 !important; }
+  .col-ytd { background: #f0f7ff; font-weight: 800 !important; color: var(--header-bg) !important;}
+  th.col-ytd { background: #e0e7ff; color: var(--agi-blue) !important; }
+
+  /* Gráfico */
+  .chart-container { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; flex: 1; min-height: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+  .chart-title { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .chart-legend { display: flex; gap: 15px; font-size: 10px; font-weight: 700; color: var(--text-dark);}
+  .legend-item { display: flex; align-items: center; gap: 6px;}
+  .box { width: 12px; height: 12px; border-radius: 3px; }
+  .canvas-wrapper { flex: 1; width: 100%; position: relative; min-height: 0;}
+  .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+  /* PAINEL DIREITO (Orçamento Mensal) */
+  .right-panel { background: white; border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; overflow: hidden;}
+  .rp-header { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 11px; font-weight: 800; color: var(--header-bg); text-transform: uppercase; letter-spacing: 0.5px;}
+  
+  .month-list { display: flex; flex-direction: column; flex: 1; padding: 10px 15px; gap: 4px;}
+  .month-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-radius: 6px; font-size: 12px;}
+  .month-row:nth-child(odd) { background: #f8fafc; }
+  .month-name { font-weight: 800; color: var(--text-gray); width: 60px;}
+  .month-val { font-weight: 600; color: var(--text-dark); flex: 1; text-align: right; padding-right: 15px;}
+  
+  .tag { padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.5px; width: 45px; text-align: center;}
+  .tag-real { background: #dbeafe; color: var(--agi-blue); }
+  .tag-prev { background: #e5e7eb; color: var(--text-gray); }
+
+  .rp-footer { background: #f8fafc; border-top: 2px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; gap: 8px;}
+  .rp-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--text-gray);}
+  .rp-total-row strong { font-size: 14px; font-weight: 800; color: var(--text-dark);}
+  .rp-total-row.highlight strong { color: #16a34a; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Execução Orçamentária (BPO)</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 30 DE 35</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT BAR -->
+  <div class="insight-bar">
+    <div class="insight-left">
+      <h2>Execução <b style="color: var(--agi-green);">favorável</b> no acumulado Jan–Jun — realizado <b>R$ 25,8M</b> vs orçado <b>R$ 30,7M</b></h2>
+      <p>Conta 8175700003097 · Serv. Prest. por PJ - BPO · Diretoria Clientes · Junho 2026 · Variação e % calculados automaticamente</p>
+    </div>
+    <div class="insight-kpis">
+      <div class="kpi-block c-green">
+        <h3>R$ 4,96M</h3>
+        <p>Economia Jan-Jun</p>
+        <div class="kpi-pill">-19,23% do orçado</div>
+      </div>
+      <div class="kpi-block c-blue">
+        <h3>42,81%</h3>
+        <p>Budget Executado</p>
+        <div class="kpi-pill">6 de 12 meses</div>
+      </div>
+      <div class="kpi-block c-orange">
+        <h3>R$ 29,50M</h3>
+        <p>Saldo Jul-Dez</p>
+        <div class="kpi-pill">A realizar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    
+    <!-- PAINEL ESQUERDO -->
+    <div class="left-panel">
+      
+      <!-- Tabela -->
+      <div class="table-box">
+        <div class="table-header"><div class="dot"></div> REALIZADO VS ORÇADO — MENSAL 2026</div>
+        <table class="fin-table">
+          <thead>
+            <tr>
+              <th>Mês</th>
+              <th>Jan/26</th>
+              <th>Fev/26</th>
+              <th>Mar/26</th>
+              <th>Abr/26</th>
+              <th>Mai/26</th>
+              <th>Jun/26</th>
+              <th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Realizado (R$)</td>
+              <td>4.681.881</td>
+              <td>3.748.806</td>
+              <td>3.916.459</td>
+              <td>4.436.705</td>
+              <td>4.585.787</td>
+              <td>4.431.802</td>
+              <td class="col-ytd">25.801.440</td>
+            </tr>
+            <tr>
+              <td>Orçado (R$)</td>
+              <td>5.758.176</td>
+              <td>5.193.443</td>
+              <td>4.990.886</td>
+              <td>4.799.812</td>
+              <td>5.661.412</td>
+              <td>4.359.952</td>
+              <td class="col-ytd">30.763.681</td>
+            </tr>
+            <tr>
+              <td>Variação (R$)</td>
+              <td class="val-red">-1.076.295</td>
+              <td class="val-red">-1.444.637</td>
+              <td class="val-red">-1.074.427</td>
+              <td class="val-red">-363.107</td>
+              <td class="val-red">-1.075.625</td>
+              <td class="val-red">+71.850</td>
+              <td class="col-ytd val-red">-4.962.241</td>
+            </tr>
+            <tr>
+              <td>% vs Orçado</td>
+              <td class="val-red">-18,7%</td>
+              <td class="val-red">-27,8%</td>
+              <td class="val-red">-21,5%</td>
+              <td class="val-red">-7,6%</td>
+              <td class="val-red">-19,0%</td>
+              <td class="val-red">+1,6%</td>
+              <td class="col-ytd val-red">-16,1%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Gráfico -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <div class="chart-title">REALIZADO VS ORÇADO POR MÊS</div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="box" style="background: #dbeafe;"></div> Orçado</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> Realizado</div>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="budgetChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAINEL DIREITO -->
+    <div class="right-panel">
+      <div class="rp-header">ORÇAMENTO MENSAL PREVISTO 2026</div>
+      
+      <div class="month-list">
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">JAN/26</span><span class="month-val">R$ 5.758.176</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">FEV/26</span><span class="month-val">R$ 5.193.443</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">MAR/26</span><span class="month-val">R$ 4.990.886</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">ABR/26</span><span class="month-val">R$ 4.799.812</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">MAI/26</span><span class="month-val">R$ 4.613.557</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name" style="color: var(--agi-blue);">JUN/26</span><span class="month-val">R$ 4.359.952</span><span class="tag tag-real">REAL.</span></div>
+        <div class="month-row"><span class="month-name">JUL/26</span><span class="month-val">R$ 4.446.530</span><span class="tag tag-prev">PREV.</span></div>
+        <div class="month-row"><span class="month-name">AGO/26</span><span class="month-val">R$ 4.630.916</span><span class="tag tag-prev">PREV.</span></div>
+        <div class="month-row"><span class="month-name">SET/26</span><span class="month-val">R$ 4.799.634</span><span class="tag tag-prev">PREV.</span></div>
+        <div class="month-row"><span class="month-name">OUT/26</span><span class="month-val">R$ 4.998.567</span><span class="tag tag-prev">PREV.</span></div>
+        <div class="month-row"><span class="month-name">NOV/26</span><span class="month-val">R$ 5.208.174</span><span class="tag tag-prev">PREV.</span></div>
+        <div class="month-row"><span class="month-name">DEZ/26</span><span class="month-val">R$ 5.422.793</span><span class="tag tag-prev">PREV.</span></div>
+      </div>
+
+      <div class="rp-footer">
+        <div class="rp-total-row">
+          <span>Total Orçado 2026</span>
+          <strong>R$ 59.297.418</strong>
+        </div>
+        <div class="rp-total-row highlight">
+          <span>Realizado Jan–Jun</span>
+          <strong>R$ 25.801.440</strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Agibank · Comitê CX · Jun/26 · Orçamento BPO</span>
+    <span>30 / 35</span>
+  </div>
+
+</div>
+
+<script>
+  // Ajuste de escala para caber em qualquer tela
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  // Inicialização do Gráfico (Chart.js)
+  Chart.register(ChartDataLabels);
+  Chart.defaults.font.family = "'Inter', sans-serif";
+
+  const ctx = document.getElementById('budgetChart').getContext('2d');
+  
+  new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: ['JAN/26', 'FEV/26', 'MAR/26', 'ABR/26', 'MAI/26', 'JUN/26'],
+          datasets: [
+              {
+                  label: 'Orçado',
+                  data: [5758176, 5193443, 4990886, 4799812, 5661412, 4359952],
+                  backgroundColor: '#dbeafe', // Azul bem claro
+                  borderRadius: 4,
+                  barPercentage: 0.8,
+                  categoryPercentage: 0.8,
+                  datalabels: { display: false } // Esconde label do orçado para não poluir
+              },
+              {
+                  label: 'Realizado',
+                  data: [4681881, 3748806, 3916459, 4436705, 4585787, 4431802],
+                  backgroundColor: '#1a56db', // Azul Agibank
+                  borderRadius: 4,
+                  barPercentage: 0.8,
+                  categoryPercentage: 0.8,
+                  datalabels: {
+                      display: true,
+                      align: 'top',
+                      anchor: 'end',
+                      offset: 4,
+                      color: '#1a56db',
+                      font: { weight: 'bold', size: 10 },
+                      formatter: function(value) {
+                          // Formata para Milhões (ex: 4,6M)
+                          return (value / 1000000).toFixed(1).replace('.', ',') + 'M';
+                      }
+                  }
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2), // Alta definição
+          layout: { padding: { top: 25 } }, // Espaço para os rótulos de dados
+          plugins: {
+              legend: { display: false },
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          return context.dataset.label + ': R$ ' + context.raw.toLocaleString('pt-BR');
+                      }
+                  }
+              }
+          },
+          scales: {
+              x: { 
+                  grid: { display: false }, 
+                  ticks: { font: { size: 9, weight: 'bold' }, color: '#6b7280' } 
+              },
+              y: { 
+                  display: false, // Esconde o eixo Y para um visual mais limpo
+                  min: 0,
+                  suggestedMax: 6500000 // Dá espaço para as barras e rótulos
+              }
+          }
+      }
+  });
+</script>
+
+</body>
+</html>
