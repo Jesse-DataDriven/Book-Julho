@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Importação do seu CSS Oficial -->
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= VARIÁVEIS ESPECÍFICAS DESTE SLIDE ================= */
+  :root {
+    --purple-main: #6b21a8;
+    --orange-main: #ea580c;
+    
+    /* Heatmap (Tabela Direita) */
+    --hm-1: #fffbeb; /* Muito Baixo (<10%) */
+    --hm-2: #fef08a; /* Baixo (10-15%) */
+    --hm-3: #fde047; /* Médio (15-20%) */
+    --hm-4: #fcd34d; /* Alto (20-25%) */
+    --hm-5: #fbd38d; /* Muito Alto (25-30%) */
+    --hm-6: #fed7aa; /* Crítico (>30%) */
+  }
+
+  /* ================= CONTEÚDO DO SLIDE ================= */
+  .content { 
+    padding: 10px 15px !important; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    height: 616px; 
+    background: var(--bg-main);
+    box-sizing: border-box;
+  }
+
+  /* ================= BARRA DE KPIs SUPERIOR ================= */
+  .kpi-bar {
+    display: flex;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .kpi-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border-color);
+  }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-title { font-size: 8.5px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .kpi-val { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; }
+  
+  .val-blue { color: var(--agi-blue); }
+  .val-dark { color: var(--header-bg); }
+  .val-purple { color: var(--purple-main); }
+  .val-orange { color: var(--orange-main); }
+  .val-green { color: var(--agi-green); }
+
+  /* ================= GRID DAS TABELAS ================= */
+  .tables-wrapper {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr; /* Tabela da esquerda um pouco maior */
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .table-container {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .th-left { background: var(--header-bg); color: white; padding: 5px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .th-right { background: var(--purple-main); color: white; padding: 5px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Estilização Base das Tabelas (Ajustada p/ 9 Colunas - Jan a Jun) */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 8px; text-align: right; }
+  .data-table th { 
+    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
+    padding: 4px 6px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); 
+    font-size: 7.5px; 
+  }
+  .data-table td { 
+    padding: 5px 6px; border-bottom: 1px solid #f1f5f9; color: var(--text-dark); font-weight: 600; 
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-weight: 700; color: var(--header-bg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+  
+  /* Tabela Esquerda Específicos */
+  .col-ytd { font-weight: 800 !important; color: var(--agi-blue) !important; background: #f0f4ff; }
+  .up-green { color: var(--agi-green); font-weight: 800; }
+  .down-red { color: var(--agi-red); font-weight: 800; }
+  
+  .row-demais td { background: #f1f5f9; font-weight: 800; border-top: 1px solid var(--border-color); }
+  .row-top10 td { background: #e0e7ff; font-weight: 800; border-top: 1px solid var(--border-color); }
+  .row-total td { background: #e0e7ff; font-weight: 900; color: var(--header-bg); }
+
+  /* Tabela Direita Específicos (Heatmap) */
+  .hm-1 { background-color: var(--hm-1); }
+  .hm-2 { background-color: var(--hm-2); }
+  .hm-3 { background-color: var(--hm-3); }
+  .hm-4 { background-color: var(--hm-4); }
+  .hm-5 { background-color: var(--hm-5); }
+  .hm-6 { background-color: var(--hm-6); }
+  .row-total-right td:first-child { background: #f3e8ff; font-weight: 800; color: var(--purple-main) !important; border-top: 1px solid var(--border-color); }
+  .row-total-right td:not(:first-child) { border-top: 1px solid var(--border-color); font-weight: 800;}
+
+  /* ================= BARRA DE INSIGHTS INFERIOR ================= */
+  .insights-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .insight-block { display: flex; flex-direction: column; gap: 4px; }
+  .insight-title { display: flex; align-items: center; gap: 6px; font-size: 8.5px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-blue { background: var(--agi-blue); }
+  .dot-purple { background: var(--purple-main); }
+  .dot-green { background: var(--agi-green); }
+  .insight-text { font-size: 9.5px; color: var(--text-dark); line-height: 1.4; font-weight: 500; }
+  .insight-text b { font-weight: 800; }
+  .text-orange { color: var(--orange-main); font-weight: 800; }
+  .text-green { color: var(--agi-green); font-weight: 800; }
+  .text-red { color: var(--agi-red); font-weight: 800; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Top 10 Motivos Chamadores - Consumer Banking</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 23 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content">
+    
+    <!-- BARRA DE KPIs -->
+    <div class="kpi-bar">
+      <div class="kpi-item">
+        <div class="kpi-title">VOL. JUN/26</div>
+        <div class="kpi-val val-blue">43.862</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">YTD JAN/26-JUN/26</div>
+        <div class="kpi-val val-dark">255.785</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">RECH. 48H JUN/26</div>
+        <div class="kpi-val val-purple">20,94%</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">TOP 10 / TOTAL (YTD)</div>
+        <div class="kpi-val val-orange">34,28%</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">MOM MAI→JUN</div>
+        <div class="kpi-val val-green">-14,19%</div>
+      </div>
+    </div>
+
+    <!-- GRID DAS TABELAS -->
+    <div class="tables-wrapper">
+      
+      <!-- TABELA ESQUERDA (Top Motivos) -->
+      <div class="table-container">
+        <div class="th-left">TOP MOTIVOS · VOL. ABERTURA <span style="font-weight: 500; text-transform: none; color: #cbd5e1; margin-left: 5px;">JAN/26-JUN/26</span></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>MOTIVO</th><th>JAN/26</th><th>FEV/26</th><th>MAR/26</th><th>ABR/26</th><th>MAI/26</th><th>JUN/26</th><th class="col-ytd">YTD</th><th>MoM%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="color: var(--orange-main);">Pix</td><td>15.336</td><td>10.748</td><td>11.092</td><td>11.102</td><td>12.554</td><td>9.456</td><td class="col-ytd">70.288</td><td class="down-red">▼ -24,7%</td></tr>
+            <tr><td>Pagamento Benefício</td><td>9.287</td><td>7.319</td><td>6.750</td><td>6.841</td><td>9.214</td><td>8.225</td><td class="col-ytd">47.636</td><td class="down-red">▼ -10,7%</td></tr>
+            <tr><td>Erro App</td><td>8.868</td><td>6.862</td><td>5.184</td><td>6.012</td><td>7.785</td><td>6.978</td><td class="col-ytd">41.689</td><td class="down-red">▼ -10,4%</td></tr>
+            <tr><td>Extrato</td><td>5.961</td><td>5.160</td><td>5.280</td><td>5.368</td><td>9.819</td><td>7.518</td><td class="col-ytd">39.106</td><td class="down-red">▼ -23,4%</td></tr>
+            <tr><td>Conta Bloqueada</td><td>2.818</td><td>2.413</td><td>2.158</td><td>2.156</td><td>2.566</td><td>3.419</td><td class="col-ytd">15.530</td><td class="up-green">▲ +33,2%</td></tr>
+            <tr><td>Vítima de Golpe - Pix/MED</td><td>1.572</td><td>1.572</td><td>1.700</td><td>1.755</td><td>729</td><td>402</td><td class="col-ytd">7.730</td><td class="down-red">▼ -44,9%</td></tr>
+            <tr><td>Compensação</td><td>0</td><td>1.300</td><td>1.300</td><td>1.542</td><td>1.418</td><td>563</td><td class="col-ytd">6.123</td><td class="down-red">▼ -60,3%</td></tr>
+            <tr><td>Limite Disponível</td><td>1.706</td><td>1.501</td><td>1.516</td><td>1.516</td><td>2.575</td><td>2.786</td><td class="col-ytd">11.600</td><td class="up-green">▲ +8,2%</td></tr>
+            <tr><td>Bloqueio de Saldo</td><td>1.549</td><td>1.468</td><td>1.441</td><td>1.458</td><td>1.960</td><td>2.034</td><td class="col-ytd">9.910</td><td class="up-green">▲ +3,8%</td></tr>
+            <tr><td>Portabilidade de Salário</td><td>1.869</td><td>1.931</td><td>2.071</td><td>1.447</td><td>1.488</td><td>1.328</td><td class="col-ytd">10.134</td><td class="down-red">▼ -10,8%</td></tr>
+            <tr class="row-demais"><td>Demais Motivos</td><td>32.586</td><td>26.670</td><td>28.089</td><td>25.660</td><td>45.234</td><td>41.417</td><td class="col-ytd">199.656</td><td class="down-red">▼ -8,4%</td></tr>
+            <tr class="row-top10"><td>Top 10</td><td>47.394</td><td>38.974</td><td>36.976</td><td>39.197</td><td>49.382</td><td>43.862</td><td class="col-ytd">255.785</td><td class="down-red">▼ -11,2%</td></tr>
+            <tr class="row-total"><td>Total</td><td>79.980</td><td>65.644</td><td>65.065</td><td>64.857</td><td>94.616</td><td>85.279</td><td class="col-ytd">455.441</td><td class="down-red">▼ -9,9%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TABELA DIREITA (Recontato Timeline) -->
+      <div class="table-container">
+        <div class="th-right">RECONTATO 48H POR MOTIVO · TIMELINE <span style="font-weight: 500; text-transform: none; color: #e9d5ff; margin-left: 5px;">CPF + motivo ≤48h</span></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>MOTIVO</th><th>JAN/26</th><th>FEV/26</th><th>MAR/26</th><th>ABR/26</th><th>MAI/26</th><th>JUN/26</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Devolução SVR</td><td class="hm-4">22,20%</td><td class="hm-6">32,20%</td><td class="hm-6">32,10%</td><td class="hm-2">12,84%</td><td class="hm-3">15,79%</td><td class="hm-1">8,70%</td></tr>
+            <tr><td>Baixa de Pagamento</td><td class="hm-4">20,60%</td><td class="hm-2">14,70%</td><td class="hm-2">12,00%</td><td class="hm-3">19,90%</td><td class="hm-1">2,90%</td><td class="hm-1">8,62%</td></tr>
+            <tr><td>Transferência de Saldo (Co...</td><td class="hm-6">31,00%</td><td class="hm-4">23,40%</td><td class="hm-5">25,00%</td><td class="hm-3">15,18%</td><td class="hm-1">9,18%</td><td class="hm-2">14,30%</td></tr>
+            <tr><td>Vítima de Golpe - Pix/MED</td><td class="hm-3">16,10%</td><td class="hm-3">19,70%</td><td class="hm-4">20,70%</td><td class="hm-1">1,31%</td><td class="hm-1">2,10%</td><td class="hm-1">1,80%</td></tr>
+            <tr><td>Erro App</td><td class="hm-4">21,00%</td><td class="hm-3">19,10%</td><td class="hm-3">16,30%</td><td class="hm-2">12,80%</td><td class="hm-1">9,32%</td><td class="hm-2">11,00%</td></tr>
+            <tr><td>Acordo</td><td class="hm-5">26,70%</td><td class="hm-5">26,00%</td><td class="hm-5">28,50%</td><td class="hm-1">7,41%</td><td class="hm-2">11,11%</td><td class="hm-3">18,21%</td></tr>
+            <tr><td>Conta Bloqueada</td><td class="hm-3">19,70%</td><td class="hm-4">20,60%</td><td class="hm-3">17,60%</td><td class="hm-2">12,12%</td><td class="hm-1">9,93%</td><td class="hm-2">11,47%</td></tr>
+            <tr><td>Crédito Calamidade</td><td class="hm-1">8,30%</td><td class="hm-5">25,00%</td><td class="hm-3">18,20%</td><td class="hm-3">18,60%</td><td class="hm-1">0,00%</td><td class="hm-1">0,00%</td></tr>
+            <tr><td>Encerramento de Conta</td><td class="hm-3">18,00%</td><td class="hm-2">14,70%</td><td class="hm-3">15,20%</td><td class="hm-1">9,71%</td><td class="hm-1">9,01%</td><td class="hm-2">10,04%</td></tr>
+            <tr><td>Compensação</td><td class="hm-1">6,30%</td><td class="hm-3">15,60%</td><td class="hm-2">14,30%</td><td class="hm-1">9,09%</td><td class="hm-1">6,74%</td><td class="hm-1">3,39%</td></tr>
+            <tr class="row-total-right"><td>Total BU</td><td class="hm-1">9,01%</td><td class="hm-1">7,92%</td><td class="hm-1">7,12%</td><td class="hm-1">6,51%</td><td class="hm-1">5,21%</td><td class="hm-1">6,32%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- BARRA DE INSIGHTS -->
+    <div class="insights-bar">
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-blue"></span> VOLUME E TENDÊNCIA</div>
+        <div class="insight-text">
+          <b>Total:</b> 85.279 casos em JUN/26. <b>Top 10:</b> 255.785 (<span class="text-green">51,43% ytd</span>). <b>#1 Pix:</b> 9.456 <span class="text-green">-24,7%</span>.
+        </div>
+      </div>
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-purple"></span> RECONTATO 48H — MAIORES TAXAS</div>
+        <div class="insight-text">
+          <b>Acordo:</b> <span class="text-orange">18,21%</span> em JUN/26. <b>Transferência de Saldo (Conta Encerrada/Bloqueada):</b> <span class="text-orange">14,30%</span> em JUN/26. <b>Conta Bloqueada:</b> <span class="text-orange">11,47%</span> em JUN/26.
+        </div>
+      </div>
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-green"></span> INSIGHTS</div>
+        <div class="insight-text">
+          Rech. 48h BU: <span class="text-red">20,94%</span>. Vol. total MoM: <span class="text-green">-9,87%</span>.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
+    <div style="flex: 2; text-align: center;">TOP 10 MOTIVOS — CONSUMER BANKING · JUNHO 2026</div>
+    <div style="flex: 1; text-align: right;">23 / 36</div>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
