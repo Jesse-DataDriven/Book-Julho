@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    /* Paleta de Cores Oficiais (estilo.css) */
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #d93025;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
+
+  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+  }
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
+  }
+  
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* --- TÍTULO DO SLIDE --- */
+  .title-area { padding: 15px 30px 0px; flex-shrink: 0;}
+  .title-area h2 { color: var(--header-bg); font-size: 24px; font-weight: 900; margin-bottom: 2px; letter-spacing: -0.5px;}
+  .title-area p { color: var(--text-gray); font-size: 11px; font-weight: 600; margin-top: 0px;}
+
+  /* --- CONTEÚDO --- */
+  .content { padding: 12px 30px 15px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 12px; }
+
+  /* --- INSIGHT BAR --- */
+  .insight-bar { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); flex-shrink: 0;
+  }
+  .insight-text h3 { font-size: 14px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px;}
+  .insight-text p { font-size: 11px; color: var(--text-gray); font-weight: 500; line-height: 1.4;}
+  .insight-badge { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 6px 15px; border-radius: 6px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;}
+
+  /* --- KPIs TOP --- */
+  .top-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; flex-shrink: 0; }
+  .kpi-card { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 12px 15px; display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
+  }
+  .kpi-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .kpi-q1::before { background: var(--agi-green); }
+  .kpi-q4::before { background: var(--agi-red); }
+  .kpi-gap::before { background: var(--agi-yellow); }
+
+  .kpi-title { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;}
+  .kpi-val { font-size: 26px; font-weight: 900; color: var(--text-dark); line-height: 1; display: flex; align-items: baseline; gap: 5px;}
+  .kpi-val span { font-size: 11px; color: var(--text-gray); font-weight: 600;}
+  .kpi-sub { font-size: 10px; font-weight: 600; color: var(--text-gray); margin-top: 4px;}
+
+  /* --- MAIN SPLIT (Tabela + Gráfico) --- */
+  .main-split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 0;}
+
+  /* TABELA */
+  .tbl-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column;
+  }
+  .tbl-header { 
+    background: var(--header-bg); color: white; padding: 10px 15px; 
+    font-size: 11px; font-weight: 800; text-transform: uppercase; 
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge-principal { background: var(--agi-green); color: white; padding: 2px 8px; border-radius: 12px; font-size: 8px; letter-spacing: 0.5px;}
+
+  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 11px; } 
+  th { 
+    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
+    padding: 8px 12px; border-bottom: 2px solid var(--border-color); 
+    text-transform: uppercase; font-size: 9px;
+  }
+  th:first-child, td:first-child { text-align: left; font-weight: 800; color: var(--text-dark);}
+  td { padding: 9px 12px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); } 
+  tr:last-child td { border-bottom: none; }
+  
+  .row-total td { background-color: #f8fafc; font-weight: 800; color: var(--agi-blue); border-top: 2px solid #e2e8f0;}
+  .col-delta { font-weight: 800; }
+  .delta-good { color: var(--agi-green); }
+  .delta-bad { color: var(--agi-red); }
+  .col-jun { background-color: #f0f7ff; color: var(--agi-blue); font-weight: 800;}
+  th.col-jun { background-color: #e0e7ff; color: var(--agi-blue); }
+
+  /* GRÁFICO */
+  .chart-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .chart-header { font-size: 11px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between;}
+  .chart-legend { display: flex; gap: 12px; font-size: 9px; color: var(--text-gray); font-weight: 700;}
+  .legend-item { display: flex; align-items: center; gap: 4px;}
+  .box { width: 10px; height: 10px; border-radius: 2px; }
+  .canvas-wrapper { flex: 1; width: 100%; position: relative; min-height: 0;}
+  .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+  /* ================= RODAPÉ (REGRAS ESTILO.CSS) ================= */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+  }
+  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO PADRÃO ESTILO.CSS -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Atendimento Humano Chat</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 14 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <div class="title-area">
+    <h2>Dispersão de TMA | Chat</h2>
+    <p>Tempo Médio de Atendimento (segundos) por quartil — Fev a Jun/26 · Δ Jun×Mai</p>
+  </div>
+
+  <div class="content">
+    
+    <!-- INSIGHT BAR -->
+    <div class="insight-bar">
+      <div class="insight-text">
+        <h3>Redução geral de TMA em Junho aproxima os quartis, mas ofensores (Q4) ainda custam 85% a mais de tempo.</h3>
+        <p>A otimização da fila N1 em Junho reduziu o TMA consolidado em 5,3%. O Q1 (Alta Performance) atende em média em 15 minutos (900s), enquanto o Q4 (Cauda Longa / Ofensores) consome quase 28 minutos (1.670s) por atendimento.</p>
+      </div>
+      <div class="insight-badge">
+        FOCO EM EFICIÊNCIA
+      </div>
+    </div>
+
+    <!-- KPIs SUPERIORES -->
+    <div class="top-kpis">
+      <div class="kpi-card kpi-q1">
+        <div class="kpi-title">Q1 · Alta Performance</div>
+        <div class="kpi-val">900 <span>segundos</span></div>
+        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais rápidos.</div>
+      </div>
+      <div class="kpi-card kpi-q4">
+        <div class="kpi-title">Q4 · Ofensores (Cauda Longa)</div>
+        <div class="kpi-val">1.670 <span>segundos</span></div>
+        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais lentos.</div>
+      </div>
+      <div class="kpi-card kpi-gap">
+        <div class="kpi-title">GAP Operacional (Q4 vs Q1)</div>
+        <div class="kpi-val" style="color: var(--agi-yellow);">+85% <span>de tempo</span></div>
+        <div class="kpi-sub">Um atendimento no Q4 custa quase o dobro do Q1.</div>
+      </div>
+    </div>
+
+    <!-- MAIN SPLIT -->
+    <div class="main-split">
+      
+      <!-- TABELA QUARTIS -->
+      <div class="tbl-container">
+        <div class="tbl-header">
+          <span>N1 CHAT — TMA (s) <span class="badge-principal">CHAT</span></span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Fev-26</th>
+              <th>Mar-26</th>
+              <th>Abr-26</th>
+              <th>Mai-26</th>
+              <th class="col-jun">Jun-26</th>
+              <th>Δ J×M</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Q1 (Mais Rápidos)</td>
+              <td>836</td><td>856</td><td>964</td><td>951</td><td class="col-jun">900</td><td class="col-delta delta-good">-5,4%</td>
+            </tr>
+            <tr>
+              <td>Q2</td>
+              <td>997</td><td>1.056</td><td>1.173</td><td>1.204</td><td class="col-jun">1.140</td><td class="col-delta delta-good">-5,3%</td>
+            </tr>
+            <tr>
+              <td>Q3</td>
+              <td>1.152</td><td>1.238</td><td>1.361</td><td>1.417</td><td class="col-jun">1.341</td><td class="col-delta delta-good">-5,4%</td>
+            </tr>
+            <tr>
+              <td>Q4 (Mais Lentos)</td>
+              <td>1.392</td><td>1.515</td><td>1.651</td><td>1.764</td><td class="col-jun">1.670</td><td class="col-delta delta-good">-5,3%</td>
+            </tr>
+            <tr class="row-total">
+              <td>Total (Média)</td>
+              <td>1.070</td><td>1.110</td><td>1.254</td><td>1.278</td><td class="col-jun">1.210</td><td class="col-delta delta-good">-5,3%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GRÁFICO DE DISPERSÃO -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <span>Evolução da Dispersão (Segundos)</span>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="box" style="background: var(--agi-green);"></div> Q1</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> Q2</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-yellow);"></div> Q3</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-red);"></div> Q4</div>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="dispersionChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ PADRÃO ESTILO.CSS -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Atendimento ao Cliente · Dispersão de TMA Chat · Junho 2026</span>
+    <span>19 / 35</span>
+  </div>
+
+</div>
+
+<script>
+  // Ajuste de escala para caber em qualquer tela
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  // Inicialização do Gráfico de Dispersão (Chart.js)
+  Chart.register(ChartDataLabels);
+  Chart.defaults.font.family = "'Inter', sans-serif";
+
+  const ctx = document.getElementById('dispersionChart').getContext('2d');
+  
+  new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ['Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
+          datasets: [
+              {
+                  label: 'Q4 (Lentos)',
+                  data: [1392, 1515, 1651, 1764, 1670],
+                  borderColor: '#d93025', backgroundColor: '#d93025',
+                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'top', offset: 4, color: '#d93025', font: { weight: 'bold', size: 10 } }
+              },
+              {
+                  label: 'Q3',
+                  data: [1152, 1238, 1361, 1417, 1341],
+                  borderColor: '#f59e0b', backgroundColor: '#f59e0b',
+                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
+                  datalabels: { display: false } 
+              },
+              {
+                  label: 'Q2',
+                  data: [997, 1056, 1173, 1204, 1140],
+                  borderColor: '#1a56db', backgroundColor: '#1a56db',
+                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
+                  datalabels: { display: false } 
+              },
+              {
+                  label: 'Q1 (Rápidos)',
+                  data: [836, 856, 964, 951, 900],
+                  borderColor: '#239a48', backgroundColor: '#239a48',
+                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'bottom', offset: 4, color: '#239a48', font: { weight: 'bold', size: 10 } }
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
+          layout: { padding: { top: 20, bottom: 20, left: 10, right: 20 } },
+          plugins: {
+              legend: { display: false },
+              tooltip: { mode: 'index', intersect: false }
+          },
+          scales: {
+              x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
+              y: { 
+                grid: { color: '#f3f4f6' }, border: { display: false },
+                ticks: { font: { size: 10 }, color: '#6b7280', stepSize: 200 }
+              }
+          }
+      }
+  });
+</script>
+
+</body>
+</html>
