@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= AJUSTES INCREMENTAIS ESPECÍFICOS DO SLIDE 04 ================= */
+  
+  /* 1. Redução matemática de espaços para caber nos 720px da tela */
+  .content { padding: 10px 30px !important; gap: 8px !important; }
+  .insight-bar { height: 75px !important; min-height: 75px !important; padding: 8px 30px !important; }
+  .insight-text h2 { font-size: 15px !important; margin-bottom: 4px !important; }
+  .insight-text p { font-size: 10.5px !important; }
+  
+  .insight-double { display: flex; gap: 20px; text-align: center; align-items: center; }
+  .insight-double h3 { font-size: 34px !important; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+  .insight-double p { font-size: 8px !important; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px !important; }
+  .insight-double .divider { width: 1px; height: 30px !important; background: var(--border-color); }
+
+  /* 2. Compactação das Tabelas */
+  .pill-title { 
+    background: var(--header-bg); color: white; padding: 3px 10px !important; border-radius: 12px; 
+    font-size: 9px !important; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; 
+    display: inline-flex; align-items: center; gap: 6px; margin-bottom: 4px !important;
+  }
+  .pill-title .dot { width: 6px; height: 6px; background: var(--agi-green-light); border-radius: 50%; }
+
+  .data-table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 6px !important; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color);}
+  .data-table th { 
+    padding: 4px 15px !important; font-size: 9px !important; color: var(--text-gray); font-weight: 800; 
+    text-transform: uppercase; border-bottom: 2px solid var(--agi-blue); text-align: right; background: #f8f9fa;
+  }
+  .data-table th:first-child { text-align: left; }
+  .data-table td { padding: 4px 15px !important; font-size: 10.5px !important; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color); text-align: right;}
+  .data-table td:first-child { text-align: left; }
+  
+  .data-table tr.main-row td { font-weight: 800; font-size: 11.5px !important; padding: 5px 15px !important;}
+  .data-table tr.sub-row td { color: var(--text-gray); }
+  .data-table tr.indent td:first-child { padding-left: 20px !important; position: relative;}
+  .data-table tr.indent td:first-child::before { content: '↳'; position: absolute; left: 8px !important; color: #cbd5e1; font-weight: bold;}
+  
+  .data-table td.current-month { color: var(--agi-blue); font-weight: 800; }
+  .data-table td.ytd-col { color: var(--agi-blue); font-weight: 800; background: #f8f9fa;}
+  .data-table th.ytd-col { background: #f8f9fa; }
+
+  /* 3. Ajuste dos Cards de Rodapé */
+  .info-card { min-height: 80px !important; height: auto !important; justify-content: space-between;}
+  .ic-header { padding: 6px 15px 2px !important; font-size: 9px !important;}
+  .ic-icon { width: 14px !important; height: 14px !important; font-size: 9px !important; }
+  .ic-body { padding: 2px 15px 6px !important; font-size: 10px !important; line-height: 1.3 !important;}
+  .ic-footer { padding: 6px 15px !important; }
+  .ic-footer h4 { font-size: 16px !important; }
+  .ic-footer span { font-size: 9px !important; }
+  .trend-pill { padding: 2px 6px !important; font-size: 8.5px !important; }
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Eficiência Operacional</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 4 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT PRINCIPAL -->
+  <div class="insight-bar">
+    <div class="insight-text">
+      <h2>TMA recua para 17,4 min (-2%) e <b>TME cai para 3,1 min</b> — Atd/HC ajusta para 545 com queda no volume</h2>
+      <p>TMA consolidado apresentou alívio, fechando em 17,4 min (Chat recuou para 20,4 min). TME consolidado segue em queda, chegando a 3,1 min. HC foi reduzido para 607 (-43 posições vs Mai), com Produtividade (Atd/HC) em 545.</p>
+    </div>
+    
+    <!-- BADGE DUPLO -->
+    <div class="insight-double">
+      <div>
+        <h3 style="color: var(--agi-blue);">17,4</h3>
+        <p>TMA JUN · MIN</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <h3 style="color: var(--agi-green);">3,1</h3>
+        <p>TME JUN · MIN</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    
+    <!-- TABELA 1: TMA & TME (Convertido MM:SS para Decimal para manter o padrão visual) -->
+    <div>
+      <div class="pill-title"><div class="dot"></div> TMA & TME — EVOLUÇÃO TRIMESTRAL E MENSAL (MINUTOS)</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th class="current-month">Jun/26</th>
+            <th class="ytd-col">YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>TMA Consolidado</td>
+            <td>13,4</td><td>14,7</td><td>15,6</td><td>17,0</td><td>17,7</td><td class="current-month">17,4</td><td class="ytd-col">16,0</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TMA Voz</td>
+            <td>6,3</td><td>6,5</td><td>7,0</td><td>7,1</td><td>7,0</td><td class="current-month">6,1</td><td class="ytd-col">6,7</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TMA Chat</td>
+            <td>16,2</td><td>18,2</td><td>18,7</td><td>20,8</td><td>21,5</td><td class="current-month">20,4</td><td class="ytd-col">19,3</td>
+          </tr>
+          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
+            <td>TME Consolidado</td>
+            <td>14,7</td><td>3,4</td><td>7,2</td><td>4,7</td><td>3,2</td><td class="current-month">3,1</td><td class="ytd-col">6,1</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TME Voz</td>
+            <td>3,5</td><td>1,1</td><td>1,6</td><td>0,7</td><td>1,1</td><td class="current-month">0,3</td><td class="ytd-col">1,4</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TME Chat</td>
+            <td>19,7</td><td>4,4</td><td>9,3</td><td>6,2</td><td>4,0</td><td class="current-month">3,9</td><td class="ytd-col">7,9</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TABELA 2: HEAD COUNT -->
+    <div>
+      <div class="pill-title"><div class="dot"></div> HEAD COUNT & PRODUTIVIDADE</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th class="current-month">Jun/26</th>
+            <th class="ytd-col">YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>HC (Posições)</td>
+            <td>663</td><td>544</td><td>553</td><td>611</td><td>645</td><td class="current-month">607</td><td class="ytd-col">3.623</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Inbound</td>
+            <td>203</td><td>169</td><td>173</td><td>173</td><td>178</td><td class="current-month">168</td><td class="ytd-col">1.064</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>WhatsApp</td>
+            <td>460</td><td>375</td><td>380</td><td>438</td><td>467</td><td class="current-month">439</td><td class="ytd-col">2.559</td>
+          </tr>
+          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
+            <td>Atd / HC (Média)</td>
+            <td>508</td><td>587</td><td>666</td><td>584</td><td>579</td><td class="current-month">545</td><td class="ytd-col">578</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Atd/HC Inbound</td>
+            <td>471</td><td>548</td><td>547</td><td>538</td><td>529</td><td class="current-month">498</td><td class="ytd-col">522</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Atd/HC WhatsApp</td>
+            <td>525</td><td>604</td><td>721</td><td>603</td><td>598</td><td class="current-month">563</td><td class="ytd-col">602</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CAIXAS DE CONTEXTO (GRID 3) -->
+    <div class="grid-3">
+      <div class="info-card ic-green">
+        <div class="ic-header"><div class="ic-icon">↓</div> EFICIÊNCIA TMA</div>
+        <div class="ic-body">TMA consolidado recuou para <b>17,4 min</b> (queda de -2%). Chat aliviou de 21,5 → <b>20,4 min</b>. Voz apresentou excelente queda para <b>6,1 min</b>.</div>
+        <div class="ic-footer">
+          <div><h4>17,4</h4><span>TMA Consol. Jun/26</span></div>
+          <span class="trend-pill trend-good">▼ -2%</span>
+        </div>
+      </div>
+
+      <div class="info-card ic-blue">
+        <div class="ic-header"><div class="ic-icon">↓</div> MELHORA TME</div>
+        <div class="ic-body">TME consolidado segue caindo, fechando em <b>3,1 min</b> (-3%). Chat caiu para <b>3,9 min</b> e Voz atingiu a marca de <b>0,3 min</b> (apenas 16 segundos de espera).</div>
+        <div class="ic-footer">
+          <div><h4>3,1</h4><span>TME Consol. Jun/26</span></div>
+          <span class="trend-pill trend-good">▼ -3%</span>
+        </div>
+      </div>
+
+      <div class="info-card ic-orange">
+        <div class="ic-header"><div class="ic-icon">!</div> PRODUTIVIDADE</div>
+        <div class="ic-body">HC total reduzido para <b>607</b> posições. Com a queda geral de volumetria, a produtividade (Atd/HC) recuou de 579 → <b>545</b> (-6% vs Mai). WA fechou em <b>563</b>.</div>
+        <div class="ic-footer">
+          <div><h4>545</h4><span>Atd/HC Consol. Jun/26</span></div>
+          <span class="trend-pill trend-bad">▼ -6%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Atendimento ao Cliente · Eficiência Operacional · Junho 2026</span>
+    <span>4 / 36</span>
+  </div>
+
+</div>
+
+</body>
+</html>
