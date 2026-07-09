@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<style>
+  /* =======================================================================
+     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     ======================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
+
+  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+  }
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
+  }
+  
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* ================= RODAPÉ (REGRAS ESTILO.CSS) ================= */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+    flex-shrink: 0;
+  }
+  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+
+  /* ================= CONTEÚDO ESPECÍFICO DO SLIDE 32 ================= */
+  .content { padding: 15px 30px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 15px; background: var(--bg-main);}
+
+  /* --- TOP BAR (KPIs + Insight) --- */
+  .top-bar { display: flex; gap: 20px; align-items: stretch; flex-shrink: 0;}
+  
+  .kpi-section { 
+    display: flex; gap: 15px; background: white; border: 1px solid var(--border-color); 
+    border-radius: 8px; padding: 12px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .kpi-block { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-right: 1px solid var(--border-color); padding-right: 15px;}
+  .kpi-block:last-child { border-right: none; padding-right: 0;}
+  
+  .kpi-block h3 { font-size: 24px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -1px;}
+  .kpi-block p { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;}
+  .kpi-pill { padding: 2px 8px; border-radius: 12px; font-size: 8px; font-weight: 700; text-transform: uppercase;}
+  
+  .c-darkblue h3 { color: var(--header-bg); } .c-darkblue .kpi-pill { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74;}
+  .c-blue h3 { color: var(--agi-blue); } .c-blue .kpi-pill { background: #dcfce7; color: #166534; border: 1px solid #86efac;}
+  .c-green h3 { color: #16a34a; } .c-green .kpi-pill { background: #dcfce7; color: #166534; border: 1px solid #86efac;}
+  .c-orange h3 { color: #d97706; } .c-orange .kpi-pill { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+
+  .insight-section { 
+    flex: 1; background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 12px 20px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .insight-section p { font-size: 13px; color: var(--text-dark); line-height: 1.5; font-weight: 500;}
+
+  /* --- TABELA --- */
+  .tbl-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .tbl-header { 
+    background: white; color: var(--header-bg); padding: 8px 15px; 
+    font-size: 11px; font-weight: 800; text-transform: uppercase; 
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid var(--agi-blue);
+  }
+  .tbl-header .dot { width: 8px; height: 8px; background: var(--agi-green); border-radius: 50%; display: inline-block; margin-right: 6px;}
+  .tbl-header span.light { font-size: 9px; color: var(--text-gray); font-weight: 600; text-transform: none;}
+
+  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 10px; } 
+  th { 
+    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
+    padding: 6px 8px; border-bottom: 1px solid var(--border-color); 
+    text-transform: uppercase; font-size: 8.5px;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  td { padding: 6px 8px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); } 
+  tr:last-child td { border-bottom: none; }
+  
+  .row-total td { font-weight: 800; color: var(--header-bg); background: #f0f7ff;}
+  .col-ytd { font-weight: 800; color: var(--agi-blue); background: #f8f9fa;}
+  th.col-ytd { color: var(--agi-blue); }
+  .td-empty { color: #9ca3af; }
+
+  /* --- ÁREA DE PLOTAGEM (GRÁFICOS INFERIORES) --- */
+  .bottom-charts { display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; flex: 1; min-height: 0;}
+  
+  .chart-box { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+  .chart-title { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;}
+  .chart-legend { display: flex; gap: 12px; font-size: 9px; color: var(--text-gray); font-weight: 700;}
+  .legend-item { display: flex; align-items: center; gap: 4px;}
+  .box { width: 10px; height: 10px; border-radius: 2px; }
+  
+  .canvas-wrapper { flex: 1; width: 100%; position: relative; min-height: 0;}
+  .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO (REGRAS ESTILO.CSS) -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Custo Operacional PA</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 32 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <div class="content">
+    
+    <!-- TOP BAR (KPIs + Insight) -->
+    <div class="top-bar">
+      <div class="kpi-section">
+        <div class="kpi-block c-darkblue">
+          <h3>4.363</h3>
+          <p>TOTAL PA 2025</p>
+          <span class="kpi-pill pill-orange">Central Atend.</span>
+        </div>
+        <div class="kpi-block c-blue">
+          <h3>357</h3>
+          <p>PA JUN/26</p>
+          <span class="kpi-pill pill-green">-3,0% vs Mai</span>
+        </div>
+        <div class="kpi-block c-green">
+          <h3>383</h3>
+          <p>PA JAN/26 (PICO 26)</p>
+          <span class="kpi-pill pill-green">Referência 26</span>
+        </div>
+        <div class="kpi-block c-orange">
+          <h3>+30</h3>
+          <p>FUGA - PA EQUIV.</p>
+          <span class="kpi-pill pill-orange">Q1+Q2/25</span>
+        </div>
+      </div>
+
+      <div class="insight-section">
+        <p>Central de Atendimento: 1.031 PAs no 4ºTri/25 ➔ 357 em Jun/26 (-65%). N1 Chat recua para 170 PAs em Jun/26. Operações AgiReverte (Chat e Fonado) foram zeradas no mês.</p>
+      </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tbl-container">
+      <div class="tbl-header">
+        <div><span class="dot"></span> PA POR ÁREA</div>
+        <span class="light">← 2025 trimestral · 2026 mensal →</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Área</th>
+            <th>1ºTri/25</th>
+            <th>2ºTri/25</th>
+            <th>3ºTri/25</th>
+            <th>4ºTri/25</th>
+            <th class="col-ytd">Total 25</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th>Jun/26</th>
+            <th class="col-ytd">Total 26</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-total">
+            <td>CENTRAL ATENDIMENTO</td>
+            <td>879</td><td>1.268</td><td>1.185</td><td>1.031</td><td class="col-ytd">4.363</td>
+            <td>383</td><td>316</td><td>321</td><td>350</td><td>369</td><td>357</td><td class="col-ytd">2.097</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">Service N1 (CHAT)</td>
+            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+            <td>227</td><td>182</td><td>183</td><td>212</td><td>236</td><td>170</td><td class="col-ytd">1.210</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">Service N1 (FONADO)</td>
+            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+            <td>91</td><td>72</td><td>72</td><td>72</td><td>69</td><td>69</td><td class="col-ytd">445</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">AgiReverte (CHAT)</td>
+            <td>26</td><td>29</td><td>45</td><td>48</td><td class="col-ytd">148</td>
+            <td>14</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">54</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">AgiReverte (FONADO)</td>
+            <td>26</td><td>29</td><td>48</td><td>46</td><td class="col-ytd">149</td>
+            <td>12</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">52</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">Mídias Sociais</td>
+            <td>15</td><td class="td-empty">-</td><td>5</td><td>5</td><td class="col-ytd">5</td>
+            <td class="td-empty">-</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td class="col-ytd">25</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 20px;">Fuga</td>
+            <td>15</td><td>15</td><td>30</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ÁREA DE PLOTAGEM (GRÁFICOS) -->
+    <div class="bottom-charts">
+      
+      <!-- Gráfico de Evolução (Barras Verticais) -->
+      <div class="chart-box">
+        <div class="chart-header">
+          <div class="chart-title">CENTRAL DE ATENDIMENTO — EVOLUÇÃO DE PA's</div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="box" style="background: var(--header-bg);"></div> 2025 (Trimestral)</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> 2026 (Mensal)</div>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="evolutionChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico Donut (Share 2026) -->
+      <div class="chart-box">
+        <div class="chart-header">
+          <div class="chart-title">SHARE YTD 2026 (CHAT vs FONADO)</div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="donutChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Agibank · Comitê CX · Jun/26 · Custo Operacional PA</span>
+    <span>32 / 36</span>
+  </div>
+
+</div>
+
+<script>
+  // Ajuste de escala
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  Chart.register(ChartDataLabels);
+  Chart.defaults.font.family = "'Inter', sans-serif";
+
+  // 1. Gráfico de Evolução (Barras)
+  const ctxEvo = document.getElementById('evolutionChart').getContext('2d');
+  new Chart(ctxEvo, {
+      type: 'bar',
+      data: {
+          labels: ['1ºTri/25', '2ºTri/25', '3ºTri/25', '4ºTri/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
+          datasets: [
+              {
+                  label: 'PA\'s',
+                  data: [879, 1268, 1185, 1031, 383, 316, 321, 350, 369, 357],
+                  // Cores: 4 primeiras (2025) em Azul Escuro, 6 últimas (2026) em Azul Agibank
+                  backgroundColor: ['#000c36', '#000c36', '#000c36', '#000c36', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db'], 
+                  borderRadius: 4,
+                  barPercentage: 0.7
+              }
+          ]
+      },
+      options: {
+          responsive: true, maintainAspectRatio: false, devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
+          layout: { padding: { top: 20 } },
+          plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false }, // Desativado pois os números já aparecem
+              datalabels: {
+                  color: (ctx) => ctx.dataIndex < 4 ? '#000c36' : '#1a56db', // Cor do texto acompanha a barra
+                  font: { weight: 'bold', size: 11 },
+                  align: 'top', anchor: 'end', offset: 4
+              }
+          },
+          scales: {
+              x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
+              y: { display: false, min: 0, suggestedMax: 1400 } // Esconde eixo Y, dá folga no topo
+          }
+      }
+  });
+
+  // 2. Gráfico Donut (Share YTD 2026)
+  const ctxDonut = document.getElementById('donutChart').getContext('2d');
+  new Chart(ctxDonut, {
+      type: 'doughnut',
+      data: {
+          labels: ['N1 Chat', 'N1 Fonado'],
+          datasets: [{
+              data: [1210, 445], // Dados extraídos da coluna Total 26
+              backgroundColor: ['#1a56db', '#34a853'], // Azul e Verde Agibank
+              borderWidth: 2, borderColor: '#ffffff'
+          }]
+      },
+      options: {
+          responsive: true, maintainAspectRatio: false, devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
+          cutout: '60%',
+          plugins: {
+              legend: { 
+                  display: true, position: 'bottom', 
+                  labels: { usePointStyle: true, boxWidth: 8, font: { size: 10, weight: '600' }, padding: 15 } 
+              },
+              tooltip: { callbacks: { label: (ctx) => ` ${ctx.raw} PAs` } },
+              datalabels: {
+                  color: '#ffffff', font: { weight: 'bold', size: 12 },
+                  formatter: (value, ctx) => {
+                      let sum = 0;
+                      let dataArr = ctx.chart.data.datasets[0].data;
+                      dataArr.map(data => { sum += data; });
+                      let percentage = (value*100 / sum).toFixed(0)+"%";
+                      return percentage;
+                  }
+              }
+          }
+      }
+  });
+</script>
+
+</body>
+</html>
