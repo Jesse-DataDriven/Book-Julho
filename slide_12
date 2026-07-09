@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  /* ================= VARIÁVEIS DO DESIGN SYSTEM ================= */
+  :root {
+    --agi-blue: #0064f5;
+    --agi-green: #16a34a;
+    --agi-light-green: #77df40;
+    --agi-red: #dc2626;
+    --header-bg: #001e50;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --border-color: #e2e8f0;
+    --bg-main: #f4f5f8;
+    --bg-light-blue: #f0f4ff;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .slide-wrapper {
+    width: 1280px;
+    height: 720px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ================= CABEÇALHO E RODAPÉ ================= */
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 0 30px; height: 64px; background: var(--header-bg); border-bottom: 4px solid var(--agi-blue); box-sizing: border-box; }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  .logo { background: white; color: var(--agi-blue); font-weight: 900; font-size: 24px; padding: 4px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; }
+  .agi-i { display: inline-block; width: 6px; height: 6px; background: var(--agi-light-green); border-radius: 50%; margin-left: 2px; }
+  .header h1 { font-size: 18px; color: white; font-weight: 600; margin: 0; letter-spacing: -0.5px;}
+  .header-right { display: flex; align-items: center; gap: 15px; text-align: right; }
+  .slide-num { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;}
+  .slide-date { font-size: 22px; font-weight: 900; color: var(--agi-light-green); letter-spacing: -1px;}
+  
+  .footer { height: 40px; background: var(--header-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; box-sizing: border-box; color: white; font-size: 10px; font-weight: 600; margin-top: auto;}
+  .confidencial { color: var(--agi-light-green); font-weight: 800; letter-spacing: 1px; }
+
+  /* ================= CONTEÚDO DO SLIDE ================= */
+  .content { 
+    padding: 20px 30px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    height: 616px; 
+    background: var(--bg-main);
+    box-sizing: border-box;
+  }
+
+  .slide-title { margin-bottom: 5px; }
+  .slide-title h2 { font-size: 26px; color: var(--agi-blue); margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
+  .slide-title p { font-size: 12px; color: var(--text-gray); margin: 4px 0 0 0; font-weight: 600; }
+
+  /* Layout Grids */
+  .tables-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .bottom-section { display: grid; grid-template-columns: 260px 1fr; gap: 15px; flex: 1; }
+
+  /* ================= TABELAS ================= */
+  .table-container { 
+    background: white; border: 1px solid var(--border-color); 
+    border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+  }
+  
+  .table-header { 
+    background: var(--header-bg); color: white; padding: 8px 15px; font-size: 11px; 
+    font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: flex-start;
+    letter-spacing: 0.5px;
+  }
+  .pill-principal { background: var(--agi-light-green); color: var(--header-bg); padding: 2px 8px; border-radius: 12px; font-size: 9px; margin-left: 10px; font-weight: 900;}
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: right; }
+  .data-table th { background: #f8f9fa; color: var(--text-gray); font-weight: 800; padding: 8px 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); font-size: 9px; }
+  .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); color: var(--text-dark); font-weight: 600; }
+  
+  .data-table th:first-child, .data-table td:first-child { text-align: left; }
+  
+  /* Destaques nas Linhas e Colunas */
+  .data-table tr.row-total td { background-color: #f8f9fa; font-weight: 800; color: var(--text-dark); border-bottom: none;}
+  .data-table td.col-delta, .data-table th.col-delta { color: var(--agi-blue); font-weight: 800; }
+
+  /* ================= GRÁFICO ROSCA ================= */
+  .chart-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .chart-title { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
+  
+  .donut-chart {
+    width: 120px; height: 120px; border-radius: 50%;
+    /* Tel (Verde) 51.58%, Almaviva (Azul) 48.42% */
+    background: conic-gradient(var(--agi-light-green) 0% 51.58%, var(--agi-blue) 51.58% 100%);
+    display: flex; justify-content: center; align-items: center; margin-bottom: 15px;
+  }
+  .donut-inner { width: 70px; height: 70px; background: white; border-radius: 50%; }
+  
+  .chart-legend { width: 100%; font-size: 11px; font-weight: 700; color: var(--text-dark); display: flex; flex-direction: column; gap: 8px; padding: 0 20px;}
+  .legend-item { display: flex; align-items: center; justify-content: space-between; }
+  .legend-color { width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; display: inline-block; }
+
+  /* ================= LEITURA EXECUTIVA ================= */
+  .leitura-container {
+    background: var(--bg-light-blue); border-radius: 8px; padding: 25px 30px;
+    border: 1px solid #dbeafe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  
+  .leitura-title {
+    display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; 
+    color: var(--header-bg); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px;
+  }
+  .green-square { width: 12px; height: 12px; background: var(--agi-light-green); border-radius: 2px; }
+
+  .leitura-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .leitura-list li { 
+    position: relative; padding-left: 18px; font-size: 13px; color: var(--text-dark); line-height: 1.5; font-weight: 500;
+  }
+  .leitura-list li::before {
+    content: '▶'; position: absolute; left: 0; top: 1px; color: var(--agi-blue); font-size: 10px;
+  }
+  .leitura-list li b { font-weight: 800; }
+  .text-red { color: var(--agi-red); }
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Dispersão e Quartis de TMA | Canal Voz</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 12 DE 35</div>
+      <div class="slide-date">MAI/26</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content">
+    
+    <div class="slide-title">
+      <h2>TMA por Quartil · SN / N1 / SAC</h2>
+      <p>Tempo Médio de Atendimento (segundos) por quartil — Fev a Mai/26 · Δ Mai×Abr</p>
+    </div>
+
+    <!-- SEÇÃO SUPERIOR (3 Tabelas Lado a Lado) -->
+    <div class="tables-section">
+      
+      <!-- Tabela 1: SN -->
+      <div class="table-container">
+        <div class="table-header">
+          SN — TMA (s) <span class="pill-principal">CONSOLIDADO</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1</td><td>748</td><td>776</td><td>636</td><td>704</td><td class="col-delta">+10,6%</td></tr>
+            <tr><td>Q2</td><td>970</td><td>991</td><td>765</td><td>880</td><td class="col-delta">+15,1%</td></tr>
+            <tr><td>Q3</td><td>1.128</td><td>1.165</td><td>940</td><td>1.100</td><td class="col-delta">+17,1%</td></tr>
+            <tr><td>Q4</td><td>1.491</td><td>1.463</td><td>1.129</td><td>1.340</td><td class="col-delta">+18,7%</td></tr>
+            <tr class="row-total"><td>Total</td><td>952</td><td>975</td><td>845</td><td>978</td><td class="col-delta">+15,7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela 2: N1 FONADO -->
+      <div class="table-container">
+        <div class="table-header">
+          N1 FONADO — TMA (s) <span class="pill-principal">FONADO</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1</td><td>266</td><td>279</td><td>298</td><td>293</td><td class="col-delta">-1,7%</td></tr>
+            <tr><td>Q2</td><td>360</td><td>374</td><td>395</td><td>387</td><td class="col-delta">-1,9%</td></tr>
+            <tr><td>Q3</td><td>426</td><td>452</td><td>478</td><td>458</td><td class="col-delta">-4,3%</td></tr>
+            <tr><td>Q4</td><td>561</td><td>572</td><td>596</td><td>568</td><td class="col-delta">-4,7%</td></tr>
+            <tr class="row-total"><td>Total</td><td>385</td><td>417</td><td>430</td><td>411</td><td class="col-delta">-4,5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela 3: SAC -->
+      <div class="table-container">
+        <div class="table-header">
+          SAC — TMA (s) <span class="pill-principal">SAC</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1</td><td>179</td><td>235</td><td>213</td><td>340</td><td class="col-delta">+59,4%</td></tr>
+            <tr><td>Q2</td><td>291</td><td>339</td><td>332</td><td>424</td><td class="col-delta">+27,8%</td></tr>
+            <tr><td>Q3</td><td>404</td><td>440</td><td>419</td><td>508</td><td class="col-delta">+21,2%</td></tr>
+            <tr><td>Q4</td><td>563</td><td>597</td><td>602</td><td>615</td><td class="col-delta">+2,3%</td></tr>
+            <tr class="row-total"><td>Total</td><td>332</td><td>402</td><td>380</td><td>454</td><td class="col-delta">+19,2%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- SEÇÃO INFERIOR (Gráfico + Leitura Executiva) -->
+    <div class="bottom-section">
+      
+      <!-- Gráfico Rosca -->
+      <div class="chart-container">
+        <div class="chart-title">VOZ POR PARCEIRO</div>
+        <div class="donut-chart">
+          <div class="donut-inner"></div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-blue);"></span>Almaviva</div>
+            <span>48,42 %</span>
+          </div>
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-light-green);"></span>Tel</div>
+            <span>51,58 %</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Caixa de Leitura Executiva -->
+      <div class="leitura-container">
+        <div class="leitura-title">
+          <span class="green-square"></span> LEITURA EXECUTIVA · TMA VOZ
+        </div>
+        <ul class="leitura-list">
+          <li><b>SN consolidado:</b> TMA total de <b>978s</b> em Mai (<b class="text-red">+15,7%</b> vs Abr) — pressão concentrada em Q3/Q4.</li>
+          <li><b>N1 Fonado: 411s</b> (<b style="color: var(--agi-green);">-4,5%</b> vs Abr) — única frente em queda no mês.</li>
+          <li><b>SAC: 454s</b> (<b class="text-red">+19,2%</b> vs Abr) — maior alta, puxada pelo Q1 (<b class="text-red">+59,4%</b>).</li>
+          <li><b>Voz por parceiro:</b> Tel 51,58% · Almaviva 48,42% do volume.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <div style="display: flex; gap: 20px;">
+      <span>Janela: Fevereiro a Maio/2026 · TMA em segundos · quartis Q1–Q4 + Total</span>
+    </div>
+    <div style="text-align: center; flex: 1;">
+      <span>Atendimento ao Cliente · Voz — TMA por Quartil · Maio 2026</span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span class="confidencial">CONFIDENCIAL</span>
+      <span>· 17 / 36</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
