@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Apresentação Comitê CX</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+  body { 
+    background: #111; display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; 
+    height: 100vh; margin: 0; overflow: hidden; font-family: 'Inter', sans-serif;
+  }
+  
+  #scale-wrapper { 
+    width: 1280px; height: 720px; 
+    transform-origin: center center; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9); 
+    background: #fff; 
+  }
+  
+  iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* ================= CONTROLES DISCRETOS ================= */
+  .controls { 
+    position: fixed; bottom: 15px; right: 15px; 
+    display: flex; align-items: center; gap: 8px; z-index: 1000; 
+    background: rgba(0, 12, 54, 0.6); backdrop-filter: blur(4px); 
+    padding: 6px 12px; border-radius: 8px; 
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: opacity 0.3s ease;
+  }
+  .controls:not(:hover) { opacity: 0.5; }
+
+  .btn-control { 
+    background: transparent; color: rgba(255,255,255,0.8); 
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; 
+    padding: 4px 10px; font-size: 11px; font-weight: 600; 
+    cursor: pointer; transition: all 0.2s; 
+  }
+  .btn-control:hover { background: rgba(255,255,255,0.2); color: #fff; }
+  
+  .btn-pdf { color: #a3ff00; border-color: rgba(163, 255, 0, 0.3); }
+  .btn-pdf:hover { background: rgba(163, 255, 0, 0.15); color: #a3ff00; }
+
+  #counter { color: white; font-size: 11px; font-weight: 700; width: 40px; text-align: center; letter-spacing: 1px;}
+</style>
+</head>
+<body>
+
+<div id="scale-wrapper">
+  <iframe id="tela" src="slide_01.html"></iframe>
+</div>
+
+<div class="controls">
+  <button class="btn-control btn-pdf" id="btn-pdf" onclick="gerarPDF()" title="Exportar todos os slides">📥 PDF</button>
+  <div style="width: 1px; height: 14px; background: rgba(255,255,255,0.2); margin: 0 4px;"></div>
+  <button class="btn-control" onclick="mudarSlide(-1)">❮</button>
+  <span id="counter">1/1</span>
+  <button class="btn-control" onclick="mudarSlide(1)">❯</button>
+  <button class="btn-control" onclick="document.documentElement.requestFullscreen()" title="Tela Cheia">⛶</button>
+</div>
+
+<script>
+  function resize() {
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    document.getElementById('scale-wrapper').style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resize); resize();
+
+  // LISTA DE SLIDES ATUALIZADA (AGORA VAI ATÉ O 36)
+  const slides = [
+    "slide_01.html",
+    "slide_02.html",
+    "slide_03.html",
+    "slide_04.html",
+    "slide_05.html",
+    "slide_06.html",
+    "slide_07.html",
+    "slide_08.html",
+    "slide_09.html",
+    "slide_10.html",
+    "slide_11.html",
+    "slide_12.html",
+    "slide_13.html",
+    "slide_14.html",
+    "slide_15.html",
+    "slide_16.html",
+    "slide_17.html",
+    "slide_18.html",
+    "slide_19.html",
+    "slide_20.html",
+    "slide_21.html",
+    "slide_22.html",
+    "slide_23.html",
+    "slide_24.html",
+    "slide_25.html",
+    "slide_26.html",
+    "slide_27.html",
+    "slide_28.html",
+    "slide_29.html",
+    "slide_30.html",
+    "slide_31.html",
+    "slide_32.html",
+    "slide_33.html",
+    "slide_34.html",
+    "slide_35.html",
+    "slide_36.html"
+  ];
+  
+  let atual = 0;
+  const iframe = document.getElementById('tela');
+  const counter = document.getElementById('counter');
+
+  function atualizarTela() {
+    iframe.src = slides[atual];
+    counter.innerText = `${atual + 1}/${slides.length}`;
+  }
+
+  function mudarSlide(dir) {
+    atual += dir;
+    if(atual < 0) atual = 0;
+    if(atual >= slides.length) atual = slides.length - 1;
+    atualizarTela();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') mudarSlide(1);
+    if(e.key === 'ArrowLeft') mudarSlide(-1);
+  });
+  
+  atualizarTela();
+
+  // MOTOR DE IMPRESSÃO
+  function gerarPDF() {
+    const btn = document.getElementById('btn-pdf');
+    btn.innerText = "⏳ Gerando...";
+
+    const printWindow = window.open('', '_blank');
+    
+    let htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Deck Comitê CX - PDF</title>
+        <style>
+          @page { size: 1280px 720px landscape; margin: 0; }
+          body { margin: 0; padding: 0; background: #fff; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+          iframe { width: 1280px; height: 720px; border: none; display: block; page-break-after: always; }
+        </style>
+      </head>
+      <body>
+    `;
+
+    slides.forEach(slide => {
+      htmlContent += `<iframe src="${slide}"></iframe>`;
+    });
+
+    htmlContent += `
+        <script>
+          window.onload = () => {
+            // Aguarda 2s para garantir que todos os iframes e gráficos carregaram
+            setTimeout(() => { 
+              window.print(); 
+            }, 2000);
+          };
+        <\/script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    setTimeout(() => { btn.innerText = "📥 PDF"; }, 2000);
+  }
+</script>
+</body>
+</html>
