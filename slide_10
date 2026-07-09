@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= AJUSTES ESTRITOS DO SLIDE 15 ================= */
+  
+  /* Trava a altura exata da área de conteúdo (616px = 720 - 64 - 40) */
+  .content { 
+    padding: 10px 30px !important; /* Reduzido padding superior/inferior */
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; /* Reduzido gap geral */
+    height: 616px; 
+    background: var(--bg-main);
+    box-sizing: border-box;
+  }
+
+  .slide-title { margin-bottom: 0px; }
+  .slide-title h2 { font-size: 22px; color: var(--agi-blue); margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+  .slide-title p { font-size: 10px; color: var(--text-gray); margin: 2px 0 0 0; font-weight: 600; }
+
+  /* Layout Grids */
+  .top-section { display: grid; grid-template-columns: 1fr 220px; gap: 12px; }
+  /* O grid de 3 colunas fará com que a 4ª e 5ª tabela caiam automaticamente para a linha de baixo */
+  .bottom-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; } 
+
+  /* ================= TABELAS (Compactadas para caber tudo) ================= */
+  .table-container { 
+    background: white; border: 1px solid var(--border-color); 
+    border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+  }
+  
+  .table-header { 
+    background: var(--header-bg); color: white; 
+    padding: 4px 10px; /* Reduzido */
+    font-size: 9px; /* Reduzido */
+    font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between;
+    letter-spacing: 0.5px;
+  }
+  .pill-principal { background: var(--agi-green); color: white; padding: 2px 6px; border-radius: 10px; font-size: 8px; margin-left: 8px; }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 9px; text-align: right; }
+  
+  /* Redução drástica de padding nas células para salvar espaço vertical */
+  .data-table th { background: #f8f9fa; color: var(--text-gray); font-weight: 800; padding: 3px 6px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); font-size: 8px; }
+  .data-table td { padding: 3.5px 6px; border-bottom: 1px solid var(--border-color); color: var(--text-dark); font-weight: 600; font-size: 9px; }
+  .data-table tr:last-child td { border-bottom: none; }
+  
+  .data-table th:first-child, .data-table td:first-child { text-align: left; }
+  
+  /* Destaques nas Linhas */
+  tr.row-ns td:not(:first-child) { color: var(--agi-green); font-weight: 800; }
+  tr.row-tme td:not(:first-child) { color: var(--agi-red); font-weight: 800; }
+  
+  /* Coluna YTD */
+  td.col-ytd, th.col-ytd { background-color: #f0f4ff; color: var(--agi-blue) !important; font-weight: 800 !important; }
+
+  /* ================= GRÁFICO ROSCA (Redimensionado) ================= */
+  .chart-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 6px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .chart-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.5px; }
+  
+  .donut-chart {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: conic-gradient(var(--agi-blue) 0% 62%, var(--agi-green) 62% 100%);
+    display: flex; justify-content: center; align-items: center; margin-bottom: 10px;
+  }
+  .donut-inner { width: 45px; height: 45px; background: white; border-radius: 50%; }
+  
+  .chart-legend { width: 100%; font-size: 9px; font-weight: 700; color: var(--text-dark); display: flex; flex-direction: column; gap: 6px; }
+  .legend-item { display: flex; align-items: center; justify-content: space-between; }
+  .legend-color { width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Atendidas Humano | Canal Voz</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 10 DE 35</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content">
+    
+    <div class="slide-title">
+      <h2>Visão Consolidada + Filas</h2>
+      <p>Evolução mensal 2026 — Volume, Nível de Serviço, TMA, TME e Resolutividade</p>
+    </div>
+
+    <!-- SEÇÃO SUPERIOR (Consolidado + Gráfico) -->
+    <div class="top-section">
+      
+      <div class="table-container">
+        <div class="table-header">
+          <div>VOZ — CONSOLIDADO <span class="pill-principal">PRINCIPAL</span></div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th>
+              <th>JAN-26</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th>
+              <th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Volume</td>
+              <td>100.508</td><td>93.787</td><td>95.380</td><td>93.677</td><td>94.866</td><td>68.560</td><td class="col-ytd">546.778</td>
+            </tr>
+            <tr>
+              <td>%Atendidas</td>
+              <td>89%</td><td>96%</td><td>96%</td><td>98%</td><td>97%</td><td>99%</td><td class="col-ytd">96%</td>
+            </tr>
+            <tr>
+              <td>%Abandono</td>
+              <td>11%</td><td>4%</td><td>4%</td><td>2%</td><td>3%</td><td>1%</td><td class="col-ytd">4%</td>
+            </tr>
+            <tr class="row-ns">
+              <td>%NS</td>
+              <td>77%</td><td>80%</td><td>74%</td><td>83%</td><td>77%</td><td>92%</td><td class="col-ytd">81%</td>
+            </tr>
+            <tr>
+              <td>TMA</td>
+              <td>377</td><td>389</td><td>420</td><td>423</td><td>422</td><td>366</td><td class="col-ytd">399</td>
+            </tr>
+            <tr class="row-tme">
+              <td>TME</td>
+              <td>203</td><td>66</td><td>94</td><td>40</td><td>67</td><td>16</td><td class="col-ytd">81</td>
+            </tr>
+            <tr>
+              <td>%Resolutividade</td>
+              <td>37%</td><td>39%</td><td>41%</td><td>57%</td><td>75%</td><td>74%</td><td class="col-ytd">54%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-title">VOZ POR PARCEIRO</div>
+        <div class="donut-chart">
+          <div class="donut-inner"></div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-blue);"></span>Almaviva</div>
+            <span>62,00 %</span>
+          </div>
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-green);"></span>Tel</div>
+            <span>38,00 %</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEÇÃO INFERIOR (Filas - Grid 3 Colunas) -->
+    <!-- N1, SAC e AGIREVERTE ficam na primeira linha. PROCON e FAIXA PRETA caem para a segunda linha -->
+    <div class="bottom-section">
+      
+      <!-- N1 -->
+      <div class="table-container">
+        <div class="table-header">N1</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>JAN</th><th>FEV</th><th>MAR</th><th>ABR</th><th>MAI</th><th>JUN</th><th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Volume</td><td>79.928</td><td>72.834</td><td>70.800</td><td>68.851</td><td>68.758</td><td>40.588</td><td class="col-ytd">401.759</td></tr>
+            <tr><td>%Atendidas</td><td>88%</td><td>97%</td><td>96%</td><td>98%</td><td>98%</td><td>100%</td><td class="col-ytd">96%</td></tr>
+            <tr><td>%Abandono</td><td>12%</td><td>3%</td><td>4%</td><td>2%</td><td>2%</td><td>0%</td><td class="col-ytd">4%</td></tr>
+            <tr class="row-ns"><td>%NS</td><td>78%</td><td>84%</td><td>72%</td><td>83%</td><td>81%</td><td>98%</td><td class="col-ytd">83%</td></tr>
+            <tr><td>TMA</td><td>384</td><td>383</td><td>414</td><td>429</td><td>408</td><td>355</td><td class="col-ytd">395</td></tr>
+            <tr class="row-tme"><td>TME</td><td>209</td><td>45</td><td>102</td><td>44</td><td>48</td><td>9</td><td class="col-ytd">76</td></tr>
+            <tr><td>%Resol.</td><td>36%</td><td>38%</td><td>39%</td><td>55%</td><td>77%</td><td>78%</td><td class="col-ytd">54%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SAC -->
+      <div class="table-container">
+        <div class="table-header">SAC</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>JAN</th><th>FEV</th><th>MAR</th><th>ABR</th><th>MAI</th><th>JUN</th><th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Volume</td><td>13.671</td><td>14.103</td><td>17.227</td><td>17.237</td><td>18.159</td><td>17.984</td><td class="col-ytd">98.381</td></tr>
+            <tr><td>%Atendidas</td><td>88%</td><td>95%</td><td>96%</td><td>98%</td><td>93%</td><td>99%</td><td class="col-ytd">95%</td></tr>
+            <tr><td>%Abandono</td><td>12%</td><td>5%</td><td>4%</td><td>2%</td><td>7%</td><td>1%</td><td class="col-ytd">5%</td></tr>
+            <tr class="row-ns"><td>%NS</td><td>68%</td><td>73%</td><td>79%</td><td>83%</td><td>67%</td><td>87%</td><td class="col-ytd">76%</td></tr>
+            <tr><td>TMA</td><td>256</td><td>332</td><td>402</td><td>380</td><td>452</td><td>337</td><td class="col-ytd">360</td></tr>
+            <tr class="row-tme"><td>TME</td><td>238</td><td>83</td><td>71</td><td>30</td><td>107</td><td>12</td><td class="col-ytd">90</td></tr>
+            <tr><td>%Resol.</td><td>43%</td><td>54%</td><td>57%</td><td>58%</td><td>54%</td><td>57%</td><td class="col-ytd">54%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- AGIREVERTE -->
+      <div class="table-container">
+        <div class="table-header">AGIREVERTE</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>JAN</th><th>FEV</th><th>MAR</th><th>ABR</th><th>MAI</th><th>JUN</th><th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Volume</td><td>6.183</td><td>6.141</td><td>6.625</td><td>6.986</td><td>7.321</td><td>947</td><td class="col-ytd">34.203</td></tr>
+            <tr><td>%Atendidas</td><td>93%</td><td>85%</td><td>95%</td><td>98%</td><td>94%</td><td>93%</td><td class="col-ytd">93%</td></tr>
+            <tr><td>%Abandono</td><td>7%</td><td>15%</td><td>5%</td><td>2%</td><td>6%</td><td>7%</td><td class="col-ytd">7%</td></tr>
+            <tr class="row-ns"><td>%NS</td><td>82%</td><td>53%</td><td>76%</td><td>90%</td><td>67%</td><td>82%</td><td class="col-ytd">75%</td></tr>
+            <tr><td>TMA</td><td>550</td><td>612</td><td>528</td><td>478</td><td>485</td><td>350</td><td class="col-ytd">500</td></tr>
+            <tr class="row-tme"><td>TME</td><td>73</td><td>285</td><td>82</td><td>24</td><td>149</td><td>78</td><td class="col-ytd">115</td></tr>
+            <tr><td>%Resol.</td><td>38%</td><td>35%</td><td>35%</td><td>63%</td><td>80%</td><td>80%</td><td class="col-ytd">55%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PROCON -->
+      <div class="table-container">
+        <div class="table-header">PROCON</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>JAN</th><th>FEV</th><th>MAR</th><th>ABR</th><th>MAI</th><th>JUN</th><th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Volume</td><td>726</td><td>709</td><td>728</td><td>603</td><td>628</td><td>541</td><td class="col-ytd">3.935</td></tr>
+            <tr><td>%Atendidas</td><td>94%</td><td>97%</td><td>99%</td><td>98%</td><td>99%</td><td>98%</td><td class="col-ytd">98%</td></tr>
+            <tr><td>%Abandono</td><td>6%</td><td>3%</td><td>1%</td><td>2%</td><td>1%</td><td>2%</td><td class="col-ytd">3%</td></tr>
+            <tr class="row-ns"><td>%NS</td><td>89%</td><td>93%</td><td>96%</td><td>96%</td><td>97%</td><td>96%</td><td class="col-ytd">95%</td></tr>
+            <tr><td>TMA</td><td>403</td><td>413</td><td>404</td><td>404</td><td>384</td><td>368</td><td class="col-ytd">396</td></tr>
+            <tr class="row-tme"><td>TME</td><td>15</td><td>13</td><td>14</td><td>11</td><td>9</td><td>13</td><td class="col-ytd">13</td></tr>
+            <tr><td>%Resol.</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td class="col-ytd">-</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FAIXA PRETA -->
+      <div class="table-container">
+        <div class="table-header">FAIXA PRETA</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>JAN</th><th>FEV</th><th>MAR</th><th>ABR</th><th>MAI</th><th>JUN</th><th class="col-ytd">YTD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Volume</td><td>-</td><td>-</td><td>-</td><td>-</td><td>4.810</td><td>8.500</td><td class="col-ytd">13.310</td></tr>
+            <tr><td>%Atendidas</td><td>-</td><td>-</td><td>-</td><td>-</td><td>96%</td><td>96%</td><td class="col-ytd">96%</td></tr>
+            <tr><td>%Abandono</td><td>-</td><td>-</td><td>-</td><td>-</td><td>4%</td><td>4%</td><td class="col-ytd">4%</td></tr>
+            <tr class="row-ns"><td>%NS</td><td>-</td><td>-</td><td>-</td><td>-</td><td>62%</td><td>78%</td><td class="col-ytd">70%</td></tr>
+            <tr><td>TMA</td><td>-</td><td>-</td><td>-</td><td>-</td><td>343</td><td>488</td><td class="col-ytd">416</td></tr>
+            <tr class="row-tme"><td>TME</td><td>-</td><td>-</td><td>-</td><td>-</td><td>45</td><td>47</td><td class="col-ytd">46</td></tr>
+            <tr><td>%Resol.</td><td>-</td><td>-</td><td>-</td><td>-</td><td>71%</td><td>78%</td><td class="col-ytd">75%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <div style="display: flex; gap: 20px;">
+      <span>Dias úteis: Abril 20 DU · Março 21 DU · Fev 18 DU · Jan 21 DU</span>
+      <span>Atendimento ao Cliente · Atendimento Humano Voz · Junho 2026</span>
+      <span>15 / 36</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
