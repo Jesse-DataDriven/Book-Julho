@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+<style>
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 10 ================= */
+  .content { padding: 10px 30px !important; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px;}
+  
+  /* Insight Bar */
+  .insight-bar { height: 75px !important; min-height: 75px !important; padding: 10px 30px !important; }
+  .insight-text h2 { font-size: 15px !important; margin-bottom: 2px !important; }
+  .insight-text p { font-size: 10.5px !important; }
+  .insight-badge h3 { font-size: 32px !important; }
+
+  /* Grid dos Cartões */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; min-height: 0; padding: 0;}
+  
+  .card { display: flex; flex-direction: column; background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); min-height: 0;}
+  .card-header { padding: 4px 12px; color: white; font-weight: 800; font-size: 10px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; height: 26px; min-height: 26px;}
+  .card-header .pill-weight { background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 12px; font-size: 9px; }
+
+  .card-body { padding: 8px 12px 4px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0;}
+
+  /* Mapeamento de Cores */
+  .bg-green { background-color: var(--agi-green); }
+  .bg-blue { background-color: var(--agi-blue); }
+  .bg-brown { background-color: var(--agi-brown); }
+
+  /* Métricas do Topo do Card */
+  .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+  .metric-value { font-size: 26px; font-weight: 900; color: var(--text-dark); display: flex; align-items: baseline; gap: 6px; line-height: 1; letter-spacing: -1px;}
+  .metric-desc { font-size: 8.5px; color: var(--text-gray); font-weight: 600; max-width: 120px; line-height: 1.1;}
+
+  .delta-badge { padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+  .delta-up-bad, .delta-down-bad { background-color: var(--trend-red-bg); color: var(--trend-red-txt); }
+  .delta-up-good, .delta-down-good { background-color: var(--trend-green-bg); color: var(--trend-green-txt); }
+  .delta-neutral { background-color: #f3f4f6; color: #6b7280; } /* Cor para Delta Zero */
+
+  .custom-legend { display: flex; gap: 8px; font-size: 8px; color: var(--text-gray); margin-top: 4px; margin-bottom: 2px; font-weight: 600;}
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-color { width: 10px; height: 4px; border-radius: 2px; }
+  .legend-color.bar { height: 10px; width: 10px; border-radius: 2px; }
+
+  /* Gráficos */
+  .chart-container { flex: 1; width: 100%; position: relative; min-height: 0; }
+  .chart-container canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+  /* Rodapé do Card */
+  .card-footer { padding: 6px 12px; background: #ffffff; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 48px; min-height: 48px;}
+  .footer-text { font-size: 8.5px; color: var(--text-gray); line-height: 1.3; flex: 1; margin: 0;}
+  .footer-text strong { color: var(--text-dark); }
+  .footer-metrics { display: flex; justify-content: space-between; gap: 4px; flex: 1.2;}
+  .footer-metric { flex: 1; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 0; text-align: center; display: flex; flex-direction: column; justify-content: center;}
+  .footer-metric h4 { font-size: 11px; font-weight: 800; margin-bottom: 1px; line-height: 1;}
+  .footer-metric p { font-size: 7px; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0; line-height: 1;}
+
+  .val-green { color: var(--agi-green); } 
+  .val-brown { color: var(--agi-brown); } 
+  .val-blue  { color: var(--agi-blue); } 
+  .val-red   { color: var(--agi-red); }
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Risco, Regulatório & Reclamações</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 19 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT PRINCIPAL -->
+  <div class="insight-bar">
+    <div class="insight-text">
+      <h2 id="main-insight">Jun/26 Consolidado: Canais regulatórios em forte queda (Procon recua -17%). Stress Rate atinge mínima histórica (<b>1,37%</b>) e Reputação no RA salta para <b>8,6</b>.</h2>
+      <p>Junho consolidado. Todos os canais de reclamação (Consumidor.gov, BACEN, Procon e Reclame Aqui) apresentaram redução de volume. Recontato (16,6%) e Stress Rate (1,37%) seguem com folga abaixo das metas.</p>
+    </div>
+    <div class="insight-badge">
+      <h3>JUN/26</h3>
+      <p>RISCO & REGULATÓRIO • CX</p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="grid" id="cards-container">
+      <!-- Os cartões serão gerados dinamicamente via JS -->
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Atendimento ao Cliente · Risco, Regulatório & Reclamações · Junho 2026</span>
+    <span>10 / 36</span>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.querySelector('.slide-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  const labelsX = ['Set', 'Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+
+  const DADOS = [
+    {
+      id: "consumidor", title: "CONSUMIDOR.GOV", colorClass: "bg-blue", peso: "Reclamações / mês",
+      mainLabel: "Volume registrado no canal",
+      data: [2200, 2200, 1500, 1200, 1480, 1750, 2042, 2068, 2164, 2129], 
+      isPct: false, goodIsUp: false, color: "#1a56db", chartType: "line",
+      desc: "Junho fecha em <b>{VAL}</b>. Recuo em relação a Maio, mantendo-se abaixo do pico Set/25 (2.200)."
+    },
+    {
+      id: "bacen", title: "RDR BACEN", colorClass: "bg-green", peso: "Reclamações / mês",
+      mainLabel: "Registro de Demandas BACEN",
+      data: [2300, 2200, 1200, 1050, 1150, 1200, 1447, 1347, 1314, 1181],
+      isPct: false, goodIsUp: false, color: "#239a48", chartType: "line",
+      desc: "Junho fecha em <b>{VAL}</b>. Excelente queda, atingindo o menor patamar do ano."
+    },
+    {
+      id: "procon", title: "PROCON", colorClass: "bg-brown", peso: "Reclamações / mês",
+      mainLabel: "Volume registrado no canal",
+      data: [4042, 3800, 2700, 2350, 2350, 1800, 2423, 2587, 2883, 2370],
+      isPct: false, goodIsUp: false, color: "#b37022", chartType: "line",
+      desc: "Junho fecha em <b>{VAL}</b>. Queda expressiva após a alta de Maio, distanciando do pico."
+    },
+    {
+      id: "recontato", title: "RECONTATO 48H", colorClass: "bg-blue", peso: "✓ Meta 23% · Peso 15%",
+      mainLabel: "% clientes que retornam em 48h",
+      data: [35, 32, 30, 27, 17, 17.5, 17.3, 15.7, 15.9, 16.6],
+      meta: 23, isPct: true, goodIsUp: false, color: "#1a56db", chartType: "line",
+      desc: "Junho em <b>{VAL}</b> — abaixo da meta de 23%. Leve alta no mês, mas estrutura controlada."
+    },
+    {
+      id: "stress", title: "STRESS RATE", colorClass: "bg-green", peso: "✓ Meta 3,56% · Peso 15%",
+      mainLabel: "5+ acionamentos em 7d / base CPFs",
+      data: [4.3, 4.5, 3.5, 3, 3, 2.7, 2.73, 2.38, 1.61, 1.37],
+      meta: 3.56, isPct: true, goodIsUp: false, color: "#239a48", chartType: "line",
+      desc: "Junho em <b>{VAL}</b> — bem abaixo da meta (3,56%); Menor patamar da série histórica."
+    },
+    {
+      id: "ra", title: "RECLAME AQUI", colorClass: "bg-blue", peso: "Vol. 3.010 · Sol. 92,5%",
+      mainLabel: "Nota de reputação (0–10)",
+      data: [8.4, 8.5, 8.5, 8.5, 8.4, 8.5, 8.5, 8.4, 8.2, 8.6], 
+      dataBar: [3.3, 3, 2.6, 2.5, 3.2, 2.9, 3.7, 3.62, 3.33, 3.01], 
+      isPct: false, goodIsUp: true, color: "#1a56db", chartType: "mixed",
+      desc: "Junho: reputação salta para <b>{VAL}</b> com queda no volume para 3.010 reclamações."
+    }
+  ];
+
+  const fmt = (num, isPct, id) => {
+    // Força 1 casa decimal para Reputação do RA (ex: 8.2)
+    if (id === 'ra') return num.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+    let s = num.toLocaleString('pt-BR', {minimumFractionDigits: isPct?2:0, maximumFractionDigits: isPct?2:0});
+    return isPct ? s + '%' : s;
+  };
+
+  const container = document.getElementById('cards-container');
+
+  DADOS.forEach(d => {
+    const valJun = d.data[d.data.length - 1];
+    const valMai = d.data[d.data.length - 2];
+    const diff = valJun - valMai;
+    
+    const isPositive = diff > 0;
+    const isGood = isPositive === d.goodIsUp;
+    
+    let trendHtml = '';
+    let deltaStr = '';
+    if (diff === 0) {
+        trendHtml = `<div class="delta-badge delta-neutral">= 0,00 vs Mai</div>`;
+        deltaStr = "0,00";
+    } else {
+        const trendClass = isGood ? 'delta-down-good' : 'delta-up-bad'; 
+        const sign = isPositive ? '▲ +' : '▼ ';
+        
+        if (d.id === 'ra') {
+            // Reputação RA tratada como pontos absolutos
+            const diffAbs = Math.abs(diff);
+            deltaStr = (isPositive?'+':'') + fmt(diffAbs, false, d.id) + ' pts';
+            trendHtml = `<div class="delta-badge ${trendClass}">${sign}${fmt(diffAbs, false, d.id)} pts vs Mai</div>`;
+        } else {
+            const unit = d.isPct ? ' p.p.' : '%'; 
+            const diffAbs = Math.abs(d.isPct ? diff : (diff/valMai)*100);
+            deltaStr = (isPositive?'+':'') + fmt(diffAbs, d.isPct, d.id) + (d.isPct?'pp':'%');
+            trendHtml = `<div class="delta-badge ${trendClass}">${sign}${fmt(diffAbs, d.isPct, d.id)}${unit} vs Mai</div>`;
+        }
+    }
+
+    const valColor = 'var(--text-dark)';
+
+    const cardHtml = `
+      <div class="card">
+        <div class="card-header ${d.colorClass}">
+          <span>${d.title}</span><span class="pill-weight">${d.peso}</span>
+        </div>
+        <div class="card-body">
+          <div class="metric-header">
+            <div>
+              <div class="metric-value" style="color:${valColor}">${fmt(valJun, d.isPct, d.id)} <span class="metric-desc">${d.mainLabel}</span></div>
+              <div class="custom-legend">
+                <div class="legend-item"><div class="legend-color" style="background: ${d.color};"></div> ${d.id==='ra'?'Reputação':(d.id==='stress'?'Stress':(d.id==='recontato'?'Recontato':'Volume'))}</div>
+                ${d.meta ? `<div class="legend-item"><div class="legend-color" style="background: transparent; border-top: 2px dashed #d93025;"></div> Meta ${fmt(d.meta, d.isPct, d.id)}</div>` : ''}
+                ${d.dataBar ? `<div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Vol. (mil)</div>` : ''}
+              </div>
+            </div>
+            ${trendHtml}
+          </div>
+          <div class="chart-container"><canvas id="chart_${d.id}"></canvas></div>
+        </div>
+        <div class="card-footer">
+          <div class="footer-text">${d.desc.replace('{VAL}', fmt(valJun, d.isPct, d.id))}</div>
+          <div class="footer-metrics">
+            <div class="footer-metric"><h4 style="color:${d.color}">${fmt(valJun, d.isPct, d.id)}</h4><p>Junho</p></div>
+            <div class="footer-metric"><h4 style="color:var(--text-dark)">${fmt(valMai, d.isPct, d.id)}</h4><p>Mai</p></div>
+            <div class="footer-metric"><h4 style="color:${diff===0?'var(--text-gray)':(isGood?'var(--agi-green)':'var(--agi-red)')}">${deltaStr}</h4><p>Vs Mai</p></div>
+          </div>
+        </div>
+      </div>
+    `;
+    container.innerHTML += cardHtml;
+  });
+
+  /* =======================================================================
+     4. INICIALIZAÇÃO DOS GRÁFICOS
+     ======================================================================= */
+  Chart.register(ChartDataLabels);
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.color = '#9ca3af';
+
+  const chartOptions = {
+    responsive: true, maintainAspectRatio: false, devicePixelRatio: window.devicePixelRatio * 2,
+    plugins: { legend: { display: false }, tooltip: { enabled: false }, datalabels: { display: false } },
+    layout: { padding: { top: 20, right: 30, left: 5, bottom: 5 } }, 
+    scales: { 
+        x: { grid: { display: false }, ticks: { font: { size: 8, weight: 'bold' } } }, 
+        y: { display: false } 
+    },
+    elements: { line: { tension: 0.4, borderWidth: 2.5 }, point: { radius: 3, borderWidth: 1.5, backgroundColor: '#fff' } }
+  };
+
+  DADOS.forEach(d => {
+    const ctx = document.getElementById(`chart_${d.id}`);
+    
+    // Calcula o máximo para dar uma folga de 15% no topo, evitando que a linha encoste e corte o rótulo
+    const maxDataVal = Math.max(...d.data);
+    const suggestedMax = maxDataVal * 1.15;
+
+    let datasets = [{
+      type: 'line', data: d.data, borderColor: d.color, 
+      pointBorderColor: d.color, pointBackgroundColor: '#fff',
+      datalabels: {
+        display: (ctx) => ctx.dataIndex === d.data.length - 1, 
+        align: 'top', offset: 5, color: d.color, font: { size: 10, weight: 'bold' },
+        formatter: (v) => fmt(v, d.isPct, d.id)
+      }
+    }];
+
+    if (d.meta) {
+      datasets.push({
+        type: 'line', data: Array(10).fill(d.meta), borderColor: '#d93025', borderWidth: 1.5, borderDash: [4, 4], pointRadius: 0
+      });
+    }
+
+    if (d.dataBar) {
+      datasets.push({
+        type: 'bar', data: d.dataBar, backgroundColor: '#e5e7eb', borderRadius: 2, yAxisID: 'y1'
+      });
+      
+      new Chart(ctx, {
+        data: { labels: labelsX, datasets: datasets },
+        options: { 
+            ...chartOptions, 
+            scales: { 
+                x: { grid: { display: false }, ticks: { font: { size: 8, weight: 'bold' } } },
+                y: { display: false, min: 7.5, suggestedMax: 9 }, // Escala da Linha
+                y1: { display: false, min: 0, max: 5, position: 'right' } // Escala da Barra
+            }
+        }
+      });
+    } else {
+      new Chart(ctx, { 
+          data: { labels: labelsX, datasets: datasets }, 
+          options: {
+              ...chartOptions,
+              scales: {
+                  x: chartOptions.scales.x,
+                  y: { display: false, suggestedMax: suggestedMax } // Aplica a folga no topo
+              }
+          } 
+      });
+    }
+  });
+
+</script>
+</body>
+</html>
