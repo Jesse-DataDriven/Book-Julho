@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= AJUSTES INCREMENTAIS ESPECÍFICOS DO SLIDE 07 ================= */
+  
+  /* 1. Barra de KPIs Superior (7 blocos) */
+  .top-kpi-bar {
+    display: flex; gap: 8px; padding: 12px 30px 0; height: 85px; min-height: 85px;
+  }
+  .kpi-box {
+    flex: 1; background: white; border: 1px solid var(--border-color); border-radius: 6px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px; text-align: center;
+  }
+  .kpi-box h3 { font-size: 24px; font-weight: 900; line-height: 1; letter-spacing: -1px; margin-bottom: 2px;}
+  .kpi-box p { font-size: 8px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .kpi-box .pill { font-size: 7.5px; padding: 2px 6px; margin-top: 4px; border-radius: 10px;}
+  
+  /* Cores específicas dos KPIs */
+  .k-blue h3 { color: var(--agi-blue); } .k-blue .pill { background: #e0e7ff; color: var(--agi-blue); }
+  .k-green h3 { color: var(--agi-green); } .k-green .pill { background: #e6f4ea; color: #1b853f; }
+  .k-orange h3 { color: var(--agi-brown); } .k-orange .pill { background: #fffbeb; color: var(--agi-brown); }
+
+  /* Caixa de Insight ao lado dos KPIs */
+  .kpi-insight {
+    flex: 2.5; background: white; border: 1px solid var(--border-color); border-radius: 6px;
+    padding: 10px 15px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .kpi-insight h4 { font-size: 13px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px;}
+  .kpi-insight h4 b { color: var(--agi-green); font-weight: 800;}
+  .kpi-insight p { font-size: 9px; color: var(--text-gray); line-height: 1.4;}
+
+  /* 2. Área Principal (Split Esquerda / Direita) */
+  .main-split {
+    display: flex; gap: 15px; padding: 10px 30px; flex: 1; min-height: 0;
+  }
+  .left-col { flex: 2.5; display: flex; flex-direction: column; gap: 10px; min-width: 0;}
+  .right-col { flex: 1; background: #f8f9fa; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; display: flex; flex-direction: column;}
+
+  /* 3. Tabela Compacta (20 linhas x 7 Colunas) */
+  .table-wrapper { background: white; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; flex: 1; display: flex; flex-direction: column;}
+  .section-title { background: var(--header-bg); color: white; padding: 4px 12px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;}
+  .section-title .dot { width: 6px; height: 6px; background: var(--agi-green-light); border-radius: 50%; }
+  
+  .compact-table { width: 100%; border-collapse: collapse; text-align: right; }
+  .compact-table th { padding: 4px 8px; font-size: 8px; color: var(--text-gray); font-weight: 800; text-transform: uppercase; border-bottom: 2px solid var(--agi-blue); background: #f8f9fa;}
+  .compact-table td { padding: 3px 8px; font-size: 9.5px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid #f0f0f0;}
+  .compact-table th:first-child, .compact-table td:first-child { text-align: left; }
+  .compact-table tr:nth-child(even) { background: #fafbfc; }
+  .compact-table td:first-child { font-weight: 700; color: var(--header-bg);}
+  .compact-table td.delta-good { color: var(--agi-green); font-weight: 800;}
+  .compact-table td.delta-bad { color: var(--agi-red); font-weight: 800;}
+
+  /* 4. Gráfico de Barras Inferior */
+  .chart-wrapper { height: 110px; background: white; border-radius: 6px; border: 1px solid var(--border-color); padding: 8px 12px; display: flex; flex-direction: column;}
+  .chart-header { display: flex; align-items: center; gap: 10px; font-size: 9px; font-weight: 800; color: var(--header-bg); text-transform: uppercase;}
+  .chart-legend { display: flex; gap: 10px; font-size: 8px; color: var(--text-gray); align-items: center;}
+  .chart-legend .box { width: 8px; height: 8px; border-radius: 2px;}
+  .chart-svg-area { flex: 1; width: 100%; position: relative; margin-top: 5px;}
+  .chart-svg-area svg { width: 100%; height: 100%; display: block; overflow: visible;}
+
+  /* 5. Painel da Direita (Destaques) */
+  .right-col h3 { font-size: 10px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px;}
+  .destaque-group { margin-bottom: 20px; }
+  .destaque-group-title { display: flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 800; color: var(--text-gray); margin-bottom: 8px;}
+  .destaque-pill { padding: 2px 6px; border-radius: 4px; font-size: 8px; color: white;}
+  .destaque-pill.red { background: #fca5a5; color: #991b1b;}
+  .destaque-pill.green { background: #bbf7d0; color: #166534;}
+  
+  .d-list { list-style: none; display: flex; flex-direction: column; gap: 6px;}
+  .d-item { display: flex; justify-content: space-between; align-items: center; font-size: 10px; border-bottom: 1px solid #e5e7eb; padding-bottom: 4px;}
+  .d-item span:first-child { font-weight: 600; color: var(--text-dark);}
+  .d-item span:last-child { font-weight: 500; color: var(--text-gray); font-size: 9px;}
+
+  /* LOGO AGI REFEITA EM CSS PURO (Garante o pingo verde independente do estilo.css) */
+  .logo { background: white; color: #3b82f6; font-weight: 800; font-size: 24px; padding: 4px 12px 6px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; line-height: 1; }
+  .agi-i { display: inline-block; width: 5px; height: 12px; background-color: #3b82f6; margin-left: 2px; position: relative; }
+  .agi-i::after { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%); width: 5.5px; height: 5.5px; background-color: #34a853; border-radius: 50%; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Volumetria dos assuntos Reclame Aqui</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 17 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- BARRA DE KPIs SUPERIOR -->
+  <div class="top-kpi-bar">
+    <div class="kpi-box k-blue">
+      <h3>2.927</h3><p>Respondidas</p><span class="pill">IR 97,08%</span>
+    </div>
+    <div class="kpi-box k-green">
+      <h3>92,48%</h3><p>IS Junho</p><span class="pill">▲ vs Mai 87,40%</span>
+    </div>
+    <div class="kpi-box k-green">
+      <h3>90,78%</h3><p>IS Acum. 6M</p><span class="pill">RA 1000 ✓</span>
+    </div>
+    <div class="kpi-box k-green">
+      <h3>8,43</h3><p>Reputação 6M</p><span class="pill">Nota 7,93 Jun</span>
+    </div>
+    <div class="kpi-box k-orange">
+      <h3>88</h3><p>Não Respondidas</p><span class="pill">Melhor do ano</span>
+    </div>
+    <div class="kpi-box k-blue">
+      <h3>585</h3><p>Avaliadas</p><span class="pill">76,58% IN</span>
+    </div>
+    <div class="kpi-insight">
+      <h4>IS salta para <b>92,48%</b> — recuperando RA1000. Acumulado 6M garante selo com IS <b>90,78%</b> e reputação <b>8,43</b></h4>
+      <p>Junho: 3.015 reclamações · Apenas 88 não respondidas (IR 97,08%) · Cancelamento de Optante recua levemente (-2% vs Mai).</p>
+    </div>
+  </div>
+
+  <!-- ÁREA PRINCIPAL -->
+  <div class="main-split">
+    
+    <!-- LADO ESQUERDO (Tabela e Gráfico) -->
+    <div class="left-col">
+      
+      <!-- TABELA DE 20 LINHAS -->
+      <div class="table-wrapper">
+        <div class="section-title"><div class="dot"></div> CASOS POR TEMA · RECLAME AQUI · FEV–JUN/26</div>
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th>Tema</th>
+              <th>Fev</th>
+              <th>Mar</th>
+              <th>Abr</th>
+              <th>Mai</th>
+              <th>Jun</th>
+              <th>Δ J×M</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- As 20 linhas serão injetadas aqui pelo JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GRÁFICO DE BARRAS DUPLAS -->
+      <div class="chart-wrapper">
+        <div class="chart-header">
+          <span>COMPARATIVO MAI × JUN · TOP 6 TEMAS</span>
+          <div class="chart-legend">
+            <div class="box" style="background: #93c5fd;"></div> Mai
+            <div class="box" style="background: var(--agi-blue);"></div> Jun
+          </div>
+        </div>
+        <div class="chart-svg-area" id="chart-area">
+          <!-- O SVG será injetado aqui -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LADO DIREITO (Destaques) -->
+    <div class="right-col">
+      <h3>DESTAQUES · JUN × MAI (Δ CASOS)</h3>
+      
+      <div class="destaque-group">
+        <div class="destaque-group-title">MAIORES ALTAS <span class="destaque-pill red">JUN ↑</span></div>
+        <ul class="d-list">
+          <li class="d-item"><span>Ressarcimento</span><span>428 → 570</span></li>
+          <li class="d-item"><span>Cancelamento de Seguro</span><span>275 → 335</span></li>
+          <li class="d-item"><span>Baixa de Pagamento</span><span>57 → 77</span></li>
+          <li class="d-item"><span>Dúvidas Contratação</span><span>43 → 54</span></li>
+        </ul>
+      </div>
+
+      <div class="destaque-group">
+        <div class="destaque-group-title">MAIORES QUEDAS <span class="destaque-pill green">JUN ↓</span></div>
+        <ul class="d-list">
+          <li class="d-item"><span>Portabilidade de Dívida</span><span>67 → 32</span></li>
+          <li class="d-item"><span>Desconto Consig. Indevido</span><span>62 → 36</span></li>
+          <li class="d-item"><span>Valores Debitados</span><span>162 → 138</span></li>
+          <li class="d-item"><span>Cancelamento de Optante</span><span>1201 → 1181</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Atendimento ao Cliente · Volumetria Reclame Aqui · Junho 2026</span>
+    <span>7 / 36</span>
+  </div>
+
+</div>
+
+<script>
+  /* =======================================================================
+     ESCALA DA TELA
+     ======================================================================= */
+  function resizeSlide() {
+    const wrapper = document.querySelector('.slide-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    if(wrapper) wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  /* =======================================================================
+     MOTOR DE DADOS (Atualizado com os números exatos das tabelas de Junho)
+     Formato: ["Nome", Fev, Mar, Abr, Mai, Jun, {val: "Delta", type: "good/bad"}]
+     ======================================================================= */
+  const TABLE_DATA = [
+    ["Cancelamento de Optante", 891, 1157, 1396, 1201, 1181, {val: "-2%", type: "good"}],
+    ["Ressarcimento", 396, 611, 426, 428, 570, {val: "+33%", type: "bad"}],
+    ["Cancelamento de Seguro", 276, 414, 444, 275, 335, {val: "+22%", type: "bad"}],
+    ["Valores Debitados", 81, 131, 102, 162, 138, {val: "-15%", type: "good"}],
+    ["Informações a Terceiros", 32, 125, 143, 114, 125, {val: "+10%", type: "bad"}],
+    ["Encerramento de Conta", 111, 123, 49, 90, 92, {val: "+2%", type: "bad"}],
+    ["Contestação de Empréstimo", 96, 121, 103, 87, 75, {val: "-14%", type: "good"}],
+    ["Desaverbar Margem", 49, 119, 51, 83, 74, {val: "-11%", type: "good"}],
+    ["Cópia de Contrato", 81, 104, 84, 77, 80, {val: "+4%", type: "bad"}],
+    ["Solicitação de Empréstimo", 115, 101, 106, 69, 51, {val: "-26%", type: "good"}],
+    ["Alteração de Domicílio", 75, 92, 86, 67, 54, {val: "-19%", type: "good"}],
+    ["Portabilidade de Dívida", 60, 89, 59, 67, 32, {val: "-52%", type: "good"}],
+    ["Desconto Consignado - Indevido", 54, 88, 54, 62, 36, {val: "-42%", type: "good"}],
+    ["Inclusão de Optante Avulso", 62, 83, 106, 60, 52, {val: "-13%", type: "good"}],
+    ["Baixa de Pagamento", 42, 82, 62, 57, 77, {val: "+35%", type: "bad"}],
+    ["Erro App", 55, 52, 36, 55, 62, {val: "+13%", type: "bad"}],
+    ["Proposta em Andamento", 40, 46, 29, 45, 42, {val: "-7%", type: "good"}],
+    ["Dúvidas Contratação", 7, 44, 44, 43, 54, {val: "+26%", type: "bad"}],
+    ["Antecipação de Parcelas", 47, 44, 33, 40, 36, {val: "-10%", type: "good"}],
+    ["Pix", 31, 39, 24, 40, 31, {val: "-23%", type: "good"}]
+  ];
+
+  // Injeta os dados na Tabela
+  const tbody = document.getElementById('table-body');
+  if(tbody) {
+      TABLE_DATA.forEach(row => {
+        const tr = document.createElement('tr');
+        const deltaClass = row[6].type === 'good' ? 'delta-good' : 'delta-bad';
+        tr.innerHTML = `
+          <td>${row[0]}</td>
+          <td>${row[1]}</td>
+          <td>${row[2]}</td>
+          <td>${row[3]}</td>
+          <td>${row[4]}</td>
+          <td style="color: var(--agi-blue); font-weight: 800;">${row[5]}</td>
+          <td class="${deltaClass}">${row[6].val}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+  }
+
+  /* =======================================================================
+     MOTOR DO GRÁFICO DE BARRAS DUPLAS COM RÓTULOS (SVG PURO)
+     ======================================================================= */
+  function drawBarChart() {
+    // Pega os 6 primeiros itens da tabela
+    const top6 = TABLE_DATA.slice(0, 6);
+    
+    const w = 800; const h = 65; 
+    const padX = 20; const padY = 5;
+    const stepX = (w - 2*padX) / 6;
+    const barW = 20; 
+    
+    // Aumentei o maxVal para dar espaço para os números em cima das barras
+    const maxVal = Math.max(...top6.map(r => Math.max(r[4], r[5]))) * 1.3;
+
+    let svg = '';
+
+    top6.forEach((row, i) => {
+      const valMai = row[4]; // Maio agora é o índice 4
+      const valJun = row[5]; // Junho agora é o índice 5
+      
+      const hMai = (valMai / maxVal) * (h - 2*padY);
+      const hJun = (valJun / maxVal) * (h - 2*padY);
+      
+      const centerX = padX + (i * stepX) + (stepX/2);
+      
+      // Barras
+      svg += `<rect x="${centerX - barW - 2}" y="${h - padY - hMai}" width="${barW}" height="${hMai}" fill="#93c5fd" rx="2" />`;
+      svg += `<rect x="${centerX + 2}" y="${h - padY - hJun}" width="${barW}" height="${hJun}" fill="#1a56db" rx="2" />`;
+      
+      // Rótulos de Dados (Números em cima das barras)
+      svg += `<text x="${centerX - barW/2 - 2}" y="${h - padY - hMai - 4}" font-size="10" fill="#60a5fa" text-anchor="middle" font-weight="800">${valMai}</text>`;
+      svg += `<text x="${centerX + barW/2 + 2}" y="${h - padY - hJun - 4}" font-size="10" fill="#1a56db" text-anchor="middle" font-weight="800">${valJun}</text>`;
+      
+      // Rótulo Eixo X (Embaixo)
+      let shortName = row[0].length > 18 ? row[0].substring(0, 16) + '...' : row[0];
+      svg += `<text x="${centerX}" y="${h + 12}" font-size="10" fill="#6b7280" text-anchor="middle" font-weight="700">${shortName}</text>`;
+    });
+
+    const chartArea = document.getElementById('chart-area');
+    if(chartArea) {
+        chartArea.innerHTML = `<svg viewBox="0 0 ${w} ${h + 20}" preserveAspectRatio="none">${svg}</svg>`;
+    }
+  }
+
+  drawBarChart();
+
+</script>
+</body>
+</html>
