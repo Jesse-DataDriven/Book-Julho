@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= AJUSTES ESTRITOS DO SLIDE 03 ================= */
+  
+  /* Trava a altura exata da área de conteúdo para não vazar (526px = 720 - 64 - 90 - 40) */
+  .content { 
+    padding: 12px 30px !important; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    height: 526px; 
+    background: #f4f5f8;
+  }
+  
+  /* Mini Cards do Topo (6 colunas) */
+  .ns-cards-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .ns-card { background: white; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .ns-card.good { background: #f0fdf4; border-color: #bbf7d0; }
+  .ns-card.bad { background: #fef2f2; border-color: #fecaca; }
+  .ns-card.current { background: #eff6ff; border-color: #bfdbfe; }
+
+  .ns-card-header { display: flex; justify-content: space-between; align-items: center; font-size: 8.5px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 4px;}
+  .ns-card-val { font-size: 24px; font-weight: 900; line-height: 1; letter-spacing: -1px; margin-bottom: 4px; color: var(--text-dark);}
+  .ns-card.good .ns-card-val { color: var(--agi-green); }
+  .ns-card.bad .ns-card-val { color: var(--agi-red); }
+  .ns-card.current .ns-card-val { color: var(--agi-blue); }
+  .ns-card-sub { font-size: 8.5px; color: var(--text-dark); font-weight: 600;}
+
+  /* Tabela de Volume (Compactada) */
+  .section-title-bar { background: var(--header-bg); color: white; padding: 6px 15px; border-radius: 6px 6px 0 0; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
+  .section-title-bar span.light { color: rgba(255,255,255,0.6); font-weight: 600; text-transform: none;}
+
+  .vol-table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 6px 6px; overflow: hidden;}
+  .vol-table th { background: #f8f9fa; padding: 6px 15px; font-size: 8.5px; color: var(--text-gray); font-weight: 800; text-transform: uppercase; border-bottom: 1px solid var(--border-color); text-align: right;}
+  .vol-table th:first-child { text-align: left; }
+  .vol-table td { padding: 6px 15px; font-size: 10.5px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color); text-align: right;}
+  .vol-table td:first-child { text-align: left; }
+  .vol-table tr.main-row td { font-weight: 800; font-size: 11.5px;}
+  .vol-table tr.sub-row td { color: var(--text-gray); }
+  .vol-table tr.indent td:first-child { padding-left: 30px; position: relative;}
+  .vol-table tr.indent td:first-child::before { content: '↳'; position: absolute; left: 15px; color: #cbd5e1; font-weight: bold;}
+
+  /* Cards de Detalhe do Rodapé (3 colunas) - Compactados */
+  .ns-detail-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ns-detail-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .ns-detail-card.bad { background: #fef2f2; border-color: #fecaca; }
+  .ns-detail-card.good { background: #f0fdf4; border-color: #bbf7d0; }
+  .ns-detail-card.current { background: #eff6ff; border-color: #bfdbfe; }
+  
+  .ns-detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;}
+  .ns-detail-header span { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase;}
+  .ns-detail-header h3 { font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--text-dark);}
+  .ns-detail-card.bad h3 { color: var(--agi-red); }
+  .ns-detail-card.good h3 { color: var(--agi-green); }
+  .ns-detail-card.current h3 { color: var(--agi-blue); }
+  
+  .ns-detail-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed var(--border-color); font-size: 10px; font-weight: 600; color: var(--text-gray);}
+  .ns-detail-row:last-child { border-bottom: none; padding-bottom: 0;}
+  .ns-detail-row b { color: var(--text-dark); font-size: 11px; font-weight: 800;}
+</style>
+</head>
+<body>
+
+<div id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Performance Operacional</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 3 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT PRINCIPAL -->
+  <div class="insight-bar">
+    <div class="insight-text">
+      <h2>NS consolida alta e atinge <b>85,17%</b> (+1,05 p.p.) — Voz atinge pico histórico (92,43%) e volume humano cai forte (-13,7%)</h2>
+      <p>Consolidado em 85,17% (vs 84,12% Mai). <b style="color: var(--agi-red);">Atenção: Devido a problemas de fallback SF nos dias 13, 14 e 17, perdemos 2,11 p.p. no NS em Junho.</b> Volume Topo e Humano em queda no mês.</p>
+    </div>
+    <div class="insight-badge">
+      <h3 style="color: var(--agi-green);">80,66%</h3>
+      <p>NS YTD (JAN–JUN/26)</p>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL (Altura Travada) -->
+  <div class="content">
+    
+    <!-- 1. GRID DE 6 KPIs (Evolução NS) -->
+    <div class="ns-cards-6">
+      
+      <div class="ns-card">
+        <div class="ns-card-header"><span>Jan/26 <span style="font-weight:normal">meta 75%</span></span></div>
+        <div class="ns-card-val">82,34%</div>
+        <div class="ns-card-sub">Voz 76,83% · Chat 84,82%</div>
+      </div>
+
+      <div class="ns-card good">
+        <div class="ns-card-header">
+          <span>Fev/26 <span style="font-weight:normal">meta 75%</span></span>
+          <span class="trend-pill trend-good">▲ +2,93 p.p.</span>
+        </div>
+        <div class="ns-card-val">85,27%</div>
+        <div class="ns-card-sub">Voz 80,38% · Chat 87,47%</div>
+      </div>
+
+      <div class="ns-card bad">
+        <div class="ns-card-header">
+          <span>Mar/26 <span style="font-weight:normal">meta 75%</span></span>
+          <span class="trend-pill trend-bad">▼ -13,13 p.p.</span>
+        </div>
+        <div class="ns-card-val">72,14%</div>
+        <div class="ns-card-sub">Voz 73,88% · Chat 71,48%</div>
+      </div>
+
+      <div class="ns-card good">
+        <div class="ns-card-header">
+          <span>Abr/26 <span style="font-weight:normal">meta 75%</span></span>
+          <span class="trend-pill trend-good">▲ +2,79 p.p.</span>
+        </div>
+        <div class="ns-card-val">74,93%</div>
+        <div class="ns-card-sub">Voz 83,25% · Chat 71,76%</div>
+      </div>
+
+      <div class="ns-card good">
+        <div class="ns-card-header">
+          <span>Mai/26 <span style="font-weight:normal">meta 75%</span></span>
+          <span class="trend-pill trend-good">▲ +9,19 p.p.</span>
+        </div>
+        <div class="ns-card-val">84,12%</div>
+        <div class="ns-card-sub">Voz 76,77% · Chat 86,87%</div>
+      </div>
+
+      <div class="ns-card current">
+        <div class="ns-card-header">
+          <span style="color: var(--agi-blue);">Jun/26 <span style="font-weight:normal">meta 75%</span></span>
+          <span class="trend-pill trend-good">▲ +1,05 p.p.</span>
+        </div>
+        <div class="ns-card-val">85,17%</div>
+        <div class="ns-card-sub">Voz 92,43% · Chat 83,15%</div>
+      </div>
+
+    </div>
+
+    <!-- 2. TABELA DE VOLUME -->
+    <div>
+      <div class="section-title-bar">
+        <span>Volume — Evolução Semestral</span>
+        <span class="light">Humano Jun/26: 313,4K</span>
+      </div>
+      <table class="vol-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th style="color: var(--agi-blue);">Jun/26</th>
+            <th>YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>Volume Topo</td>
+            <td>2.535.420</td>
+            <td>2.691.574</td>
+            <td>2.555.673</td>
+            <td>2.159.058</td>
+            <td style="color: var(--agi-blue);">2.099.330</td>
+            <td>14.790.429</td>
+          </tr>
+          <tr class="sub-row">
+            <td>Total Humano</td>
+            <td>295.993</td>
+            <td>342.920</td>
+            <td>336.493</td>
+            <td>363.294</td>
+            <td style="color: var(--agi-blue); font-weight: 800;">313.421</td>
+            <td style="font-weight: 800; color: var(--text-dark);">1.970.000</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Voz (Inbound)</td>
+            <td>91.929</td>
+            <td>93.516</td>
+            <td>92.888</td>
+            <td>99.097</td>
+            <td style="color: var(--agi-blue);">68.096</td>
+            <td style="font-weight: 800; color: var(--text-dark);">543.841</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Chat (WhatsApp)</td>
+            <td>204.064</td>
+            <td>249.494</td>
+            <td>243.605</td>
+            <td>264.197</td>
+            <td style="color: var(--agi-blue);">245.325</td>
+            <td style="font-weight: 800; color: var(--text-dark);">1.426.249</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. CARDS DE DETALHE (RODAPÉ) -->
+    <div style="margin-top: 5px;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <span style="background: var(--header-bg); color: white; padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 800;">NÍVEL DE SERVIÇO</span>
+        <span style="font-size: 10px; color: var(--text-gray); font-weight: 600;">Detalhe mensal — últimos 3 meses</span>
+      </div>
+      
+      <div class="ns-detail-cards">
+        
+        <div class="ns-detail-card bad">
+          <div class="ns-detail-header">
+            <span>Abr/26</span>
+            <h3>74,93%</h3>
+          </div>
+          <div class="ns-detail-row">NS Voz <b>83,25%</b></div>
+          <div class="ns-detail-row">NS Chat <b>71,76%</b></div>
+          <div class="ns-detail-row">Vol. Humano <b>336.493</b></div>
+          <div class="ns-detail-row">Vol. Topo <b>2.555.673</b></div>
+        </div>
+
+        <div class="ns-detail-card good">
+          <div class="ns-detail-header">
+            <span>Mai/26</span>
+            <h3 style="color: var(--agi-green);">84,12%</h3>
+          </div>
+          <div class="ns-detail-row">NS Voz <b>76,77%</b></div>
+          <div class="ns-detail-row">NS Chat <b>86,87%</b></div>
+          <div class="ns-detail-row">Vol. Humano <b>363.294</b></div>
+          <div class="ns-detail-row">Vol. Topo <b>2.159.058</b></div>
+        </div>
+
+        <div class="ns-detail-card current">
+          <div class="ns-detail-header">
+            <span style="color: var(--agi-blue);">Jun/26</span>
+            <h3>85,17%</h3>
+          </div>
+          <div class="ns-detail-row">NS Voz <b>92,43%</b></div>
+          <div class="ns-detail-row">NS Chat <b>83,15%</b></div>
+          <div class="ns-detail-row">Vol. Humano <b>313.421</b></div>
+          <div class="ns-detail-row">Vol. Topo <b>2.099.330</b></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ PADRÃO RESTAURADO -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <div style="display: flex; gap: 20px;">
+      <span>Atendimento ao Cliente · Volume & Nível de Serviço · Junho 2026</span>
+      <span>3 / 36</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
