@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 13 (HEATMAP) ================= */
+  .content-grid { 
+    display: grid; grid-template-columns: 72% 28%; gap: 15px; 
+    padding: 15px 30px; height: 606px; background: #f4f5f8;
+  }
+
+  /* --- BARRA DE KPIs SUPERIOR --- */
+  .top-kpi-bar { display: flex; gap: 10px; padding: 12px 30px 0; height: 85px; min-height: 85px; }
+  .kpi-box { flex: 1; background: white; border: 1px solid var(--border-color); border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px; text-align: center; }
+  .kpi-box h3 { font-size: 22px; font-weight: 900; line-height: 1; letter-spacing: -1px; margin-bottom: 2px;}
+  .kpi-box p { font-size: 8px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .kpi-box .pill { font-size: 8px; padding: 2px 8px; margin-top: 4px; border-radius: 10px; font-weight: 700;}
+  
+  .k-blue h3 { color: var(--agi-blue); } .k-blue .pill { background: #e0e7ff; color: var(--agi-blue); }
+  .k-green h3 { color: var(--agi-green); } .k-green .pill { background: #e6f4ea; color: #1b853f; }
+  .k-dark h3 { color: var(--header-bg); } .k-dark .pill { background: #f3f4f6; color: var(--text-gray); }
+
+  .kpi-insight { flex: 1.8; background: white; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 15px; display: flex; flex-direction: column; justify-content: center; }
+  .kpi-insight p { font-size: 11px; color: var(--text-dark); line-height: 1.4; font-weight: 500;}
+  .kpi-insight b { color: var(--text-dark); font-weight: 800;}
+
+  /* --- PAINEL ESQUERDO (HEATMAP) --- */
+  .left-panel { background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); }
+  
+  .lp-header { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);}
+  .lp-header h3 { font-size: 10px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; letter-spacing: 0.5px;}
+
+  /* Tabela do Heatmap */
+  .heatmap-table { width: 100%; border-collapse: collapse; text-align: center; }
+  .heatmap-table th { padding: 5px 2px; font-size: 8px; color: var(--header-bg); font-weight: 800; text-transform: uppercase; border-bottom: 2px solid var(--border-color); }
+  .heatmap-table th:first-child { text-align: left; padding-left: 15px;}
+  .heatmap-table th:last-child { text-align: right; padding-right: 15px;}
+  
+  /* Ajuste extremo de padding para caber as 20 linhas perfeitamente */
+  .heatmap-table td { padding: 2.5px 2px; font-size: 8.5px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid #f9fafb; transition: all 0.3s;}
+  .heatmap-table td:first-child { text-align: left; font-weight: 800; padding-left: 15px; font-size: 7.5px; text-transform: uppercase; white-space: nowrap;}
+  .heatmap-table td:last-child { text-align: right; font-weight: 800; padding-right: 15px;}
+  
+  /* Cores do Mapa de Calor (Corrigido com !important no background para sobrepor o estilo.css) */
+  .hm-1 { background: #ffffff !important; color: var(--text-dark) !important; } /* Baixo */
+  .hm-2 { background: #eff6ff !important; color: var(--text-dark) !important; } /* Médio- */
+  .hm-3 { background: #bfdbfe !important; color: var(--text-dark) !important; } /* Médio */
+  .hm-4 { background: #60a5fa !important; color: white !important; }            /* Médio+ */
+  .hm-5 { background: #2563eb !important; color: white !important; }            /* Alto */
+  .hm-6 { background: #1e3a8a !important; color: white !important; }            /* Pico */
+
+  .legend-bar { padding: 8px 15px; display: flex; align-items: center; gap: 8px; font-size: 8px; color: var(--text-gray); font-weight: 600; border-top: 1px solid var(--border-color); background: #f8f9fa; margin-top: auto;}
+  .legend-box { padding: 2px 6px; border-radius: 4px; color: white; font-weight: 700;}
+
+  /* --- PAINEL DIREITO --- */
+  .right-panel { display: flex; flex-direction: column; gap: 15px; }
+  
+  .side-card { background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); padding: 15px; border: 1px solid var(--border-color); flex: 1; display: flex; flex-direction: column;}
+  .sc-title { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;}
+  
+  /* Tabela de Composição */
+  .comp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 10px;}
+  .comp-name { width: 70px; font-weight: 700; color: var(--text-gray); }
+  .comp-bar-bg { flex: 1; height: 10px; background: #f3f4f6; border-radius: 5px; position: relative;}
+  .comp-bar-fill { height: 100%; border-radius: 5px; }
+  .comp-val { width: 50px; text-align: right; font-weight: 800; }
+  .comp-pct { width: 30px; text-align: right; color: var(--text-gray); font-weight: 600; font-size: 9px;}
+
+  /* Takeaways */
+  .takeaway-box { background: #f0f4ff; border-left: 3px solid var(--agi-blue); border-radius: 0 6px 6px 0; padding: 12px; margin-top: auto;}
+  .takeaway-box h4 { font-size: 9px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; margin-bottom: 6px;}
+  .takeaway-box p { font-size: 10px; color: var(--text-dark); line-height: 1.4; margin-bottom: 4px;}
+  .takeaway-box p b { font-weight: 700; }
+  
+  .trend-bad { background: #fce8e6 !important; color: #c5221f !important; }
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Comportamento DU - Volume por célula</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 09 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- BARRA DE KPIs -->
+  <div class="top-kpi-bar">
+    <div class="kpi-box k-dark">
+      <h3 id="kpi-total">312.708</h3><p>TOTAL ATEND. JUN</p><span class="pill">Volume Total</span>
+    </div>
+    <div class="kpi-box k-blue">
+      <h3 id="kpi-chat">245.325</h3><p>CHAT N1 JUN</p><span class="pill" style="background:#fffbeb; color:#b37022;">78,4% do total</span>
+    </div>
+    <div class="kpi-box k-dark">
+      <h3 id="kpi-voz">67.383</h3><p>N1 VOZ JUN</p><span class="pill">21,5% do total</span>
+    </div>
+    <div class="kpi-box k-green">
+      <h3 id="kpi-sn">15.890</h3><p>SN JUN</p><span class="pill trend-bad">▼ -24,9% vs Mai</span>
+    </div>
+    <div class="kpi-box k-dark">
+      <h3 id="kpi-sac">17.831</h3><p>SAC JUN</p><span class="pill">5,7% do total</span>
+    </div>
+    <div class="kpi-insight">
+      <p>Volume em <b>312,7K</b> em Junho. Chat N1 mantém share (<b>78,4%</b>). Pico no início do mês (DU4 <b>16.836</b> Chat N1).</p>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content-grid">
+    
+    <!-- PAINEL ESQUERDO (HEATMAP) -->
+    <div class="left-panel">
+      <div class="lp-header">
+        <h3>VOLUME POR CÉLULA × DIA ÚTIL — <span id="hm-month">COMPARATIVO MAI E JUN/26</span> · ESCALA POR GRUPO</h3>
+      </div>
+
+      <table class="heatmap-table">
+        <thead>
+          <tr>
+            <th>Célula</th>
+            <th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th><th>D11</th><th>D12</th><th>D13</th><th>D14</th><th>D15</th><th>D16</th><th>D17</th><th>D18</th><th>D19</th><th>D20</th><th>D21</th><th>D22</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="heatmap-body">
+          <!-- Linhas geradas pelo JS -->
+        </tbody>
+      </table>
+
+      <div class="legend-bar">
+        Escala (por célula): 
+        <span class="legend-box hm-1" style="border:1px solid #ccc;">Baixo</span>
+        <span class="legend-box hm-2">Méd-</span>
+        <span class="legend-box hm-3">Médio</span>
+        <span class="legend-box hm-4">Méd+</span>
+        <span class="legend-box hm-5">Alto</span>
+        <span class="legend-box hm-6">Pico</span>
+        <span style="margin-left: 10px; font-weight: 500;">cada linha normalizada pelo próprio máximo no mês</span>
+      </div>
+    </div>
+
+    <!-- PAINEL DIREITO -->
+    <div class="right-panel">
+      
+      <div class="side-card">
+        <div class="sc-title">COMPOSIÇÃO — JUN/26</div>
+        <div id="comp-container">
+          <!-- Barras de Composição geradas pelo JS -->
+        </div>
+
+        <div class="sc-title" style="margin-top: 20px;">EVOLUÇÃO MENSAL — TOTAL (FEV-JUN)</div>
+        <div id="evo-container">
+          <!-- Barras de Evolução geradas pelo JS -->
+        </div>
+
+        <div class="takeaway-box">
+          <h4>TAKEAWAYS</h4>
+          <p><b>Chat N1:</b> dominante (78,4% do total), pico no DU4 (16.836).</p>
+          <p><b>Células Táticas:</b> Faixa Preta Chat atinge 23K atend. Concierge Chat inicia rampa (2,7K).</p>
+          <p><b>AgiReverte:</b> Chat concentra o volume (10,5K); Voz cai para 947 casos.</p>
+          <p><b>Padrão DU:</b> volume concentrado na 1ª semana útil, decai ao longo do mês.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.querySelector('.slide-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+
+  /* =======================================================================
+     MOTOR DE DADOS - HEATMAP (Maio e Junho com Faixa Preta e Concierge)
+     ======================================================================= */
+  const HEATMAP_DATA = [
+    { name: "SN (Mai/26)", data: [962, 1031, 1020, 1034, 1159, 1063, 1124, 1122, 1006, 1049, 959, 911, 1090, 1073, 1017, 1091, 1215, 1150, 1028, 1053, null, null], total: 21157 },
+    { name: "SN (Jun/26)", data: [1011, 1211, 1241, 1344, 1134, 1166, 1117, 1044, 851, 979, 1083, 1032, 1067, 950, 911, 1012, 824, 1095, 1063, 882, 1254, null], total: 22271 },
+    { name: "SAC (Mai/26)", data: [1359, 1113, 1137, 1098, 1293, 735, 717, 654, 643, 724, 670, 668, 754, 685, 887, 848, 966, 858, 855, 1009, null, null], total: 17673 },
+    { name: "SAC (Jun/26)", data: [1174, 1110, 1246, 1207, 1194, 833, 718, 593, 757, 644, 844, 702, 663, 894, 713, 645, 618, 710, 1103, 657, 959, null], total: 17984 },
+    { name: "N1 Voz (Mai/26)", data: [5205, 5157, 5045, 4975, 5817, 4265, 3887, 3461, 3214, 3947, 2812, 2064, 2049, 1780, 2266, 2151, 2111, 2097, 1908, 2661, null, null], total: 66872 },
+    { name: "N1 Voz (Jun/26)", data: [2463, 2230, 2853, 2821, 2583, 2136, 1862, 1687, 1892, 1934, 1650, 1609, 1659, 1694, 1659, 1476, 1365, 1485, 2286, 1399, 1845, null], total: 40588 },
+    { name: "CHAT N1 (Mai/26)", data: [14990, 14747, 14018, 14566, 17724, 9317, 8637, 7937, 7719, 11120, 8955, 9870, 9390, 8042, 15482, 12955, 14127, 12900, 10399, 13150, null, null], total: 236045 },
+    { name: "CHAT N1 (Jun/26)", data: [12837, 12603, 16256, 16836, 11842, 10954, 9602, 7824, 8734, 7701, 7757, 7508, 7209, 9762, 7886, 7370, 6963, 7461, 15348, 7839, 11872, null], total: 212164 },
+    { name: "AgiReverte Voz (Mai)", data: [557, 539, 525, 516, 491, 350, 392, 385, 362, 348, 289, 222, 242, 260, 329, 253, 262, 292, 262, 288, null, null], total: 7164 },
+    { name: "AgiReverte Voz (Jun)", data: [144, 105, 135, 87, 80, 85, 85, 58, 77, 91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null], total: 947 },
+    { name: "AgiReverte Chat (Mai)", data: [774, 1104, 1322, 1025, 847, 523, 476, 469, 461, 498, 606, 614, 663, 483, 592, 607, 653, 639, 661, 768, null, null], total: 13785 },
+    { name: "AgiReverte Chat (Jun)", data: [433, 575, 931, 853, 657, 637, 535, 517, 369, 528, 486, 383, 428, 442, 584, 25, 16, 478, 681, 418, 592, null], total: 10568 },
+    { name: "Faixa Preta Voz (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 703, 696, 577, 515, 346, 484, 563, 489, 432, null], total: 4810 },
+    { name: "Faixa Preta Voz (Jun)", data: [453, 510, 733, 559, 518, 593, 628, 444, 481, 378, 157, 159, 132, 361, 256, 319, 339, 363, 443, 302, 372, null], total: 8500 },
+    { name: "Faixa Preta Chat (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 593, 652, 711, 388, 804, 944, 880, 984, null], total: 6148 },
+    { name: "Faixa Preta Chat (Jun)", data: [438, 684, 1080, 649, 220, 419, 553, 693, 670, 442, 1178, 1296, 1340, 1461, 1111, 1712, 1589, 1523, 2519, 1403, 2072, null], total: 23052 },
+    { name: "Concierge Voz (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 29, 43, 25, 10, 6, 12, null, null], total: 126 },
+    { name: "Concierge Voz (Jun)", data: [8, 14, 10, 7, 2, 2, 4, 0, 2, 4, 5, 3, 17, 46, 6, 12, 11, 11, 19, 15, 14, null], total: 212 },
+    { name: "Concierge Chat (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 39, 58, 74, 68, 77, 92, 112, null, null], total: 523 },
+    { name: "Concierge Chat (Jun)", data: [121, 92, 74, 1, 3, 14, 23, 154, 97, 150, 180, 158, 196, 176, 267, 269, 209, 286, 101, 78, 113, null], total: 2762 }
+  ];
+
+  const tbody = document.getElementById('heatmap-body');
+
+  function getHeatmapClass(val, max) {
+    if (val === null || val === 0) return 'hm-1';
+    const pct = val / max;
+    if (pct > 0.9) return 'hm-6';
+    if (pct > 0.75) return 'hm-5';
+    if (pct > 0.6) return 'hm-4';
+    if (pct > 0.4) return 'hm-3';
+    if (pct > 0.2) return 'hm-2';
+    return 'hm-1';
+  }
+
+  const fmtNum = (num) => num.toLocaleString('pt-BR');
+
+  HEATMAP_DATA.forEach(row => {
+    const tr = document.createElement('tr');
+    
+    const validData = row.data.filter(v => v !== null && v > 0);
+    const maxVal = Math.max(...validData);
+
+    let html = `<td style="color: ${row.name.includes('Jun') ? 'var(--agi-blue)' : '#000000'};">${row.name}</td>`;
+    
+    row.data.forEach(val => {
+      if (val === null) {
+        html += `<td></td>`;
+      } else {
+        const colorClass = getHeatmapClass(val, maxVal);
+        html += `<td class="${colorClass}">${val === 0 ? '0' : val}</td>`;
+      }
+    });
+
+    html += `<td>${fmtNum(row.total)}</td>`;
+    
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+
+  /* =======================================================================
+     MOTOR DE DADOS - COMPOSIÇÃO E EVOLUÇÃO
+     ======================================================================= */
+  const COMP_DATA = [
+    { name: "Chat N1", val: 245325, pct: "78.4%", color: "#1a56db" },
+    { name: "N1 Voz", val: 67383, pct: "21.5%", color: "#000c36" },
+    { name: "SAC", val: 17831, pct: "5.7%", color: "#6b7280" },
+    { name: "SN", val: 15890, pct: "5.0%", color: "#239a48" }
+  ];
+
+  const compContainer = document.getElementById('comp-container');
+  const maxComp = Math.max(...COMP_DATA.map(d => d.val));
+
+  COMP_DATA.forEach(d => {
+    const w = (d.val / maxComp) * 100;
+    compContainer.innerHTML += `
+      <div class="comp-row">
+        <div class="comp-name">${d.name}</div>
+        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width: ${w}%; background: ${d.color};"></div></div>
+        <div class="comp-val">${fmtNum(d.val)}</div>
+        <div class="comp-pct">${d.pct}</div>
+      </div>
+    `;
+  });
+
+  const EVO_DATA = [
+    { name: "Fev/26", val: 286, delta: "-4.0%" },
+    { name: "Mar/26", val: 322, delta: "+12.4%" },
+    { name: "Abr/26", val: 319, delta: "-0.9%" },
+    { name: "Mai/26", val: 321, delta: "+0.8%" },
+    { name: "Jun/26", val: 312, delta: "-2.6%", isCurrent: true }
+  ];
+
+  const evoContainer = document.getElementById('evo-container');
+  const maxEvo = Math.max(...EVO_DATA.map(d => d.val));
+
+  EVO_DATA.forEach(d => {
+    const w = (d.val / maxEvo) * 100;
+    const color = d.isCurrent ? "#b37022" : "#1a56db";
+    const deltaColor = d.delta.includes('-') ? "var(--text-gray)" : "var(--agi-brown)";
+    
+    evoContainer.innerHTML += `
+      <div class="comp-row">
+        <div class="comp-name">${d.name}</div>
+        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width: ${w}%; background: ${color};"></div></div>
+        <div class="comp-val">${d.val}K</div>
+        <div class="comp-pct" style="color: ${deltaColor};">${d.delta}</div>
+      </div>
+    `;
+  });
+
+</script>
+</body>
+</html>
