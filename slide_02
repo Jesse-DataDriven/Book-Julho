@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #d93025;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+    
+    --trend-green-bg: #e6f4ea;
+    --trend-green-txt: #1b853f;
+    --trend-red-bg: #fce8e6;
+    --trend-red-txt: #c5221f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden; 
+  }
+
+  /* --- CABEÇALHO --- */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  .logo { background: white; color: var(--agi-blue); font-weight: 800; font-size: 28px; padding: 6px 14px 8px 14px; border-radius: 8px; display: inline-flex; align-items: baseline; letter-spacing: -1px; line-height: 1; }
+  .agi-i { display: inline-block; width: 6px; height: 15px; background-color: var(--agi-blue); margin-left: 2px; position: relative; }
+  .agi-i::after { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 6.5px; height: 6.5px; background-color: var(--agi-green); border-radius: 50%; }
+  .header h1 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.5px;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* --- INSIGHT BAR --- */
+  .insight-bar {
+    background: white; padding: 15px 30px; height: 90px; min-height: 90px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border-color); flex-shrink: 0;
+  }
+  .insight-text { width: 85%; }
+  .insight-text h2 { font-size: 17px; font-weight: 400; color: var(--text-dark); margin-bottom: 6px; line-height: 1.4;}
+  .insight-text h2 b { font-weight: 700; color: var(--agi-green); }
+  .insight-text p { font-size: 11px; color: var(--text-gray); line-height: 1.4; }
+  .insight-badge { text-align: right; }
+  .insight-badge h3 { font-size: 40px; font-weight: 900; color: var(--header-bg); line-height: 1; letter-spacing: -2px;}
+  .insight-badge p { font-size: 9px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;}
+
+  /* --- CONTEÚDO PRINCIPAL --- */
+  .content { flex: 1; padding: 15px 30px; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
+
+  /* Grid de 6 KPIs */
+  .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .sum-kpi { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .sum-kpi-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;}
+  .sum-kpi-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; line-height: 1.2;}
+  .sum-kpi-val { font-size: 28px; font-weight: 900; color: var(--text-dark); line-height: 1; letter-spacing: -1px;}
+  .sum-kpi-sub { font-size: 9px; color: var(--text-gray); margin-top: 6px; line-height: 1.2; font-weight: 600;}
+
+  /* Pílulas de Tendência */
+  .trend-pill { padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 800; display: inline-block; white-space: nowrap;}
+  .trend-good { background: var(--trend-green-bg); color: var(--trend-green-txt); }
+  .trend-bad { background: var(--trend-red-bg); color: var(--trend-red-txt); }
+
+  /* Barra de Orçamento */
+  .budget-wrapper { display: flex; align-items: center; gap: 15px; background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .budget-title { font-size: 10px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; white-space: nowrap;}
+  .budget-bar-bg { flex: 1; background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; }
+  .budget-bar-fill { background: var(--agi-green); height: 100%; border-radius: 4px; }
+  .budget-info { font-size: 10px; font-weight: 700; color: var(--text-dark); white-space: nowrap;}
+
+  /* Caixas de Contexto (Grid 3) */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; flex: 1; min-height: 0; }
+  .info-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .ic-blue { border-left: 4px solid var(--agi-blue); }
+  .ic-orange { border-left: 4px solid var(--agi-yellow); }
+  .ic-green { border-left: 4px solid var(--agi-green); }
+
+  .ic-header { padding: 12px 15px 5px; display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+  .ic-blue .ic-header { color: var(--agi-blue); }
+  .ic-orange .ic-header { color: var(--agi-brown); }
+  .ic-green .ic-header { color: var(--agi-green); }
+
+  .ic-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
+  .ic-blue .ic-icon { background: var(--agi-blue); }
+  .ic-orange .ic-icon { background: var(--agi-yellow); }
+  .ic-green .ic-icon { background: var(--agi-green); }
+
+  .ic-body { padding: 5px 15px 15px; font-size: 11px; color: var(--text-dark); line-height: 1.5; flex: 1;}
+  .ic-body b { font-weight: 700; }
+
+  .ic-footer { background: #f8f9fa; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);}
+  .ic-footer h4 { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1;}
+  .ic-blue .ic-footer h4 { color: var(--agi-blue); }
+  .ic-orange .ic-footer h4 { color: var(--agi-brown); }
+  .ic-green .ic-footer h4 { color: var(--agi-green); }
+  .ic-footer span { font-size: 10px; color: var(--text-gray); font-weight: 600; margin-left: 6px;}
+
+  /* Tabelas Modernizadas */
+  .modern-table-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .modern-table { background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .modern-table-title { background: var(--header-bg); color: white; padding: 8px 15px; display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+  .modern-table table { width: 100%; border-collapse: collapse; text-align: left; }
+  .modern-table th { background: #f8f9fa; padding: 8px 15px; font-size: 9px; color: var(--text-gray); font-weight: 800; text-transform: uppercase; border-bottom: 1px solid var(--border-color);}
+  .modern-table td { padding: 9px 15px; font-size: 11px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color);}
+  .modern-table tr:last-child td { border-bottom: none; }
+  .modern-table td.num, .modern-table th.num { text-align: right; }
+  .modern-table tr.total-row td { background: #f0f4ff; font-weight: 800; color: var(--header-bg);} 
+  .mix-pill { background: #e0e7ff; color: var(--agi-blue); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px;}
+
+  /* ================= RODAPÉ CORRIGIDO E CENTRALIZADO ================= */
+  .footer {
+    background: var(--header-bg); color: white; 
+    height: 40px; min-height: 40px;
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; 
+    margin-top: auto; flex-shrink: 0; position: relative;
+  }
+  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { position: absolute; right: 30px; color: white;}
+  .footer .footer-center { color: rgba(255,255,255,0.8); }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Resumo Operacional</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 2 DE 36</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT PRINCIPAL -->
+  <div class="insight-bar">
+    <div class="insight-text">
+      <h2>NS atinge <b>85,17%</b> (+1,05 p.p.) impulsionado por salto histórico em Voz (92,43%). Volume geral recua.</h2>
+      <p>Consolidado em 85,17% (vs 84,12% Mai) — acima da meta de 75%. TMA consolidado caiu para 17,3 min.<br>
+      Volume Topo recuou -2,8% e Humano caiu forte (-13,7%). NS YTD em 80,66%.</p>
+    </div>
+    <div class="insight-badge">
+      <h3 style="color: var(--agi-green);">80,66%</h3>
+      <p>NS YTD (JAN–JUN/26)</p>
+    </div>
+  </div>
+
+  <div class="content">
+    
+    <!-- GRID DE 6 KPIs -->
+    <div class="grid-6">
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">VOLUME TOPO</span>
+          <span class="trend-pill trend-good">▼ -2,8%</span>
+        </div>
+        <div class="sum-kpi-val">2.099.330</div>
+        <div class="sum-kpi-sub">▼ -2,8% vs mês ant.</div>
+      </div>
+      
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">NS CONSOLIDADO <span style="color:#239a48; font-weight:normal;">META 75%</span></span>
+          <span class="trend-pill trend-good">▲ +1,05 p.p.</span>
+        </div>
+        <div class="sum-kpi-val" style="color: var(--agi-green);">85,17%</div>
+        <div class="sum-kpi-sub">Voz 92,4% · Chat 83,1%</div>
+      </div>
+
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">TMA CONSOLIDADO <span style="font-weight:normal; color:var(--text-gray)">MIN</span></span>
+          <span class="trend-pill trend-good">▼ -2%</span>
+        </div>
+        <div class="sum-kpi-val" style="color: var(--agi-green);">17,3</div>
+        <div class="sum-kpi-sub">Voz 6,1 · Chat 20,4</div>
+      </div>
+
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">TME CONSOLIDADO <span style="font-weight:normal; color:var(--text-gray)">MIN</span></span>
+          <span class="trend-pill trend-good">▼ -3%</span>
+        </div>
+        <div class="sum-kpi-val" style="color: var(--agi-green);">3,1</div>
+        <div class="sum-kpi-sub">Voz 0,3 · Chat 3,9</div>
+      </div>
+
+      <!-- CUSTO UNITÁRIO -->
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">CUSTO UNITÁRIO <span style="font-weight:normal; color:var(--text-gray)">R$/ATEND.</span></span>
+          <span class="trend-pill trend-good">▼ -R$ 0,88</span>
+        </div>
+        <div class="sum-kpi-val">R$ 10,92</div>
+        <div class="sum-kpi-sub">Inbound R$11,49 · WA R$12,03</div>
+      </div>
+
+      <!-- POSIÇÕES ATIVAS (PA) COM A QUEBRA POR BPO CORRIGIDA -->
+      <div class="sum-kpi">
+        <div class="sum-kpi-head">
+          <span class="sum-kpi-title">POSIÇÕES ATIVAS (PA)</span>
+          <span class="trend-pill trend-good">▼ -29</span>
+        </div>
+        <div class="sum-kpi-val" style="color: var(--text-dark);">357</div>
+        <div class="sum-kpi-sub">AEC 157 · TELSSA 129 · ALMAVIVA 71</div>
+      </div>
+    </div>
+
+    <!-- BARRA DE ORÇAMENTO (YTD) -->
+    <div class="budget-wrapper">
+      <span class="budget-title">ORÇAMENTO BPO (YTD)</span>
+      <div class="budget-bar-bg"><div class="budget-bar-fill" style="width: 83.9%;"></div></div>
+      <span class="budget-info">R$ 25.801.439,81 realizado vs R$ 30.763.680,78 orçado</span>
+      <span class="trend-pill trend-good">-R$ 4.962.240,97 de economia</span>
+    </div>
+
+    <!-- CAIXAS DE CONTEXTO -->
+    <div class="grid-3">
+      <div class="info-card ic-blue">
+        <div class="ic-header"><div class="ic-icon">✓</div> DESEMPENHO</div>
+        <div class="ic-body">NS consolida alta e vai a <b>85,17%</b> (+1,05 p.p.). O grande destaque do mês é o canal Voz, que saltou de 76,77% para incríveis <b>92,43%</b>. NS YTD acumulado fecha o semestre em <b>80,66%</b>.</div>
+        <div class="ic-footer">
+          <div><h4>85,1%</h4><span>NS Consolidado Jun/26</span></div>
+          <span class="trend-pill trend-good" style="font-size: 10px;">▲ +1,05 p.p.</span>
+        </div>
+      </div>
+
+      <div class="info-card ic-orange">
+        <div class="ic-header"><div class="ic-icon">!</div> ATENÇÃO</div>
+        <div class="ic-body">Enquanto Voz brilha, o NS do Chat teve leve recuo de 86,87% para <b>83,15%</b>. O volume total humano caiu forte <b>(-13,7%)</b>, puxado por uma queda brusca de 31% nas chamadas de voz inbound.</div>
+        <div class="ic-footer">
+          <div><h4>313,4K</h4><span>Vol. Humano Jun/26</span></div>
+          <span class="trend-pill trend-good" style="font-size: 10px;">▼ -13,7%</span>
+        </div>
+      </div>
+
+      <div class="info-card ic-green">
+        <div class="ic-header"><div class="ic-icon">↑</div> EFICIÊNCIA</div>
+        <div class="ic-body">TMA Consolidado recuou para <b>17,3 min</b> e TME para <b>3,1 min</b> (com o TME de Voz despencando para apenas 0,3 min). O mix de canais mantém migração digital (Chat WA em <b>78%</b>).</div>
+        <div class="ic-footer">
+          <div><h4>17,3</h4><span>TMA Consol. (min)</span></div>
+          <span class="trend-pill trend-good" style="font-size: 10px;">▼ -2%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABELAS MODERNIZADAS -->
+    <div class="modern-table-wrapper">
+      
+      <!-- Tabela Esquerda -->
+      <div class="modern-table">
+        <div class="modern-table-title">
+          <span>VOLUME POR CANAL — JUN/26</span>
+          <span style="color: rgba(255,255,255,0.6); font-weight: 600;">Total Humano: 313,4K</span>
+        </div>
+        <table>
+          <thead><tr><th>Canal</th><th class="num">Volume</th><th class="num">Vs Mai/26</th><th class="num">Mix</th></tr></thead>
+          <tbody>
+            <tr><td>Voz (Inbound)</td><td class="num">68.096</td><td class="num" style="color: var(--agi-green);">▼ -31,2%</td><td class="num"><span class="mix-pill">22%</span></td></tr>
+            <tr><td>Chat (WhatsApp)</td><td class="num">245.325</td><td class="num" style="color: var(--agi-green);">▼ -7,1%</td><td class="num"><span class="mix-pill" style="background: #e6f4ea; color: #1b853f;">78%</span></td></tr>
+            <tr class="total-row"><td>Total Humano</td><td class="num">313.421</td><td class="num" style="color: var(--agi-green);">▼ -13,7%</td><td class="num"></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela Direita -->
+      <div class="modern-table">
+        <div class="modern-table-title">
+          <span>NÍVEL DE SERVIÇO POR CANAL — JUN/26</span>
+          <span style="color: rgba(255,255,255,0.6); font-weight: 600;">Meta: 75%</span>
+        </div>
+        <table>
+          <thead><tr><th>Canal</th><th class="num">NS</th><th class="num">TMA</th><th class="num">TME</th></tr></thead>
+          <tbody>
+            <tr class="total-row"><td>Consolidado</td><td class="num" style="color: var(--agi-green);">85,17%</td><td class="num">17,3 min</td><td class="num">3,1 min</td></tr>
+            <tr><td>Voz</td><td class="num" style="color: var(--agi-green);">92,43%</td><td class="num">6,1 min</td><td class="num">0,3 min</td></tr>
+            <tr><td>Chat</td><td class="num" style="color: var(--agi-green);">83,15%</td><td class="num">20,4 min</td><td class="num">3,9 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ CORRIGIDO E CENTRALIZADO -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span class="footer-center">Atendimento ao Cliente · Resumo Operacional · Junho 2026</span>
+    <span class="slide-counter">2 / 36</span>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
