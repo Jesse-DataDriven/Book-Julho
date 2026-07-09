@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<!-- Importação do seu CSS Oficial -->
+<link rel="stylesheet" href="estilo.css">
+<style>
+  /* ================= VARIÁVEIS ESPECÍFICAS DESTE SLIDE ================= */
+  :root {
+    --purple-main: #6b21a8;
+    --orange-main: #ea580c;
+    
+    /* Heatmap (Tabela Direita) */
+    --hm-1: #dcfce7; /* Muito Baixo (<15%) - Tom esverdeado claro */
+    --hm-2: #fef08a; /* Baixo (15-20%) */
+    --hm-3: #fde047; /* Médio (20-25%) */
+    --hm-4: #fcd34d; /* Alto (25-30%) */
+    --hm-5: #fbd38d; /* Muito Alto (30-45%) */
+    --hm-6: #fed7aa; /* Crítico (>45%) */
+  }
+
+  /* ================= CONTEÚDO DO SLIDE (Ajuste de Altura 616px) ================= */
+  .content { 
+    padding: 15px 20px !important; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+    height: 616px; 
+    background: var(--bg-main);
+    box-sizing: border-box;
+  }
+
+  /* ================= BARRA DE KPIs SUPERIOR ================= */
+  .kpi-bar {
+    display: flex;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .kpi-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border-color);
+  }
+  .kpi-item:last-child { border-right: none; }
+  .kpi-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .kpi-val { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; }
+  
+  .val-blue { color: var(--agi-blue); }
+  .val-dark { color: var(--header-bg); }
+  .val-purple { color: var(--purple-main); }
+  .val-orange { color: var(--orange-main); }
+  .val-green { color: var(--agi-green); }
+
+  /* ================= GRID DAS TABELAS ================= */
+  .tables-wrapper {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr; /* Tabela da esquerda um pouco maior */
+    gap: 15px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .table-container {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .th-left { background: var(--header-bg); color: white; padding: 6px 12px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .th-right { background: var(--purple-main); color: white; padding: 6px 12px; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Estilização Base das Tabelas (PADDING REDUZIDO PARA CABER O TOTAL) */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: right; }
+  .data-table th { 
+    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
+    padding: 5px 8px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); 
+    font-size: 9px; 
+  }
+  .data-table td { 
+    padding: 5px 8px; border-bottom: 1px solid #f1f5f9; color: var(--text-dark); font-weight: 600; 
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; font-weight: 700; color: var(--header-bg); }
+  
+  /* Tabela Esquerda Específicos */
+  .col-ytd { font-weight: 800 !important; color: var(--agi-blue) !important; background: #f0f4ff; }
+  .up-green { color: var(--agi-green); font-weight: 800; }
+  .down-red { color: var(--agi-red); font-weight: 800; }
+  
+  .row-demais td { background: #f1f5f9; font-weight: 800; border-top: 1px solid var(--border-color); }
+  .row-top10 td { background: #e0e7ff; font-weight: 800; border-top: 1px solid var(--border-color); }
+  .row-total td { background: #e0e7ff; font-weight: 900; color: var(--header-bg); }
+
+  /* Tabela Direita Específicos (Heatmap) */
+  .hm-1 { background-color: var(--hm-1); }
+  .hm-2 { background-color: var(--hm-2); }
+  .hm-3 { background-color: var(--hm-3); }
+  .hm-4 { background-color: var(--hm-4); }
+  .hm-5 { background-color: var(--hm-5); }
+  .hm-6 { background-color: var(--hm-6); }
+  .row-total-right td:first-child { background: #f3e8ff; font-weight: 800; color: var(--purple-main) !important; border-top: 1px solid var(--border-color); }
+  .row-total-right td:not(:first-child) { border-top: 1px solid var(--border-color); font-weight: 800;}
+
+  /* ================= BARRA DE INSIGHTS INFERIOR ================= */
+  .insights-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .insight-block { display: flex; flex-direction: column; gap: 6px; }
+  .insight-title { display: flex; align-items: center; gap: 6px; font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-blue { background: var(--agi-blue); }
+  .dot-purple { background: var(--purple-main); }
+  .dot-green { background: var(--agi-green); }
+  .insight-text { font-size: 10px; color: var(--text-dark); line-height: 1.4; font-weight: 500; }
+  .insight-text b { font-weight: 800; }
+  .text-orange { color: var(--orange-main); font-weight: 800; }
+  .text-green { color: var(--agi-green); font-weight: 800; }
+  .text-red { color: var(--agi-red); font-weight: 800; }
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Comitê CX — Top 10 Motivos Chamadores - Crédito Pessoal INSS + Público</h1>
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 25 DE 36</div>
+      <div class="slide-date">MAI/26</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content">
+    
+    <!-- BARRA DE KPIs -->
+    <div class="kpi-bar">
+      <div class="kpi-item">
+        <div class="kpi-title">VOL. JUN/26</div>
+        <div class="kpi-val val-blue">33.391</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">YTD JAN/26-JUN/26</div>
+        <div class="kpi-val val-dark">199.555</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">RECH. 48H JUN/26</div>
+        <div class="kpi-val val-purple">19,63%</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">TOP 10 / TOTAL (YTD)</div>
+        <div class="kpi-val val-orange">86,83%</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-title">MOM MAI→JUN</div>
+        <div class="kpi-val val-orange">+1,07%</div>
+      </div>
+    </div>
+
+    <!-- GRID DAS TABELAS -->
+    <div class="tables-wrapper">
+      
+      <!-- TABELA ESQUERDA (Top Motivos) -->
+      <div class="table-container">
+        <div class="th-left">TOP MOTIVOS · VOL. ABERTURA <span style="font-weight: 500; text-transform: none; color: #cbd5e1; margin-left: 5px;">JAN/26-JUN/26</span></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>MOTIVO</th><th>JAN/26</th><th>FEV/26</th><th>MAR/26</th><th>ABR/26</th><th>MAI/26</th><th>JUN/26</th><th class="col-ytd">YTD</th><th>MoM%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="color: var(--orange-main);">Cancelamento de Optante</td><td>4.927</td><td>5.139</td><td>6.264</td><td>6.642</td><td>9.145</td><td>11.125</td><td class="col-ytd">43.242</td><td class="up-green">▲ +21,7%</td></tr>
+            <tr><td>Cópia de Contrato</td><td>7.060</td><td>5.702</td><td>6.386</td><td>6.450</td><td>5.683</td><td>3.964</td><td class="col-ytd">35.245</td><td class="down-red">▼ -30,3%</td></tr>
+            <tr><td>Antecipação de Parcelas</td><td>6.297</td><td>6.285</td><td>6.520</td><td>5.811</td><td>5.044</td><td>4.562</td><td class="col-ytd">34.519</td><td class="down-red">▼ -9,6%</td></tr>
+            <tr><td>Valores debitados</td><td>2.065</td><td>2.760</td><td>2.630</td><td>4.719</td><td>2.955</td><td>2.826</td><td class="col-ytd">17.955</td><td class="down-red">▼ -4,4%</td></tr>
+            <tr><td>Parcelas Pagas</td><td>3.476</td><td>3.155</td><td>3.738</td><td>4.376</td><td>3.697</td><td>3.616</td><td class="col-ytd">22.058</td><td class="down-red">▼ -2,2%</td></tr>
+            <tr><td>Demonstrativo Evolução de Dívida</td><td>3.335</td><td>3.408</td><td>3.800</td><td>3.036</td><td>2.891</td><td>2.755</td><td class="col-ytd">19.225</td><td class="down-red">▼ -4,7%</td></tr>
+            <tr><td>Informação Sobre Acordo de Dívida</td><td>2.099</td><td>1.748</td><td>1.755</td><td>1.953</td><td>1.179</td><td>889</td><td class="col-ytd">9.623</td><td class="down-red">▼ -24,6%</td></tr>
+            <tr><td>Acordo</td><td>2.179</td><td>1.903</td><td>2.381</td><td>1.830</td><td>1.446</td><td>1.548</td><td class="col-ytd">11.287</td><td class="up-green">▲ +7,1%</td></tr>
+            <tr class="row-top10"><td>Top 10</td><td>31.438</td><td>30.100</td><td>33.474</td><td>36.708</td><td>34.444</td><td>33.391</td><td class="col-ytd">199.555</td><td class="down-red">▼ -3,1%</td></tr>
+            <tr class="row-demais"><td>Demais Motivos</td><td>27.761</td><td>24.399</td><td>15.397</td><td>5.826</td><td>5.715</td><td>5.062</td><td class="col-ytd">84.160</td><td class="down-red">▼ -11,4%</td></tr>
+            <tr class="row-total"><td>Total</td><td>59.199</td><td>54.499</td><td>48.871</td><td>42.534</td><td>40.159</td><td>38.453</td><td class="col-ytd">283.715</td><td class="down-red">▼ -4,3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TABELA DIREITA (Recontato Timeline) -->
+      <div class="table-container">
+        <div class="th-right">RECONTATO 48H POR MOTIVO · TIMELINE <span style="font-weight: 500; text-transform: none; color: #e9d5ff; margin-left: 5px;">CPF + motivo ≤48h</span></div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>MOTIVO</th><th>JAN/26</th><th>FEV/26</th><th>MAR/26</th><th>ABR/26</th><th>MAI/26</th><th>JUN/26</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Cancelamento de Optante</td><td class="hm-6">49,60%</td><td class="hm-6">51,40%</td><td class="hm-6">49,20%</td><td class="hm-1">9,81%</td><td class="hm-1">9,99%</td><td class="hm-1">8,94%</td></tr>
+            <tr><td>Cópia de Contrato</td><td class="hm-6">46,20%</td><td class="hm-5">43,30%</td><td class="hm-6">45,90%</td><td class="hm-1">10,18%</td><td class="hm-1">6,19%</td><td class="hm-1">5,34%</td></tr>
+            <tr><td>Demonstrativo Evolução de dívida</td><td class="hm-5">37,30%</td><td class="hm-5">38,20%</td><td class="hm-5">44,40%</td><td class="hm-1">11,46%</td><td class="hm-1">8,25%</td><td class="hm-1">7,06%</td></tr>
+            <tr><td>Cancelamento de Contrato</td><td class="hm-3">23,30%</td><td class="hm-3">23,20%</td><td class="hm-2">18,40%</td><td class="hm-1">12,68%</td><td class="hm-1">11,47%</td><td class="hm-1">12,20%</td></tr>
+            <tr><td>Ressarcimento</td><td class="hm-3">20,50%</td><td class="hm-2">18,60%</td><td class="hm-5">35,10%</td><td class="hm-1">11,99%</td><td class="hm-1">4,97%</td><td class="hm-1">8,33%</td></tr>
+            <tr><td>Baixa de Pagamento</td><td class="hm-4">25,60%</td><td class="hm-1">14,70%</td><td class="hm-3">20,20%</td><td class="hm-1">14,96%</td><td class="hm-1">13,39%</td><td class="hm-1">9,65%</td></tr>
+            <tr><td>Contestação de Empréstimo</td><td class="hm-2">17,20%</td><td class="hm-2">15,70%</td><td class="hm-3">20,60%</td><td class="hm-1">8,14%</td><td class="hm-1">7,80%</td><td class="hm-1">10,00%</td></tr>
+            <tr><td>Antecipação de Parcelas</td><td class="hm-2">19,90%</td><td class="hm-2">18,80%</td><td class="hm-2">16,80%</td><td class="hm-1">10,27%</td><td class="hm-1">9,89%</td><td class="hm-1">8,66%</td></tr>
+            <tr><td>Proposta em Andamento</td><td class="hm-5">39,50%</td><td class="hm-3">22,00%</td><td class="hm-2">19,40%</td><td class="hm-1">11,00%</td><td class="hm-2">16,06%</td><td class="hm-1">14,78%</td></tr>
+            <tr><td>Comprovante de Quitação</td><td class="hm-1">11,80%</td><td class="hm-1">10,60%</td><td class="hm-2">18,50%</td><td class="hm-1">5,17%</td><td class="hm-1">2,22%</td><td class="hm-1">9,72%</td></tr>
+            <tr class="row-total-right"><td>Total BU</td><td>13,15%</td><td>12,01%</td><td>10,51%</td><td>7,72%</td><td>6,81%</td><td>6,64%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- BARRA DE INSIGHTS -->
+    <div class="insights-bar">
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-blue"></span> VOLUME E TENDÊNCIA</div>
+        <div class="insight-text">
+          <b>Total:</b> 38.453 casos em JUN/26. <b>Top 10:</b> 199.555 (<span class="text-green">86,83% ytd</span>). <b>#1 Cancelamento de Optante:</b> 11.125 <span class="text-orange">+21,7%</span>.
+        </div>
+      </div>
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-purple"></span> RECONTATO 48H — MAIORES TAXAS</div>
+        <div class="insight-text">
+          <b>Proposta em Andamento:</b> <span class="text-red">14,78%</span> em JUN/26. <b>Cancelamento de Contrato:</b> <span class="text-red">12,20%</span> em JUN/26. <b>Contestação de Empréstimo:</b> <span class="text-red">10,00%</span> em JUN/26.
+        </div>
+      </div>
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-green"></span> INSIGHTS</div>
+        <div class="insight-text">
+          Rech. 48h BU: <span class="text-red">19,63%</span>. #1 motivo concentra <b>28,9%</b> do volume. Vol. total MoM: <span class="text-orange">+1,07%</span>.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <div style="display: flex; gap: 20px;">
+      <span>TOP 10 MOTIVOS — CRÉDITO PESSOAL INSS + PÚBLICO · MAIO 2026</span>
+      <span>25 / 36</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+</body>
+</html>
