@@ -2,28 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<!-- Importação do seu CSS Oficial -->
+<link rel="stylesheet" href="estilo.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* =======================================================================
-     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
-     ======================================================================= */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
+  /* ================= VARIÁVEIS ESPECÍFICAS DESTE SLIDE ================= */
   :root {
-    --bg-main: #f4f5f8;        
-    --header-bg: #000c36;      
-    --agi-blue: #1a56db;       
-    --agi-green: #239a48;      
-    --agi-green-light: #a3ff00;
-    --agi-brown: #b37022;      
-    --agi-yellow: #f59e0b;     
-    --agi-red: #dc2626;        
-    --text-dark: #111827;      
-    --text-gray: #6b7280;      
-    --border-color: #e5e7eb;   
-
-    /* Cores dos Quartis (Baseado na imagem) */
+    /* Cores dos Quartis */
     --q1-bg: #dcfce7; /* Verde Claro */
     --q2-bg: #fef08a; /* Amarelo Claro */
     --q3-bg: #fed7aa; /* Laranja Claro */
@@ -31,60 +17,24 @@
     --total-bg: #0f172a; /* Azul Escuro (Total) */
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-
-  .slide-wrapper {
-    width: 1280px; height: 720px; background-color: var(--bg-main);
-    display: flex; flex-direction: column; position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
-    overflow: hidden;
-  }
-
-  /* ================= CABEÇALHO PADRÃO ================= */
-  .header {
-    background: linear-gradient(90deg, var(--agi-dark-blue) 0%, var(--agi-blue) 100%);
-    color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
-  }
-  .header-left { display: flex; align-items: center; gap: 20px; }
-  
-  .logo { background: white; color: var(--agi-blue); font-weight: 800; font-size: 24px; padding: 4px 12px 6px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; line-height: 1; }
-  .agi-i { display: inline-block; width: 4px; height: 10px; background-color: var(--agi-blue); margin-left: 2px; position: relative; }
-  .agi-i::after { content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 4.5px; height: 4.5px; background-color: var(--agi-green); border-radius: 50%; }
-  
-  .header h1 { font-size: 18px; font-weight: 700; margin: 0; }
-  .header-right { text-align: right; }
-  .slide-num { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #93c5fd; }
-  .slide-date { font-size: 16px; font-weight: 900; color: #a3e635; line-height: 1; margin-top: 2px;}
-
-  /* ================= RODAPÉ ================= */
-  .footer {
-    background: var(--header-bg); color: white; 
-    height: 40px; min-height: 40px;
-    display: flex; justify-content: center; align-items: center;
-    padding: 0 30px; font-size: 11px; font-weight: 600; 
-    margin-top: auto; flex-shrink: 0; position: relative;
-  }
-  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
-  .footer .slide-counter { position: absolute; right: 30px; color: white;}
-  .footer .footer-center { color: rgba(255,255,255,0.8); }
-
   /* ================= CONTEÚDO DO SLIDE ================= */
   .title-area { padding: 12px 30px 0px; flex-shrink: 0;}
   .title-area h2 { color: var(--header-bg); font-size: 20px; font-weight: 900; margin-bottom: 2px; letter-spacing: -0.5px;}
   .title-area p { color: var(--text-gray); font-size: 10px; font-weight: 600; margin-top: 0px;}
 
+  /* CORREÇÃO DO LAYOUT: Força o alinhamento horizontal (row) para não quebrar os painéis */
   .content { 
-    padding: 10px 30px 15px; 
-    display: flex; 
+    padding: 10px 30px 15px !important; 
+    display: flex !important; 
+    flex-direction: row !important; 
     gap: 20px; 
     flex: 1;
     min-height: 0;
+    background: var(--bg-main);
   }
 
   /* --- LADO ESQUERDO (Tabelas e Gráficos) --- */
-  .left-panel { flex: 2; display: flex; flex-direction: column; gap: 15px; min-width: 0; }
+  .left-panel { flex: 2; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 
   .tbl-container { 
     background: white; border: 1px solid var(--border-color); border-radius: 8px; 
@@ -95,7 +45,7 @@
     background: var(--header-bg); color: white; padding: 6px 12px; 
     display: flex; align-items: center; gap: 10px;
   }
-  .tbl-header h3 { font-size: 12px; font-weight: 800; margin: 0; letter-spacing: 0.5px; text-transform: uppercase;}
+  .tbl-header h3 { font-size: 11px; font-weight: 800; margin: 0; letter-spacing: 0.5px; text-transform: uppercase;}
   
   .badge-ch { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;}
   .b-voz { background: #16a34a; color: white; }
@@ -103,10 +53,10 @@
   .b-sys { background: rgba(255,255,255,0.2); color: white; }
 
   /* Tabelas de Quartis */
-  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 11px; }
-  th { padding: 6px; font-size: 8px; color: var(--text-gray); font-weight: 800; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: white;}
+  table { width: 100%; border-collapse: collapse; text-align: center; font-size: 10.5px; }
+  th { padding: 5px 6px; font-size: 8px; color: var(--text-gray); font-weight: 800; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background: white;}
   th:first-child { text-align: left; padding-left: 15px;}
-  td { padding: 6px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid white;}
+  td { padding: 5px 6px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid white;}
   td:first-child { text-align: left; padding-left: 15px; font-weight: 800;}
   
   .col-bpo { color: var(--agi-blue); font-weight: 700; background: #f8fafc;}
@@ -117,43 +67,43 @@
   .row-q2 td { background: var(--q2-bg); color: #854d0e; }
   .row-q3 td { background: var(--q3-bg); color: #9a3412; }
   .row-q4 td { background: var(--q4-bg); color: #991b1b; }
-  .row-total td { background: var(--total-bg); color: white; font-weight: 800; font-size: 12px;}
+  .row-total td { background: var(--total-bg); color: white; font-weight: 800; font-size: 11px;}
 
   /* Cores de Variação */
   .val-up-green { color: #16a34a; font-weight: 800;}
   .val-down-blue { color: var(--agi-blue); font-weight: 800;}
 
-  /* --- ÁREA DE GRÁFICOS (Preenchendo o espaço vazio) --- */
+  /* --- ÁREA DE GRÁFICOS --- */
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0; }
-  .chart-box { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
-  .chart-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 8px;}
+  .chart-box { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .chart-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 6px;}
   .canvas-wrapper { flex: 1; position: relative; width: 100%; min-height: 0;}
   .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important;}
 
-  /* --- LADO DIREITO (Painel de Insights Executivos) --- */
-  .right-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; min-width: 0; }
+  /* --- LADO DIREITO (Painel de Insights) --- */
+  .right-panel { flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
   
-  .insight-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 12px;}
-  .ic-header { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; color: var(--header-bg); text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;}
+  .insight-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 10px; flex: 1;}
+  .ic-header { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; color: var(--header-bg); text-transform: uppercase; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;}
   
   .ic-header.voz { border-bottom-color: #16a34a; }
   .ic-header.chat { border-bottom-color: var(--agi-blue); }
 
   .big-kpi { display: flex; align-items: baseline; gap: 8px;}
-  .big-kpi h2 { font-size: 32px; font-weight: 900; line-height: 1; margin: 0; letter-spacing: -1px;}
-  .big-kpi span { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+  .big-kpi h2 { font-size: 30px; font-weight: 900; line-height: 1; margin: 0; letter-spacing: -1px;}
+  .big-kpi span { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
   
   .kpi-green h2 { color: #16a34a; } .kpi-green span { background: #dcfce7; color: #166534; }
   .kpi-blue h2 { color: var(--agi-blue); } .kpi-blue span { background: #dbeafe; color: var(--agi-blue); }
 
-  .insight-text { font-size: 11px; color: var(--text-dark); line-height: 1.5; font-weight: 500;}
+  .insight-text { font-size: 10.5px; color: var(--text-dark); line-height: 1.4; font-weight: 500;}
   .insight-text b { font-weight: 800; }
   
-  .highlight-box { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid; padding: 10px; border-radius: 4px; font-size: 10px; color: var(--text-dark); line-height: 1.4;}
+  .highlight-box { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid; padding: 8px 10px; border-radius: 4px; font-size: 10px; color: var(--text-dark); line-height: 1.4;}
   .hb-green { border-left-color: #16a34a; }
   .hb-blue { border-left-color: var(--agi-blue); }
 
-  .bpo-compare { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 10px; border-radius: 6px; font-size: 10px;}
+  .bpo-compare { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 8px 10px; border-radius: 6px; font-size: 10px;}
   .bpo-compare strong { font-size: 12px; color: var(--header-bg);}
   .bpo-vs { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase;}
 
@@ -170,14 +120,14 @@
       <h1>Comitê CX — Performance Operacional</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 13 DE 35</div>
+      <div class="slide-num">SLIDE 13 DE 36</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
   <div class="title-area">
     <h2>Dispersão de TMA | AgiReverte</h2>
-    <p>Evolução mensal — TMO Consolidado e eficiência por BPO (Foco Abril/26)</p>
+    <p>Evolução mensal — TMO Consolidado e eficiência por BPO (Foco Junho/26)</p>
   </div>
 
   <div class="content">
@@ -197,24 +147,24 @@
         <table>
           <thead>
             <tr>
-              <th></th><th>JAN</th><th>FEV</th><th>MAR</th><th class="col-bpo">Almaviva</th><th class="col-bpo">tel.</th><th>ABR-26</th><th>ABR|MAR</th><th>ABR×MAR</th><th>Dispersão</th>
+              <th></th><th>MAR</th><th>ABR</th><th>MAI</th><th class="col-bpo">Almaviva</th><th class="col-bpo">tel.</th><th>JUN-26</th><th>JUN|MAI</th><th>JUN×MAI</th><th>Dispersão</th>
             </tr>
           </thead>
           <tbody>
             <tr class="row-q1">
-              <td>Q1</td><td>533</td><td>455</td><td>232</td><td class="col-bpo">373</td><td class="col-bpo">467</td><td>437</td><td>334</td><td class="val-up-green">+88,00%</td><td>↑ 0,0%</td>
+              <td>Q1</td><td>232</td><td>437</td><td>395</td><td class="col-bpo">206</td><td class="col-bpo">-</td><td>206</td><td>300</td><td class="val-down-blue">-47,84%</td><td>↑</td>
             </tr>
             <tr class="row-q2">
-              <td>Q2</td><td>566</td><td>628</td><td>435</td><td class="col-bpo">428</td><td class="col-bpo">527</td><td>475</td><td>455</td><td class="val-up-green">+9,16%</td><td>↗ 36,0%</td>
+              <td>Q2</td><td>435</td><td>475</td><td>523</td><td class="col-bpo">275</td><td class="col-bpo">-</td><td>275</td><td>399</td><td class="val-down-blue">-47,46%</td><td>↑</td>
             </tr>
             <tr class="row-q3">
-              <td>Q3</td><td>682</td><td>743</td><td>549</td><td class="col-bpo">483</td><td class="col-bpo">611</td><td>578</td><td>564</td><td class="val-up-green">+5,27%</td><td>↗ 68,6%</td>
+              <td>Q3</td><td>549</td><td>578</td><td>657</td><td class="col-bpo">376</td><td class="col-bpo">-</td><td>376</td><td>516</td><td class="val-down-blue">-42,68%</td><td>↘</td>
             </tr>
             <tr class="row-q4">
-              <td>Q4</td><td>798</td><td>858</td><td>724</td><td class="col-bpo">652</td><td class="col-bpo">750</td><td>717</td><td>721</td><td class="val-down-blue">-1,02%</td><td>↓ 115,5%</td>
+              <td>Q4</td><td>724</td><td>717</td><td>869</td><td class="col-bpo">535</td><td class="col-bpo">-</td><td>535</td><td>702</td><td class="val-down-blue">-38,44%</td><td>↓</td>
             </tr>
             <tr class="row-total">
-              <td>Total</td><td>652</td><td>690</td><td>530</td><td class="col-bpo">446</td><td class="col-bpo">557</td><td>514</td><td>522</td><td class="val-down-blue">-3,02%</td><td>↗ 56,1%</td>
+              <td>Total</td><td>530</td><td>514</td><td>554</td><td class="col-bpo">351</td><td class="col-bpo">-</td><td>351</td><td>453</td><td class="val-down-blue">-36,69%</td><td>↗</td>
             </tr>
           </tbody>
         </table>
@@ -232,24 +182,24 @@
         <table>
           <thead>
             <tr>
-              <th></th><th>JAN</th><th>FEV</th><th>MAR</th><th class="col-bpo">Almaviva</th><th class="col-bpo">tel.</th><th>ABR-26</th><th>ABR|MAR</th><th>ABR×MAR</th><th>Dispersão</th>
+              <th></th><th>MAR</th><th>ABR</th><th>MAI</th><th class="col-bpo">Almaviva</th><th class="col-bpo">tel.</th><th>JUN-26</th><th>JUN|MAI</th><th>JUN×MAI</th><th>Dispersão</th>
             </tr>
           </thead>
           <tbody>
             <tr class="row-q1">
-              <td>Q1</td><td>967</td><td>1.100</td><td>1.029</td><td class="col-bpo">791</td><td class="col-bpo">880</td><td>868</td><td>948</td><td class="val-down-blue">-15,70%</td><td>↑ 0,0%</td>
+              <td>Q1</td><td>1.029</td><td>868</td><td>704</td><td class="col-bpo">1.137</td><td class="col-bpo">-</td><td>1.137</td><td>921</td><td class="val-up-green">+61,47%</td><td>↑</td>
             </tr>
             <tr class="row-q2">
-              <td>Q2</td><td>1.282</td><td>1.345</td><td>1.257</td><td class="col-bpo">1.150</td><td class="col-bpo">1.132</td><td>1.140</td><td>1.198</td><td class="val-down-blue">-9,32%</td><td>↗ 26,3%</td>
+              <td>Q2</td><td>1.257</td><td>1.140</td><td>1.183</td><td class="col-bpo">1.334</td><td class="col-bpo">-</td><td>1.334</td><td>1.258</td><td class="val-up-green">+12,77%</td><td>↗</td>
             </tr>
             <tr class="row-q3">
-              <td>Q3</td><td>1.538</td><td>1.573</td><td>1.524</td><td class="col-bpo">1.236</td><td class="col-bpo">1.423</td><td>1.373</td><td>1.448</td><td class="val-down-blue">-9,95%</td><td>↗ 52,7%</td>
+              <td>Q3</td><td>1.524</td><td>1.373</td><td>1.447</td><td class="col-bpo">1.534</td><td class="col-bpo">-</td><td>1.534</td><td>1.490</td><td class="val-up-green">+5,96%</td><td>↘</td>
             </tr>
             <tr class="row-q4">
-              <td>Q4</td><td>1.930</td><td>2.077</td><td>1.816</td><td class="col-bpo">1.514</td><td class="col-bpo">1.837</td><td>1.609</td><td>1.712</td><td class="val-down-blue">-11,36%</td><td>↓ 80,6%</td>
+              <td>Q4</td><td>1.816</td><td>1.609</td><td>1.750</td><td class="col-bpo">1.778</td><td class="col-bpo">-</td><td>1.778</td><td>1.764</td><td class="val-up-green">+1,61%</td><td>↓</td>
             </tr>
             <tr class="row-total">
-              <td>Total</td><td>1.333</td><td>1.418</td><td>1.247</td><td class="col-bpo">1.120</td><td class="col-bpo">1.088</td><td>1.097</td><td>1.172</td><td class="val-down-blue">-12,00%</td><td>↗ 23,6%</td>
+              <td>Total</td><td>1.247</td><td>1.097</td><td>1.351</td><td class="col-bpo">1.449</td><td class="col-bpo">-</td><td>1.449</td><td>1.400</td><td class="val-up-green">+7,27%</td><td>↘</td>
             </tr>
           </tbody>
         </table>
@@ -262,7 +212,7 @@
           <div class="canvas-wrapper"><canvas id="trendChart"></canvas></div>
         </div>
         <div class="chart-box">
-          <div class="chart-title">Eficiência BPO: Almaviva vs Tel (Abr/26)</div>
+          <div class="chart-title">Eficiência BPO: Almaviva vs Tel (Jun/26)</div>
           <div class="canvas-wrapper"><canvas id="bpoChart"></canvas></div>
         </div>
       </div>
@@ -277,22 +227,22 @@
         <div class="ic-header voz"><span class="badge-ch b-voz">VOZ</span> AGIREVERTE FONADO</div>
         
         <div class="big-kpi kpi-green">
-          <h2>514s</h2>
-          <span>▼ -3,02%</span>
+          <h2>351s</h2>
+          <span>▼ -36,69%</span>
         </div>
         
-        <p class="insight-text"><b>Tendência de queda:</b> TMO consolidado cai em relação a Março (530s) — 2º mês consecutivo abaixo do pico de Fev (690s).</p>
+        <p class="insight-text"><b>Tendência de queda:</b> TMO consolidado cai forte em relação a Maio (554s) — redução expressiva em todos os quartis operacionais.</p>
         
         <div class="highlight-box hb-green">
-          <b>Q1 com +88,00%</b> (232s → 437s) — a base muito baixa de Março amplificou a variação percentual neste quartil.
+          <b>Q1 com -47,84%</b> (395s → 206s) — maior queda percentual da operação, puxando a média geral para baixo.
         </div>
 
         <div class="bpo-compare">
-          <div>Almaviva<br><strong>446s</strong></div>
-          <div class="bpo-vs">gap 24,9%</div>
-          <div style="text-align: right;">Tel<br><strong>557s</strong></div>
+          <div>Almaviva<br><strong>351s</strong></div>
+          <div class="bpo-vs">gap -</div>
+          <div style="text-align: right;">Tel<br><strong>-</strong></div>
         </div>
-        <p class="insight-text" style="font-size: 9.5px; text-align: center; margin-top: -5px;">Almaviva operando com maior eficiência em Voz.</p>
+        <p class="insight-text" style="font-size: 9px; text-align: center; margin-top: -3px; color: var(--text-gray);">Almaviva assumindo a volumetria total de Voz no mês.</p>
       </div>
 
       <!-- Card Chat -->
@@ -300,33 +250,33 @@
         <div class="ic-header chat"><span class="badge-ch b-chat">CHAT</span> AGIREVERTE CHAT</div>
         
         <div class="big-kpi kpi-blue">
-          <h2>1.097s</h2>
-          <span>▼ -12,00%</span>
+          <h2>1.449s</h2>
+          <span>▲ +7,27%</span>
         </div>
         
-        <p class="insight-text"><b>Destaque positivo:</b> TMO consolidado caiu forte (de 1.247s → 1.097s). Todos os quartis apresentaram redução.</p>
+        <p class="insight-text"><b>Atenção:</b> TMO consolidado subiu (de 1.351s → 1.449s). Todos os quartis apresentaram aumento no tempo de atendimento.</p>
         
         <div class="highlight-box hb-blue">
-          <b>Q1 liderou a queda</b> (-15,70%: 1.029s → 868s), puxando a eficiência geral da operação para baixo.
+          <b>Q1 liderou a alta</b> (+61,47%: 704s → 1.137s), impactando negativamente a eficiência geral da operação de Chat.
         </div>
 
         <div class="bpo-compare">
-          <div>Almaviva<br><strong>1.120s</strong></div>
-          <div class="bpo-vs">gap 2,9%</div>
-          <div style="text-align: right;">Tel<br><strong>1.088s</strong></div>
+          <div>Almaviva<br><strong>1.449s</strong></div>
+          <div class="bpo-vs">gap -</div>
+          <div style="text-align: right;">Tel<br><strong>-</strong></div>
         </div>
-        <p class="insight-text" style="font-size: 9.5px; text-align: center; margin-top: -5px;">Forte paridade operacional entre os BPOs no Chat.</p>
+        <p class="insight-text" style="font-size: 9px; text-align: center; margin-top: -3px; color: var(--text-gray);">Almaviva assumindo a volumetria total de Chat no mês.</p>
       </div>
 
     </div>
 
   </div>
 
-  <!-- RODAPÉ -->
+  <!-- RODAPÉ CENTRALIZADO -->
   <div class="footer">
-    <span class="confidencial">CONFIDENCIAL</span>
-    <span class="footer-center">Atendimento ao Cliente · Dispersão de TMA AgiReverte · Junho 2026</span>
-    <span class="slide-counter">13 / 36</span>
+    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
+    <div style="flex: 2; text-align: center;">Atendimento ao Cliente · Dispersão de TMA AgiReverte · Junho 2026</div>
+    <div style="flex: 1; text-align: right;">13 / 36</div>
   </div>
 
 </div>
@@ -336,6 +286,13 @@
     const wrapper = document.getElementById('scale-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
@@ -343,23 +300,23 @@
   Chart.register(ChartDataLabels);
   Chart.defaults.font.family = "'Inter', sans-serif";
 
-  // 1. Gráfico de Evolução (Linha)
+  // 1. Gráfico de Evolução (Linha) - Atualizado Mar a Jun
   const ctxTrend = document.getElementById('trendChart').getContext('2d');
   new Chart(ctxTrend, {
       type: 'line',
       data: {
-          labels: ['Jan', 'Fev', 'Mar', 'Abr'],
+          labels: ['Mar', 'Abr', 'Mai', 'Jun'],
           datasets: [
               {
                   label: 'Chat',
-                  data: [1333, 1418, 1247, 1097],
+                  data: [1247, 1097, 1351, 1449],
                   borderColor: '#1a56db', backgroundColor: '#1a56db',
                   borderWidth: 2, tension: 0.3, pointRadius: 3,
                   datalabels: { display: true, align: 'top', offset: 4, color: '#1a56db', font: { weight: 'bold', size: 9 } }
               },
               {
                   label: 'Voz',
-                  data: [652, 690, 530, 514],
+                  data: [530, 514, 554, 351],
                   borderColor: '#16a34a', backgroundColor: '#16a34a',
                   borderWidth: 2, tension: 0.3, pointRadius: 3,
                   datalabels: { display: true, align: 'bottom', offset: 4, color: '#16a34a', font: { weight: 'bold', size: 9 } }
@@ -372,12 +329,12 @@
           plugins: { legend: { display: false }, tooltip: { enabled: false } },
           scales: {
               x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' }, color: '#6b7280' } },
-              y: { display: false, min: 300, suggestedMax: 1600 }
+              y: { display: false, min: 200, suggestedMax: 1600 }
           }
       }
   });
 
-  // 2. Gráfico BPO (Barras)
+  // 2. Gráfico BPO (Barras) - Atualizado Junho
   const ctxBpo = document.getElementById('bpoChart').getContext('2d');
   new Chart(ctxBpo, {
       type: 'bar',
@@ -386,17 +343,17 @@
           datasets: [
               {
                   label: 'Chat',
-                  data: [1120, 1088],
+                  data: [1449, 0],
                   backgroundColor: '#1a56db',
                   borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8,
-                  datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#1a56db', font: { weight: 'bold', size: 9 } }
+                  datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#1a56db', font: { weight: 'bold', size: 9 }, formatter: (val) => val > 0 ? val : '-' }
               },
               {
                   label: 'Voz',
-                  data: [446, 557],
+                  data: [351, 0],
                   backgroundColor: '#16a34a',
                   borderRadius: 4, barPercentage: 0.6, categoryPercentage: 0.8,
-                  datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#16a34a', font: { weight: 'bold', size: 9 } }
+                  datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#16a34a', font: { weight: 'bold', size: 9 }, formatter: (val) => val > 0 ? val : '-' }
               }
           ]
       },
@@ -406,7 +363,7 @@
           plugins: { legend: { display: false }, tooltip: { enabled: false } },
           scales: {
               x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#1f2937' } },
-              y: { display: false, min: 0, suggestedMax: 1300 }
+              y: { display: false, min: 0, suggestedMax: 1600 }
           }
       }
   });
