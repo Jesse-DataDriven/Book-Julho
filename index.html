@@ -95,43 +95,9 @@
   }
   #ia-enviar:hover { background: #0033b0; }
   #ia-enviar:disabled { background: #9ca3af; cursor: not-allowed; }
-
-  /* ================= GATE DE LOGIN ================= */
-  #login-gate {
-    position: fixed; inset: 0; z-index: 99999;
-    background: #000c36; display: flex; align-items: center; justify-content: center;
-    font-family: 'Inter', sans-serif;
-  }
-  #login-gate .card {
-    background: #fff; border-radius: 12px; padding: 32px;
-    width: 320px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  }
-  #login-gate h2 { margin: 0 0 4px; font-size: 18px; color: #000c36; }
-  #login-gate p { margin: 0 0 20px; font-size: 13px; color: #666; }
-  #login-gate input {
-    width: 100%; box-sizing: border-box; padding: 10px; margin-bottom: 10px;
-    border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: 'Inter', sans-serif;
-  }
-  #login-gate button {
-    width: 100%; padding: 10px; background: #1a56db; color: #fff; border: none;
-    border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif;
-  }
-  #login-gate button:hover { background: #0033b0; }
-  #gate-erro { display: none; color: #dc2626; font-size: 12px; margin: 10px 0 0; }
 </style>
 </head>
 <body>
-
-<div id="login-gate">
-  <div class="card">
-    <h2>Comitê CX — Acesso restrito</h2>
-    <p>Conteúdo confidencial. Informe suas credenciais.</p>
-    <input id="gate-user" type="text" placeholder="Usuário" autocomplete="off">
-    <input id="gate-pass" type="password" placeholder="Senha" onkeydown="if(event.key==='Enter') checarAcesso();">
-    <button onclick="checarAcesso()">Entrar</button>
-    <p id="gate-erro">Usuário ou senha incorretos.</p>
-  </div>
-</div>
 
 <div id="scale-wrapper">
   <iframe id="tela" src="slide_01.html"></iframe>
@@ -147,7 +113,7 @@
 </div>
 
 <!-- ===== AGENTE DE IA ===== -->
-<button id="ia-fab" onclick="toggleIA()">🤖 Pergunte à BU Atendimento</button>
+<button id="ia-fab" onclick="toggleIA()">🤖 Pergunte à IA</button>
 
 <div id="ia-panel">
   <div id="ia-header">
@@ -164,27 +130,6 @@
 </div>
 
 <script>
-  // ===== GATE DE ACESSO (proteção simples do lado do navegador, não é segurança real) =====
-  (function () {
-    const USUARIO = 'atendimento';
-    const SENHA = '2026';
-
-    if (sessionStorage.getItem('cx_autenticado') === 'sim') {
-      document.getElementById('login-gate').style.display = 'none';
-    }
-
-    window.checarAcesso = function () {
-      const u = document.getElementById('gate-user').value.trim();
-      const p = document.getElementById('gate-pass').value.trim();
-      if (u === USUARIO && p === SENHA) {
-        sessionStorage.setItem('cx_autenticado', 'sim');
-        document.getElementById('login-gate').style.display = 'none';
-      } else {
-        document.getElementById('gate-erro').style.display = 'block';
-      }
-    };
-  })();
-
   function resize() {
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     document.getElementById('scale-wrapper').style.transform = `scale(${scale})`;
@@ -194,12 +139,14 @@
   // LISTA DE SLIDES (1 a 36 — obs: slide_06 está ausente no repositório de origem)
   const slides = [
     "slide_01.html","slide_02.html","slide_03.html","slide_04.html","slide_05.html",
-    "slide_06.html","slide_07.html","slide_08.html","slide_09.html","slide_12.html",
-    "slide_14.html","slide_15.html","slide_16.html","slide_17.html","slide_19.html",
-    "slide_20.html","slide_21.html","slide_22.html","slide_23.html","slide_24.html",
-    "slide_25.html","slide_26.html","slide_27.html","slide_28.html","slide_29.html",
-    "slide_30.html","slide_31.html","slide_32.html","slide_33.html","slide_36.html"
-      ];
+    "slide_06.html","slide_07.html","slide_08.html","slide_09.html",
+    "slide_12.html","slide_14.html","slide_15.html",
+    "slide_16.html","slide_17.html","slide_19.html","slide_20.html",
+    "slide_21.html","slide_22.html","slide_23.html","slide_24.html","slide_25.html",
+    "slide_26.html","slide_27.html","slide_28.html","slide_29.html","slide_30.html",
+    "slide_31.html","slide_32.html","slide_33.html",
+    "slide_36.html"
+  ];
 
   let atual = 0;
   const iframe = document.getElementById('tela');
