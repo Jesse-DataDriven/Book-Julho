@@ -40,19 +40,15 @@
     flex-direction: column;
   }
 
-  /* ================= CABEÇALHO E RODAPÉ (ATUALIZADO) ================= */
+  /* ================= CABEÇALHO E RODAPÉ ================= */
   .header { display: flex; justify-content: space-between; align-items: center; padding: 0 30px; height: 64px; background: var(--header-bg); border-bottom: 4px solid var(--agi-blue); box-sizing: border-box; }
   .header-left { display: flex; align-items: center; gap: 15px; }
-  
-  /* Logo atualizado para o padrão exato */
-  .logo { background: white; color: var(--agi-blue); font-weight: 800; font-size: 28px; padding: 6px 14px 8px 14px; border-radius: 8px; display: inline-flex; align-items: baseline; letter-spacing: -1px; line-height: 1; }
-  .agi-i { display: inline-block; width: 6px; height: 15px; background-color: var(--agi-blue); margin-left: 2px; position: relative; }
-  .agi-i::after { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 6.5px; height: 6.5px; background-color: var(--agi-green); border-radius: 50%; }
-  
-  .header h1 { font-size: 20px; color: white; font-weight: 700; margin: 0; letter-spacing: -0.5px;}
-  .header-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; text-align: right; }
-  .slide-num { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
-  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-light-green); letter-spacing: -1px; line-height: 1;}
+  .logo { background: white; color: var(--agi-blue); font-weight: 900; font-size: 24px; padding: 4px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; }
+  .agi-i { display: inline-block; width: 6px; height: 6px; background: var(--agi-light-green); border-radius: 50%; margin-left: 2px; }
+  .header h1 { font-size: 18px; color: white; font-weight: 600; margin: 0; letter-spacing: -0.5px;}
+  .header-right { display: flex; align-items: center; gap: 15px; text-align: right; }
+  .slide-num { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;}
+  .slide-date { font-size: 22px; font-weight: 900; color: var(--agi-light-green); letter-spacing: -1px;}
   
   .footer { height: 40px; background: var(--header-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; box-sizing: border-box; color: white; font-size: 10px; font-weight: 600; margin-top: auto;}
   .confidencial { color: var(--agi-light-green); font-weight: 800; letter-spacing: 1px; }
@@ -155,7 +151,7 @@
     </div>
     <div class="header-right">
       <div class="slide-num">SLIDE 12 DE 35</div>
-      <div class="slide-date">MAI/26</div>
+      <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
@@ -164,7 +160,7 @@
     
     <div class="slide-title">
       <h2>TMA por Quartil · SN / N1 / SAC</h2>
-      <p>Tempo Médio de Atendimento (segundos) por quartil — Fev a Mai/26 · Δ Mai×Abr</p>
+      <p>Tempo Médio de Atendimento (segundos) por quartil — Mar a Jun/26 · Δ Jun×Mai</p>
     </div>
 
     <!-- SEÇÃO SUPERIOR (3 Tabelas Lado a Lado) -->
@@ -178,15 +174,15 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Q1</td><td>748</td><td>776</td><td>636</td><td>704</td><td class="col-delta">+10,6%</td></tr>
-            <tr><td>Q2</td><td>970</td><td>991</td><td>765</td><td>880</td><td class="col-delta">+15,1%</td></tr>
-            <tr><td>Q3</td><td>1.128</td><td>1.165</td><td>940</td><td>1.100</td><td class="col-delta">+17,1%</td></tr>
-            <tr><td>Q4</td><td>1.491</td><td>1.463</td><td>1.129</td><td>1.340</td><td class="col-delta">+18,7%</td></tr>
-            <tr class="row-total"><td>Total</td><td>952</td><td>975</td><td>845</td><td>978</td><td class="col-delta">+15,7%</td></tr>
+            <tr><td>Q1</td><td>776</td><td>636</td><td>704</td><td>643</td><td class="col-delta">-8,65%</td></tr>
+            <tr><td>Q2</td><td>991</td><td>765</td><td>880</td><td>762</td><td class="col-delta">-13,38%</td></tr>
+            <tr><td>Q3</td><td>1.165</td><td>940</td><td>1.100</td><td>917</td><td class="col-delta">-16,63%</td></tr>
+            <tr><td>Q4</td><td>1.463</td><td>1.129</td><td>1.340</td><td>1.265</td><td class="col-delta">-5,53%</td></tr>
+            <tr class="row-total"><td>Total</td><td>975</td><td>845</td><td>978</td><td>920</td><td class="col-delta">-5,96%</td></tr>
           </tbody>
         </table>
       </div>
@@ -199,15 +195,15 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Q1</td><td>266</td><td>279</td><td>298</td><td>293</td><td class="col-delta">-1,7%</td></tr>
-            <tr><td>Q2</td><td>360</td><td>374</td><td>395</td><td>387</td><td class="col-delta">-1,9%</td></tr>
-            <tr><td>Q3</td><td>426</td><td>452</td><td>478</td><td>458</td><td class="col-delta">-4,3%</td></tr>
-            <tr><td>Q4</td><td>561</td><td>572</td><td>596</td><td>568</td><td class="col-delta">-4,7%</td></tr>
-            <tr class="row-total"><td>Total</td><td>385</td><td>417</td><td>430</td><td>411</td><td class="col-delta">-4,5%</td></tr>
+            <tr><td>Q1</td><td>279</td><td>298</td><td>293</td><td>266</td><td class="col-delta">-8,96%</td></tr>
+            <tr><td>Q2</td><td>374</td><td>395</td><td>387</td><td>315</td><td class="col-delta">-18,70%</td></tr>
+            <tr><td>Q3</td><td>452</td><td>478</td><td>458</td><td>356</td><td class="col-delta">-22,25%</td></tr>
+            <tr><td>Q4</td><td>572</td><td>596</td><td>568</td><td>471</td><td class="col-delta">-17,09%</td></tr>
+            <tr class="row-total"><td>Total</td><td>417</td><td>430</td><td>411</td><td>335</td><td class="col-delta">-18,60%</td></tr>
           </tbody>
         </table>
       </div>
@@ -220,15 +216,15 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>INDICADOR</th><th>FEV-26</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th class="col-delta">Δ M×A</th>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Q1</td><td>179</td><td>235</td><td>213</td><td>340</td><td class="col-delta">+59,4%</td></tr>
-            <tr><td>Q2</td><td>291</td><td>339</td><td>332</td><td>424</td><td class="col-delta">+27,8%</td></tr>
-            <tr><td>Q3</td><td>404</td><td>440</td><td>419</td><td>508</td><td class="col-delta">+21,2%</td></tr>
-            <tr><td>Q4</td><td>563</td><td>597</td><td>602</td><td>615</td><td class="col-delta">+2,3%</td></tr>
-            <tr class="row-total"><td>Total</td><td>332</td><td>402</td><td>380</td><td>454</td><td class="col-delta">+19,2%</td></tr>
+            <tr><td>Q1</td><td>235</td><td>213</td><td>340</td><td>235</td><td class="col-delta">-30,82%</td></tr>
+            <tr><td>Q2</td><td>339</td><td>332</td><td>424</td><td>308</td><td class="col-delta">-27,48%</td></tr>
+            <tr><td>Q3</td><td>440</td><td>419</td><td>508</td><td>358</td><td class="col-delta">-29,46%</td></tr>
+            <tr><td>Q4</td><td>597</td><td>602</td><td>615</td><td>428</td><td class="col-delta">-30,44%</td></tr>
+            <tr class="row-total"><td>Total</td><td>402</td><td>380</td><td>454</td><td>337</td><td class="col-delta">-25,75%</td></tr>
           </tbody>
         </table>
       </div>
@@ -262,9 +258,9 @@
           <span class="green-square"></span> LEITURA EXECUTIVA · TMA VOZ
         </div>
         <ul class="leitura-list">
-          <li><b>SN consolidado:</b> TMA total de <b>978s</b> em Mai (<b class="text-red">+15,7%</b> vs Abr) — pressão concentrada em Q3/Q4.</li>
-          <li><b>N1 Fonado: 411s</b> (<b style="color: var(--agi-green);">-4,5%</b> vs Abr) — única frente em queda no mês.</li>
-          <li><b>SAC: 454s</b> (<b class="text-red">+19,2%</b> vs Abr) — maior alta, puxada pelo Q1 (<b class="text-red">+59,4%</b>).</li>
+          <li><b>SN consolidado:</b> TMA total de <b>920s</b> em Jun (<b class="text-red">-5,96%</b> vs Mai) — pressão concentrada em Q3/Q4.</li>
+          <li><b>N1 Fonado: 335s</b> (<b style="color: var(--agi-green);">-18,60%</b> vs Mai) — única frente em queda no mês.</li>
+          <li><b>SAC: 337s</b> (<b class="text-red">-25,75%</b> vs Mai) — maior alta, puxada pelo Q1 (<b class="text-red">-30,82%</b>).</li>
           <li><b>Voz por parceiro:</b> Tel 51,58% · Almaviva 48,42% do volume.</li>
         </ul>
       </div>
@@ -276,14 +272,14 @@
   <!-- RODAPÉ -->
   <div class="footer">
     <div style="display: flex; gap: 20px;">
-      <span>Janela: Fevereiro a Maio/2026 · TMA em segundos · quartis Q1–Q4 + Total</span>
+      <span>Janela: Março a Junho/2026 · TMA em segundos · quartis Q1–Q4 + Total</span>
     </div>
     <div style="text-align: center; flex: 1;">
-      <span>Atendimento ao Cliente · Voz — TMA por Quartil · Maio 2026</span>
+      <span>Atendimento ao Cliente · Voz — TMA por Quartil · Junho 2026</span>
     </div>
     <div style="display: flex; gap: 10px; align-items: center;">
       <span class="confidencial">CONFIDENCIAL</span>
-      <span>· 17 / 36</span>
+      <span>· 12 / 35</span>
     </div>
   </div>
 
