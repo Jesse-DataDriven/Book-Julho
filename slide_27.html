@@ -18,7 +18,7 @@
     --agi-green-light: #a3ff00;
     --agi-brown: #b37022;      
     --agi-yellow: #f59e0b;     
-    --agi-red: #dc2626;        
+    --agi-red: #d93025;        
     --text-dark: #111827;      
     --text-gray: #6b7280;      
     --border-color: #e5e7eb;   
@@ -76,11 +76,11 @@
   }
   .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
 
-  /* ================= CONTEÚDO ESPECÍFICO DO SLIDE 32 ================= */
-  .content { padding: 15px 30px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 15px; background: var(--bg-main);}
+  /* ================= CONTEÚDO ESPECÍFICO DO SLIDE 31 ================= */
+  .content { padding: 12px 30px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 12px; background: var(--bg-main);}
 
   /* --- TOP BAR (KPIs + Insight) --- */
-  .top-bar { display: flex; gap: 20px; align-items: stretch; flex-shrink: 0;}
+  .top-bar { display: flex; gap: 15px; align-items: stretch; flex-shrink: 0;}
   
   .kpi-section { 
     display: flex; gap: 15px; background: white; border: 1px solid var(--border-color); 
@@ -93,21 +93,27 @@
   .kpi-block p { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;}
   .kpi-pill { padding: 2px 8px; border-radius: 12px; font-size: 8px; font-weight: 700; text-transform: uppercase;}
   
-  .c-darkblue h3 { color: var(--header-bg); } .c-darkblue .kpi-pill { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74;}
-  .c-blue h3 { color: var(--agi-blue); } .c-blue .kpi-pill { background: #dcfce7; color: #166534; border: 1px solid #86efac;}
-  .c-green h3 { color: #16a34a; } .c-green .kpi-pill { background: #dcfce7; color: #166534; border: 1px solid #86efac;}
-  .c-orange h3 { color: #d97706; } .c-orange .kpi-pill { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+  .c-darkblue h3 { color: var(--header-bg); }
+  .c-blue h3 { color: var(--agi-blue); }
+  .c-orange h3 { color: var(--agi-yellow); }
+  .c-green h3 { color: var(--agi-green); }
+  .c-red h3 { color: var(--agi-red); }
+  
+  .pill-orange { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+  .pill-green { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .pill-red { background: #fce8e6; color: #c5221f; border: 1px solid #f8aba6; }
 
   .insight-section { 
     flex: 1; background: white; border: 1px solid var(--border-color); border-radius: 8px; 
     padding: 12px 20px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
   .insight-section p { font-size: 13px; color: var(--text-dark); line-height: 1.5; font-weight: 500;}
+  .insight-section b { font-weight: 700; color: var(--header-bg); }
 
   /* --- TABELA --- */
   .tbl-container { 
     background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column;
   }
   .tbl-header { 
     background: white; color: var(--header-bg); padding: 8px 15px; 
@@ -116,31 +122,30 @@
     border-bottom: 2px solid var(--agi-blue);
   }
   .tbl-header .dot { width: 8px; height: 8px; background: var(--agi-green); border-radius: 50%; display: inline-block; margin-right: 6px;}
-  .tbl-header span.light { font-size: 9px; color: var(--text-gray); font-weight: 600; text-transform: none;}
 
-  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 10px; } 
+  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 10.5px; } 
   th { 
     background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
-    padding: 6px 8px; border-bottom: 1px solid var(--border-color); 
-    text-transform: uppercase; font-size: 8.5px;
+    padding: 6px 12px; border-bottom: 1px solid var(--border-color); 
+    text-transform: uppercase; font-size: 9px;
   }
   th:first-child, td:first-child { text-align: left; }
-  td { padding: 6px 8px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); } 
+  td { padding: 6px 12px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-gray); } 
   tr:last-child td { border-bottom: none; }
   
   .row-total td { font-weight: 800; color: var(--header-bg); background: #f0f7ff;}
+  .row-subtotal td { font-weight: 700; color: var(--agi-blue); }
   .col-ytd { font-weight: 800; color: var(--agi-blue); background: #f8f9fa;}
   th.col-ytd { color: var(--agi-blue); }
-  .td-empty { color: #9ca3af; }
 
   /* --- ÁREA DE PLOTAGEM (GRÁFICOS INFERIORES) --- */
-  .bottom-charts { display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; flex: 1; min-height: 0;}
+  .bottom-charts { display: grid; grid-template-columns: 2.5fr 1fr; gap: 15px; flex: 1; min-height: 0;}
   
   .chart-box { 
     background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    padding: 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    padding: 12px 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
-  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;}
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;}
   .chart-title { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px;}
   .chart-legend { display: flex; gap: 12px; font-size: 9px; color: var(--text-gray); font-weight: 700;}
   .legend-item { display: flex; align-items: center; gap: 4px;}
@@ -158,10 +163,10 @@
   <!-- CABEÇALHO (REGRAS ESTILO.CSS) -->
   <div class="header">
     <div class="header-left">
-      <h1>Custo Operacional PA</h1>
+      <h1>Custo Operacional BPO</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 32 DE 36</div>
+      <div class="slide-num">SLIDE 31 DE 35</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
@@ -172,47 +177,42 @@
     <div class="top-bar">
       <div class="kpi-section">
         <div class="kpi-block c-darkblue">
-          <h3>4.363</h3>
-          <p>TOTAL PA 2025</p>
-          <span class="kpi-pill pill-orange">Central Atend.</span>
+          <h3>R$ 4,43M</h3>
+          <p>Custo Central Jun/26</p>
+          <span class="kpi-pill pill-orange">Competência</span>
         </div>
         <div class="kpi-block c-blue">
-          <h3>357</h3>
-          <p>PA JUN/26</p>
-          <span class="kpi-pill pill-green">-3,0% vs Mai</span>
+          <h3>R$ 2,01M</h3>
+          <p>N1 Chat Jun/26</p>
+          <span class="kpi-pill pill-orange">Maior Componente</span>
         </div>
         <div class="kpi-block c-green">
-          <h3>383</h3>
-          <p>PA JAN/26 (PICO 26)</p>
-          <span class="kpi-pill pill-green">Referência 26</span>
+          <h3>-2,2%</h3>
+          <p>Central (Jun vs Mai)</p>
+          <span class="kpi-pill pill-green">MoM Jun</span>
         </div>
-        <div class="kpi-block c-orange">
-          <h3>+30</h3>
-          <p>FUGA - PA EQUIV.</p>
-          <span class="kpi-pill pill-orange">Q1+Q2/25</span>
+        <div class="kpi-block c-green">
+          <h3>-31,9%</h3>
+          <p>N1 Chat (Jun vs Mai)</p>
+          <span class="kpi-pill pill-green">Queda Chat</span>
         </div>
       </div>
 
       <div class="insight-section">
-        <p>Central de Atendimento: 1.031 PAs no 4ºTri/25 ➔ 357 em Jun/26 (-65%). N1 Chat recua para 170 PAs em Jun/26. Operações AgiReverte (Chat e Fonado) foram zeradas no mês.</p>
+        <p>Central de Atendimento concentra o custo operacional 2026. N1 Chat em <b>R$ 2,01M (-31,9% MoM)</b> e N1 Fonado em R$ 1,02M. Custo Central Jun/26 fechou em <b>R$ 4,43M (-2,2% vs Mai)</b>.</p>
       </div>
     </div>
 
     <!-- TABELA -->
     <div class="tbl-container">
       <div class="tbl-header">
-        <div><span class="dot"></span> PA POR ÁREA</div>
-        <span class="light">← 2025 trimestral · 2026 mensal →</span>
+        <div><span class="dot"></span> CUSTO POR ÁREA (R$)</div>
+        <span style="font-size: 8px; color: var(--text-gray); font-weight: 600; text-transform: none;">2026 - custo mensal (R$)</span>
       </div>
       <table>
         <thead>
           <tr>
             <th>Área</th>
-            <th>1ºTri/25</th>
-            <th>2ºTri/25</th>
-            <th>3ºTri/25</th>
-            <th>4ºTri/25</th>
-            <th class="col-ytd">Total 25</th>
             <th>Jan/26</th>
             <th>Fev/26</th>
             <th>Mar/26</th>
@@ -224,39 +224,40 @@
         </thead>
         <tbody>
           <tr class="row-total">
-            <td>CENTRAL ATENDIMENTO</td>
-            <td>879</td><td>1.268</td><td>1.185</td><td>1.031</td><td class="col-ytd">4.363</td>
-            <td>383</td><td>316</td><td>321</td><td>350</td><td>369</td><td>357</td><td class="col-ytd">2.097</td>
+            <td>ÁREA CENTRAL ATENDIMENTO</td>
+            <td>4.500.750</td><td>3.765.262</td><td>3.671.649</td><td>4.159.394</td><td>4.530.390</td><td>4.431.802</td><td class="col-ytd">25.059.247</td>
+          </tr>
+          <tr class="row-subtotal">
+            <td style="padding-left: 20px;">Central de Atendimento</td>
+            <td>(4.500.750)</td><td>(3.765.262)</td><td>(3.671.649)</td><td>(4.159.394)</td><td>(4.530.390)</td><td>(4.431.802)</td><td class="col-ytd">(25.059.247)</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">Service N1 (CHAT)</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td>227</td><td>182</td><td>183</td><td>212</td><td>236</td><td>170</td><td class="col-ytd">1.210</td>
+            <td style="padding-left: 30px; color: var(--text-dark);">N1 (CHAT)</td>
+            <td>2.765.419</td><td>2.227.951</td><td>2.306.079</td><td>2.610.458</td><td>2.951.496</td><td>2.009.285</td><td class="col-ytd">14.870.688</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">Service N1 (FONADO)</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td>91</td><td>72</td><td>72</td><td>72</td><td>69</td><td>69</td><td class="col-ytd">445</td>
+            <td style="padding-left: 30px; color: var(--text-dark);">N1 (FONADO)</td>
+            <td>1.151.682</td><td>954.737</td><td>754.109</td><td>954.404</td><td>905.436</td><td>1.024.623</td><td class="col-ytd">5.744.991</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">AgiReverte (CHAT)</td>
-            <td>26</td><td>29</td><td>45</td><td>48</td><td class="col-ytd">148</td>
-            <td>14</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">54</td>
+            <td style="padding-left: 30px;">Suporte a Negócios (CHAT)</td>
+            <td>123.596</td><td>184.909</td><td>164.313</td><td>227.709</td><td>118.576</td><td>125.410</td><td class="col-ytd">944.513</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">AgiReverte (FONADO)</td>
-            <td>26</td><td>29</td><td>48</td><td>46</td><td class="col-ytd">149</td>
-            <td>12</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">52</td>
+            <td style="padding-left: 30px;">AgiReverte (CHAT)</td>
+            <td>160.018</td><td>123.330</td><td>120.473</td><td>118.854</td><td>116.704</td><td>-</td><td class="col-ytd">639.379</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">Mídias Sociais</td>
-            <td>15</td><td class="td-empty">-</td><td>5</td><td>5</td><td class="col-ytd">5</td>
-            <td class="td-empty">-</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td class="col-ytd">25</td>
+            <td style="padding-left: 30px;">AgiReverte (FONADO)</td>
+            <td>140.054</td><td>121.071</td><td>121.488</td><td>121.363</td><td>121.840</td><td>-</td><td class="col-ytd">625.816</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">Fuga</td>
-            <td>15</td><td>15</td><td>30</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+            <td style="padding-left: 30px;">LIBRAS</td>
+            <td>26.430</td><td>26.430</td><td>22.126</td><td>25.684</td><td>28.404</td><td>28.731</td><td class="col-ytd">157.805</td>
+          </tr>
+          <tr>
+            <td style="padding-left: 30px;">Mídias Sociais</td>
+            <td>-</td><td>52.765</td><td>53.918</td><td>47.341</td><td>47.299</td><td>61.863</td><td class="col-ytd">263.186</td>
           </tr>
         </tbody>
       </table>
@@ -265,24 +266,25 @@
     <!-- ÁREA DE PLOTAGEM (GRÁFICOS) -->
     <div class="bottom-charts">
       
-      <!-- Gráfico de Evolução (Barras Verticais) -->
+      <!-- Gráfico de Barras Empilhadas -->
       <div class="chart-box">
         <div class="chart-header">
-          <div class="chart-title">CENTRAL DE ATENDIMENTO — EVOLUÇÃO DE PA's</div>
+          <div class="chart-title">Evolução e Composição do Custo Central (R$ Milhões)</div>
           <div class="chart-legend">
-            <div class="legend-item"><div class="box" style="background: var(--header-bg);"></div> 2025 (Trimestral)</div>
-            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> 2026 (Mensal)</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> N1 Chat</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-green);"></div> N1 Fonado</div>
+            <div class="legend-item"><div class="box" style="background: #cbd5e1;"></div> Demais Áreas</div>
           </div>
         </div>
         <div class="canvas-wrapper">
-          <canvas id="evolutionChart"></canvas>
+          <canvas id="stackedChart"></canvas>
         </div>
       </div>
 
-      <!-- Gráfico Donut (Share 2026) -->
+      <!-- Gráfico Donut -->
       <div class="chart-box">
         <div class="chart-header">
-          <div class="chart-title">SHARE YTD 2026 (CHAT vs FONADO)</div>
+          <div class="chart-title">Share YTD (Total 26)</div>
         </div>
         <div class="canvas-wrapper">
           <canvas id="donutChart"></canvas>
@@ -293,11 +295,11 @@
 
   </div>
 
-  <!-- RODAPÉ -->
+  <!-- RODAPÉ (REGRAS ESTILO.CSS) -->
   <div class="footer">
     <span class="confidencial">CONFIDENCIAL</span>
-    <span>Agibank · Jun/26 · Custo Operacional PA</span>
-    <span>32 / 36</span>
+    <span>Atendimento ao Cliente · Custo por Área · Junho 2026</span>
+    <span>31 / 35</span>
   </div>
 
 </div>
@@ -315,51 +317,62 @@
   Chart.register(ChartDataLabels);
   Chart.defaults.font.family = "'Inter', sans-serif";
 
-  // 1. Gráfico de Evolução (Barras)
-  const ctxEvo = document.getElementById('evolutionChart').getContext('2d');
-  new Chart(ctxEvo, {
+  // 1. Gráfico de Barras Empilhadas (Evolução)
+  const ctxStacked = document.getElementById('stackedChart').getContext('2d');
+  new Chart(ctxStacked, {
       type: 'bar',
       data: {
-          labels: ['1ºTri/25', '2ºTri/25', '3ºTri/25', '4ºTri/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
+          labels: ['Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
           datasets: [
               {
-                  label: 'PA\'s',
-                  data: [879, 1268, 1185, 1031, 383, 316, 321, 350, 369, 357],
-                  // Cores: 4 primeiras (2025) em Azul Escuro, 6 últimas (2026) em Azul Agibank
-                  backgroundColor: ['#000c36', '#000c36', '#000c36', '#000c36', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db'], 
-                  borderRadius: 4,
-                  barPercentage: 0.7
+                  label: 'N1 Chat',
+                  data: [2.76, 2.22, 2.30, 2.61, 2.95, 2.01],
+                  backgroundColor: '#1a56db', // Azul Agi
+                  barPercentage: 0.6
+              },
+              {
+                  label: 'N1 Fonado',
+                  data: [1.15, 0.95, 0.75, 0.95, 0.90, 1.02],
+                  backgroundColor: '#239a48', // Verde Agi
+                  barPercentage: 0.6
+              },
+              {
+                  label: 'Demais Áreas',
+                  data: [0.59, 0.59, 0.62, 0.59, 0.68, 1.40], 
+                  backgroundColor: '#cbd5e1', 
+                  barPercentage: 0.6,
+                  borderRadius: { topLeft: 4, topRight: 4 } 
               }
           ]
       },
       options: {
           responsive: true, maintainAspectRatio: false, devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
-          layout: { padding: { top: 20 } },
           plugins: {
               legend: { display: false },
-              tooltip: { enabled: false }, // Desativado pois os números já aparecem
+              tooltip: {
+                  callbacks: { label: (ctx) => `${ctx.dataset.label}: R$ ${ctx.raw.toFixed(2)}M` }
+              },
               datalabels: {
-                  color: (ctx) => ctx.dataIndex < 4 ? '#000c36' : '#1a56db', // Cor do texto acompanha a barra
-                  font: { weight: 'bold', size: 11 },
-                  align: 'top', anchor: 'end', offset: 4
+                  color: '#ffffff', font: { weight: 'bold', size: 10 },
+                  formatter: (val) => val > 0.8 ? val.toFixed(1) : '' 
               }
           },
           scales: {
-              x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
-              y: { display: false, min: 0, suggestedMax: 1400 } // Esconde eixo Y, dá folga no topo
+              x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
+              y: { stacked: true, grid: { color: '#f3f4f6' }, border: { display: false }, ticks: { callback: (val) => 'R$ ' + val + 'M', font: { size: 10 }, color: '#6b7280' } }
           }
       }
   });
 
-  // 2. Gráfico Donut (Share YTD 2026)
+  // 2. Gráfico Donut (Share YTD)
   const ctxDonut = document.getElementById('donutChart').getContext('2d');
   new Chart(ctxDonut, {
       type: 'doughnut',
       data: {
-          labels: ['N1 Chat', 'N1 Fonado'],
+          labels: ['N1 Chat', 'N1 Fonado', 'Demais Áreas'],
           datasets: [{
-              data: [1210, 445], // Dados extraídos da coluna Total 26
-              backgroundColor: ['#1a56db', '#34a853'], // Azul e Verde Agibank
+              data: [14.87, 5.74, 4.44], 
+              backgroundColor: ['#1a56db', '#239a48', '#cbd5e1'],
               borderWidth: 2, borderColor: '#ffffff'
           }]
       },
@@ -367,13 +380,10 @@
           responsive: true, maintainAspectRatio: false, devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
           cutout: '60%',
           plugins: {
-              legend: { 
-                  display: true, position: 'bottom', 
-                  labels: { usePointStyle: true, boxWidth: 8, font: { size: 10, weight: '600' }, padding: 15 } 
-              },
-              tooltip: { callbacks: { label: (ctx) => ` ${ctx.raw} PAs` } },
+              legend: { display: false },
+              tooltip: { callbacks: { label: (ctx) => ` R$ ${ctx.raw.toFixed(2)}M` } },
               datalabels: {
-                  color: '#ffffff', font: { weight: 'bold', size: 12 },
+                  color: '#ffffff', font: { weight: 'bold', size: 11 },
                   formatter: (value, ctx) => {
                       let sum = 0;
                       let dataArr = ctx.chart.data.datasets[0].data;
