@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <style>
   /* =======================================================================
-     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     AGIBANK CX - DESIGN SYSTEM BASE (Trazido para o HTML para não quebrar)
      ======================================================================= */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -16,10 +16,15 @@
     --agi-green-light: #a3ff00;
     --agi-brown: #b37022;      
     --agi-yellow: #f59e0b;     
-    --agi-red: #dc2626;        
+    --agi-red: #d93025;        
     --text-dark: #111827;      
     --text-gray: #6b7280;      
     --border-color: #e5e7eb;   
+    
+    --trend-green-bg: #e6f4ea;
+    --trend-green-txt: #1b853f;
+    --trend-red-bg: #fce8e6;
+    --trend-red-txt: #c5221f;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -30,10 +35,10 @@
     width: 1280px; height: 720px; background-color: var(--bg-main);
     display: flex; flex-direction: column; position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
-    overflow: hidden;
+    overflow: hidden; 
   }
 
-  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  /* ================= CABEÇALHO PADRÃO ================= */
   .header {
     background: var(--header-bg); color: white;
     height: 64px; min-height: 64px;
@@ -42,139 +47,102 @@
     flex-shrink: 0;
   }
   .header-left { display: flex; align-items: center; gap: 15px; }
+  .header h1 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.5px;}
   
-  .logo {
-    background: white; color: var(--agi-blue); 
-    font-weight: 800; font-size: 28px;
-    padding: 6px 14px 8px 14px; border-radius: 8px;
-    display: inline-flex; align-items: baseline; 
-    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
-  }
-  .agi-i {
-    display: inline-block; width: 6px; height: 15px; 
-    background-color: var(--agi-blue); margin-left: 2px; position: relative;
-  }
-  .agi-i::after {
-    content: ''; position: absolute; top: -8px; left: 50%;
-    transform: translateX(-50%); width: 6.5px; height: 6.5px;
-    background-color: var(--agi-green); border-radius: 50%;
-  }
-  
-  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
   .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
   .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
   .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
 
-  /* ================= RODAPÉ (REGRAS ESTILO.CSS) ================= */
+  /* ================= RODAPÉ CENTRALIZADO ================= */
   .footer {
-    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
-    display: flex; justify-content: center; align-items: center;
-    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
-    flex-shrink: 0; position: relative;
+    background: var(--header-bg); color: white; 
+    height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; 
+    margin-top: auto; flex-shrink: 0; position: relative;
   }
-  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
-  .footer .slide-counter { position: absolute; right: 30px; color: white;}
-  .footer .footer-center { color: rgba(255,255,255,0.8); }
+  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
 
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 11 ================= */
-  .content { padding: 15px 30px; display: flex; flex-direction: row; gap: 20px; flex: 1; min-height: 0; background: var(--bg-main);}
+  /* ================= CONTEÚDO ESPECÍFICO DO SLIDE 07 ================= */
   
-  /* --- Insight Bar Customizado --- */
+  /* CORREÇÃO: Redução do padding e do gap para puxar os cards para cima */
+  .content { padding: 15px 30px; gap: 15px; display: flex; flex-direction: column; flex: 1; min-height: 0;}
+  
+  /* --- INSIGHT BAR --- */
   .insight-bar { 
-    background: white; border-bottom: 1px solid var(--border-color);
-    height: 85px; min-height: 85px; padding: 10px 30px; 
+    background: white; border-bottom: 1px solid var(--border-color); 
+    height: 85px; min-height: 85px; padding: 0 30px; 
     display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
   }
-  .insight-text { width: 75%; }
-  .insight-text h2 { font-size: 18px; margin-bottom: 4px; color: var(--text-dark); font-weight: 500; letter-spacing: -0.5px;}
-  .insight-text h2 b { color: var(--agi-blue); font-weight: 800;}
-  .insight-text p { font-size: 11px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
+  .insight-text h2 { font-size: 18px; color: var(--text-dark); margin-bottom: 4px; font-weight: 500;}
+  .insight-text h2 b { font-weight: 800; }
+  .insight-text p { font-size: 11px; color: var(--text-gray); font-weight: 500;}
   
-  /* Badges Redondos do Topo */
-  .top-badges { display: flex; gap: 15px; }
-  .t-badge { 
-    background: white; border: 1px solid #dbeafe; border-radius: 12px; 
-    width: 75px; height: 60px; display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(26, 86, 219, 0.05);
+  .insight-double { display: flex; gap: 20px; text-align: center; align-items: center; }
+  .insight-double h3 { font-size: 36px; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+  .insight-double p { font-size: 9px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .insight-double .divider { width: 1px; height: 35px; background: var(--border-color); }
+
+  /* --- TABELA PRINCIPAL EXPANDIDA --- */
+  .table-wrapper { flex: 1; display: flex; flex-direction: column; }
+  
+  .pill-title { 
+    background: var(--header-bg); color: white; padding: 6px 15px !important; border-radius: 12px; 
+    font-size: 11px !important; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; 
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px !important;
   }
-  .t-badge h3 { font-size: 24px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
-  .t-badge span { font-size: 8px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px;}
+  .pill-title .dot { width: 8px; height: 8px; background: var(--agi-green-light); border-radius: 50%; }
 
-  /* --- Colunas Principais --- */
-  .col { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
+  .data-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 2px 6px rgba(0,0,0,0.02);}
   
-  /* Estilo Base dos Cards deste Slide */
-  .dash-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-  .dc-header { padding: 8px 15px; color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
-  .dc-header span.light { color: rgba(255,255,255,0.7); font-weight: 600; text-transform: none;}
-  .bg-navy { background: var(--header-bg); }
-  .bg-blue { background: var(--agi-blue); }
-  .dc-body { padding: 15px; display: flex; flex-direction: column; flex: 1; justify-content: center;}
+  /* CORREÇÃO: Redução do padding interno das células da tabela */
+  .data-table th { 
+    padding: 8px 15px !important; font-size: 11px !important; color: var(--text-gray); font-weight: 800; 
+    text-transform: uppercase; border-bottom: 3px solid var(--agi-blue); text-align: right; background: #f8f9fa;
+  }
+  .data-table th:first-child { text-align: left; }
+  
+  .data-table td { padding: 10px 15px !important; font-size: 13px !important; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color); text-align: right;}
+  .data-table td:first-child { text-align: left; }
+  
+  .data-table tr.main-row td { font-weight: 800; font-size: 15px !important; padding: 12px 15px !important; background-color: #f0f4ff; color: var(--header-bg);}
+  .data-table tr.sub-row td { color: var(--text-gray); }
+  .data-table tr.indent td:first-child { padding-left: 30px !important; position: relative;}
+  .data-table tr.indent td:first-child::before { content: '↳'; position: absolute; left: 12px !important; color: #cbd5e1; font-weight: bold;}
+  
+  .data-table td.current-month { color: var(--agi-blue); font-weight: 800; }
+  .data-table td.ytd-col { color: var(--agi-blue); font-weight: 800; background: #f8f9fa;}
+  .data-table th.ytd-col { background: #f8f9fa; }
 
-  /* --- COLUNA 1: Evolução Consolidada --- */
-  .evo-section { margin-bottom: 15px; }
-  .evo-section:last-child { margin-bottom: 0; }
-  .evo-title { font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;}
-  .txt-blue { color: var(--agi-blue); } .txt-green { color: var(--agi-green); }
+  /* --- CARDS DE RODAPÉ (2 COLUNAS) --- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   
-  .evo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .evo-pill { background: #f8f9fa; border-radius: 6px; padding: 10px 12px; border-left: 3px solid; display: flex; flex-direction: column;}
-  .evo-pill.bl { border-left-color: var(--agi-blue); }
-  .evo-pill.gr { border-left-color: var(--agi-green); }
-  .evo-pill span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
-  .evo-pill h4 { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px;}
-  .evo-pill h4.up { color: var(--agi-green); } .evo-pill h4.down { color: var(--agi-blue); }
-  .evo-pill span.sub { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  /* CORREÇÃO: Redução da altura mínima dos cards */
+  .info-card { min-height: 90px !important; display: flex; flex-direction: column; justify-content: space-between; background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  
+  .ic-green { border-left: 4px solid var(--agi-green); }
+  .ic-blue { border-left: 4px solid var(--agi-blue); }
 
-  /* --- COLUNA 2: Ranking & Projeção --- */
-  /* Ranking */
-  .rank-row { display: flex; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 10px; border-left-width: 4px;}
-  .rank-row:last-child { margin-bottom: 0; }
-  .r-gold { border-left-color: #f59e0b; background: #fffbeb;}
-  .r-silver { border-left-color: #9ca3af; background: #f3f4f6;}
-  .r-bronze { border-left-color: #d97706; background: #fff7ed;}
-  
-  .medal { width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 12px;}
-  .r-gold .medal { color: #f59e0b; } .r-silver .medal { color: #6b7280; } .r-bronze .medal { color: #d97706; }
-  
-  .rank-info { flex: 1; }
-  .rank-info h5 { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
-  .rank-info p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
-  
-  .rank-destaque { text-align: right; }
-  .rank-destaque h4 { font-size: 13px; font-weight: 800; color: var(--agi-green); line-height: 1.2;}
-  .rank-destaque p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  .ic-header { padding: 10px 20px 5px !important; display: flex; align-items: center; gap: 8px; font-size: 11px !important; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+  .ic-green .ic-header { color: var(--agi-green); }
+  .ic-blue .ic-header { color: var(--agi-blue); }
 
-  /* Projeção */
-  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;}
-  .proj-box { border: 1px solid #dbeafe; border-radius: 6px; padding: 12px; text-align: center; background: #f8fafc;}
-  .proj-box span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; display: block;}
-  .proj-box .arrow { font-size: 12px; color: var(--agi-blue); margin: 2px 0; display: block; font-weight: bold;}
-  .proj-box h4 { font-size: 22px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
-  
-  .timeline { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px;}
-  .tl-item { text-align: center; }
-  .tl-item span { display: block; font-size: 9px; color: var(--text-gray); font-weight: 600;}
-  .tl-item b { font-size: 10px; font-weight: 800; color: var(--text-gray);}
-  .tl-item b.active { color: var(--agi-green); }
-  .tl-item b.meta { color: var(--agi-blue); }
+  .ic-icon { width: 18px !important; height: 18px !important; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px !important; }
+  .ic-green .ic-icon { background: var(--agi-green); }
+  .ic-blue .ic-icon { background: var(--agi-blue); }
 
-  /* --- COLUNA 3: Insights & Ganhos --- */
-  /* Insights */
-  .insight-list { display: flex; flex-direction: column; gap: 10px; }
-  .insight-box { border: 1px solid var(--border-color); border-left: 3px solid var(--agi-green); border-radius: 6px; padding: 12px 15px; font-size: 11px; color: var(--text-dark); line-height: 1.4;}
-  .insight-box b { font-weight: 700; color: var(--header-bg); }
+  .ic-body { padding: 5px 20px 10px !important; font-size: 13px !important; color: var(--text-dark); line-height: 1.5 !important; flex: 1;}
+  .ic-body b { font-weight: 800; }
 
-  /* Ganhos */
-  .ganhos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;}
-  .ganho-box { background: #e6f4ea; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 5px; text-align: center;}
-  .ganho-box h4 { font-size: 20px; font-weight: 900; color: var(--agi-green); line-height: 1; margin-bottom: 4px;}
-  .ganho-box p { font-size: 9px; color: var(--text-dark); font-weight: 600;}
-  
-  .ganho-wide { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 15px;}
-  .ganho-wide h4 { font-size: 24px; font-weight: 900; color: var(--agi-green);}
-  .ganho-wide p { font-size: 10px; color: var(--text-dark); font-weight: 600; line-height: 1.3;}
-  .ganho-footer { text-align: center; font-size: 9px; color: var(--text-gray); margin-top: 8px;}
+  /* CORREÇÃO: Redução do padding do footer do card */
+  .ic-footer { background: #f8f9fa; padding: 10px 20px !important; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);}
+  .ic-footer h4 { font-size: 24px !important; font-weight: 900; letter-spacing: -0.5px; line-height: 1;}
+  .ic-green .ic-footer h4 { color: var(--agi-green); }
+  .ic-blue .ic-footer h4 { color: var(--agi-blue); }
+  .ic-footer span { font-size: 11px !important; color: var(--text-gray); font-weight: 600; margin-left: 6px;}
+
+  .trend-pill { padding: 4px 10px !important; border-radius: 20px; font-size: 11px !important; font-weight: 800; display: inline-block; white-space: nowrap;}
+  .trend-good { background: var(--trend-green-bg); color: var(--trend-green-txt); }
 </style>
 </head>
 <body>
@@ -184,10 +152,10 @@
   <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
-      <h1>Performance Operacional</h1>
+      <h1>Eficiência Operacional</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 07 DE 36</div>
+      <div class="slide-num">SLIDE 07 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
@@ -195,208 +163,101 @@
   <!-- INSIGHT PRINCIPAL -->
   <div class="insight-bar">
     <div class="insight-text">
-      <h2>Missões completa <b>270 dias</b> com CSAT Voice beirando <b>89%</b> e Rechamada Chat em <b>12,9%</b></h2>
-      <p>Jornada Nov/25 → Jun/26 com 3 BPOs e 8 indicadores monitorados. CSAT Chat salta +9,8 p.p., Rechamada Chat cai pela metade (-15,4 p.p.) e Resolutividade Voice simplesmente dobra, atingindo 74,2%.</p>
+      <h2>TMA recua para 17,4 min (-2%) e <b>TME cai para 3,1 min</b></h2>
+      <p>TMA consolidado apresentou alívio, fechando em 17,4 min (Chat recuou para 20,4 min). TME consolidado segue em queda, chegando a 3,1 min.</p>
     </div>
     
-    <div class="top-badges">
-      <div class="t-badge"><h3>3</h3><span>BPOs</span></div>
-      <div class="t-badge"><h3>8</h3><span>Indicadores</span></div>
-      <div class="t-badge"><h3>270</h3><span>Dias</span></div>
+    <!-- BADGE DUPLO -->
+    <div class="insight-double">
+      <div>
+        <h3 style="color: var(--agi-blue);">17,4</h3>
+        <p>TMA JUN · MIN</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <h3 style="color: var(--agi-green);">3,1</h3>
+        <p>TME JUN · MIN</p>
+      </div>
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL (3 COLUNAS) -->
   <div class="content">
     
-    <!-- COLUNA 1: EVOLUÇÃO CONSOLIDADA -->
-    <div class="col">
-      <div class="dash-card" style="height: 100%;">
-        <div class="dc-header bg-navy"><span>Evolução Consolidada</span><span class="light">Nov/25 vs Jun/26</span></div>
-        <div class="dc-body">
-          
-          <div class="evo-section">
-            <div class="evo-title txt-blue">CHAT</div>
-            <div class="evo-grid">
-              <div class="evo-pill bl">
-                <span class="lbl">CSAT</span>
-                <h4 class="up">+9,8pp</h4>
-                <span class="sub">65,9% → 75,7%</span>
-              </div>
-              <div class="evo-pill bl">
-                <span class="lbl">Resolutividade</span>
-                <h4 class="up">+7,4pp</h4>
-                <span class="sub">59,0% → 66,4%</span>
-              </div>
-              <div class="evo-pill bl">
-                <span class="lbl">Rechamada</span>
-                <h4 class="down">-15,4pp</h4>
-                <span class="sub">28,3% → 12,9%</span>
-              </div>
-              <div class="evo-pill bl">
-                <span class="lbl">Shortcall</span>
-                <h4 class="down">-8,0pp</h4>
-                <span class="sub">13,5% → 5,5%</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="evo-section">
-            <div class="evo-title txt-green">VOICE</div>
-            <div class="evo-grid">
-              <div class="evo-pill gr">
-                <span class="lbl">CSAT</span>
-                <h4 class="up">+9,3pp</h4>
-                <span class="sub">79,5% → 88,9%</span>
-              </div>
-              <div class="evo-pill gr">
-                <span class="lbl">Resolutividade</span>
-                <h4 class="up">+37,5pp</h4>
-                <span class="sub">36,6% → 74,2%</span>
-              </div>
-              <div class="evo-pill gr">
-                <span class="lbl">Rechamada</span>
-                <h4 class="down">-7,0pp</h4>
-                <span class="sub">41,8% → 34,8%</span>
-              </div>
-              <div class="evo-pill gr">
-                <span class="lbl">Shortcall</span>
-                <h4 class="down">-2,6pp</h4>
-                <span class="sub">4,7% → 2,1%</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
+    <!-- TABELA 1: TMA & TME -->
+    <div class="table-wrapper">
+      <div>
+        <div class="pill-title"><div class="dot"></div> TMA & TME — EVOLUÇÃO MENSAL EM 2026 (MINUTOS)</div>
       </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th class="current-month">Jun/26</th>
+            <th class="ytd-col">YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>TMA Consolidado</td>
+            <td>13,4</td><td>14,7</td><td>15,6</td><td>17,0</td><td>17,7</td><td class="current-month">17,4</td><td class="ytd-col">16,0</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TMA Voz</td>
+            <td>6,3</td><td>6,5</td><td>7,0</td><td>7,1</td><td>7,0</td><td class="current-month">6,1</td><td class="ytd-col">6,7</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TMA Chat</td>
+            <td>16,2</td><td>18,2</td><td>18,7</td><td>20,8</td><td>21,5</td><td class="current-month">20,4</td><td class="ytd-col">19,3</td>
+          </tr>
+          <tr class="main-row" style="border-top: 2px solid var(--agi-blue);">
+            <td>TME Consolidado</td>
+            <td>14,7</td><td>3,4</td><td>7,2</td><td>4,7</td><td>3,2</td><td class="current-month">3,1</td><td class="ytd-col">6,1</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TME Voz</td>
+            <td>3,5</td><td>1,1</td><td>1,6</td><td>0,7</td><td>1,1</td><td class="current-month">0,3</td><td class="ytd-col">1,4</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>TME Chat</td>
+            <td>19,7</td><td>4,4</td><td>9,3</td><td>6,2</td><td>4,0</td><td class="current-month">3,9</td><td class="ytd-col">7,9</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- COLUNA 2: RANKING E PROJEÇÃO -->
-    <div class="col">
-      
-      <!-- Ranking -->
-      <div class="dash-card">
-        <div class="dc-header bg-blue"><span>Ranking Missões</span><span class="light">Jun/26</span></div>
-        <div class="dc-body" style="padding: 12px;">
-          
-          <div class="rank-row r-gold">
-            <div class="medal">1</div>
-            <div class="rank-info">
-              <h5>AEC</h5><p>CSAT Chat 80,8% · CSAT Voice 89,2% · Resolut Chat 72,4%</p>
-            </div>
-            <div class="rank-destaque">
-              <h4>Líder CSAT</h4><p>domina experiência</p>
-            </div>
-          </div>
-
-          <div class="rank-row r-silver">
-            <div class="medal">2</div>
-            <div class="rank-info">
-              <h5>TEL</h5><p>Recham Chat 11,6% · Recham Voice 31,8% · Resolut Voice 78,1%</p>
-            </div>
-            <div class="rank-destaque">
-              <h4>Eficiência</h4><p>menor rechamada</p>
-            </div>
-          </div>
-
-          <div class="rank-row r-bronze">
-            <div class="medal">3</div>
-            <div class="rank-info">
-              <h5>ALMAVIVA</h5><p>Resolut Voice 78,0% · Recham Chat 11,8% · CSAT Voice 88,4%</p>
-            </div>
-            <div class="rank-destaque">
-              <h4 style="color: var(--agi-brown);">Alerta Chat</h4><p>csat chat em 70,8%</p>
-            </div>
-          </div>
-
+    <!-- CAIXAS DE CONTEXTO (GRID 2) -->
+    <div class="grid-2">
+      <div class="info-card ic-green">
+        <div class="ic-header"><div class="ic-icon">↓</div> EFICIÊNCIA TMA</div>
+        <div class="ic-body">TMA consolidado recuou para <b>17,4 min</b> (queda de -2%). Chat aliviou de 21,5 → <b>20,4 min</b>. Voz apresentou excelente queda para <b>6,1 min</b>.</div>
+        <div class="ic-footer">
+          <div><h4>17,4</h4><span>TMA Consol. Jun/26</span></div>
+          <span class="trend-pill trend-good">▼ -2%</span>
         </div>
       </div>
 
-      <!-- Projeção -->
-      <div class="dash-card" style="flex: 1;">
-        <div class="dc-header bg-navy"><span>Projeção +4 Meses</span><span class="light">Out/26</span></div>
-        <div class="dc-body">
-          
-          <div class="proj-grid">
-            <div class="proj-box">
-              <span class="lbl">CSAT Chat<br>75,7%</span>
-              <span class="arrow">↗</span>
-              <h4>85%</h4>
-            </div>
-            <div class="proj-box">
-              <span class="lbl">Resolut. Chat<br>66,4%</span>
-              <span class="arrow">↗</span>
-              <h4>78%</h4>
-            </div>
-            <div class="proj-box">
-              <span class="lbl">Rechamada Chat<br>12,9%</span>
-              <span class="arrow">↘</span>
-              <h4>12%</h4>
-            </div>
-            <div class="proj-box">
-              <span class="lbl">CSAT Voice<br>88,9%</span>
-              <span class="arrow">↗</span>
-              <h4>92%</h4>
-            </div>
-          </div>
-
-          <div class="timeline">
-            <div class="tl-item"><span>Nov/25</span><b>Início</b></div>
-            <div class="tl-item"><span>Jun/26</span><b class="active">ATUAL</b></div>
-            <div class="tl-item"><span>Set/26</span><b>+3m</b></div>
-            <div class="tl-item"><span>Out/26</span><b class="meta">META</b></div>
-          </div>
-
+      <div class="info-card ic-blue">
+        <div class="ic-header"><div class="ic-icon">↓</div> MELHORA TME</div>
+        <div class="ic-body">TME consolidado segue caindo, fechando em <b>3,1 min</b> (-3%). Chat caiu para <b>3,9 min</b> e Voz atingiu a marca de <b>0,3 min</b> (apenas 16 segundos de espera).</div>
+        <div class="ic-footer">
+          <div><h4>3,1</h4><span>TME Consol. Jun/26</span></div>
+          <span class="trend-pill trend-good">▼ -3%</span>
         </div>
       </div>
-
-    </div>
-
-    <!-- COLUNA 3: INSIGHTS E GANHOS -->
-    <div class="col">
-      
-      <!-- Insights -->
-      <div class="dash-card" style="flex: 1.2;">
-        <div class="dc-header bg-navy"><span>Insights Estratégicos</span></div>
-        <div class="dc-body">
-          <div class="insight-list">
-            <div class="insight-box"><b>CSAT Voice atinge 88,9%:</b> Alta de +9,3pp desde Nov/25. AEC lidera com 89,2%, seguida de perto por TEL (89,0%).</div>
-            <div class="insight-box"><b>Rechamada Chat despenca para 12,9%:</b> Queda expressiva de -15,4pp. TEL (11,6%) e Almaviva (11,8%) puxam a eficiência.</div>
-            <div class="insight-box"><b>Resolut. Voice dobra de performance:</b> Salto de +37,5pp, atingindo 74,2%. TEL lidera o canal com 78,1%.</div>
-            <div class="insight-box"><b>AEC consolida liderança:</b> Maior CSAT no Chat (80,8%) e na Voz (89,2%), além de dominar a Resolutividade no Chat (72,4%).</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Ganhos -->
-      <div class="dash-card">
-        <div class="dc-header bg-blue"><span>Ganhos Acumulados</span><span class="light">270 Dias</span></div>
-        <div class="dc-body">
-          
-          <div class="ganhos-grid">
-            <div class="ganho-box"><h4>-54%</h4><p>Rechamada Chat</p></div>
-            <div class="ganho-box"><h4>+15%</h4><p>CSAT Chat</p></div>
-            <div class="ganho-box"><h4>+103%</h4><p>Resolut. Voice</p></div>
-          </div>
-
-          <div class="ganho-wide">
-            <h4>+5 a +6</h4>
-            <p>pontos de NPS<br>estimados desde início</p>
-          </div>
-          <div class="ganho-footer">Correlação histórica: cada 1pp CSAT = 0,6 NPS</div>
-
-        </div>
-      </div>
-
     </div>
 
   </div>
 
   <!-- RODAPÉ -->
   <div class="footer">
-    <span class="confidencial">CONFIDENCIAL</span>
-    <span class="footer-center">Atendimento ao Cliente · Missões · Junho 2026</span>
-    <span class="slide-counter">11 / 36</span>
+    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
+    <div style="flex: 2; text-align: center;">Atendimento ao Cliente · Eficiência Operacional · Junho 2026</div>
+    <div style="flex: 1; text-align: right;">07 / 30</div>
   </div>
 
 </div>
@@ -410,5 +271,6 @@
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
 </script>
+
 </body>
 </html>
