@@ -2,178 +2,86 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<!-- Importação do Chart.js e Datalabels -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 09 ================= */
+  
+  .content { padding: 10px 30px !important; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px;}
+  
+  /* Insight Bar */
+  .insight-bar { height: 75px !important; min-height: 75px !important; padding: 10px 30px !important; }
+  .insight-text h2 { font-size: 15px !important; margin-bottom: 2px !important; }
+  .insight-text p { font-size: 10.5px !important; }
+  .insight-badge h3 { font-size: 32px !important; }
+
+  /* Grid dos Cartões */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; min-height: 0; padding: 0;}
+  
+  .card { display: flex; flex-direction: column; background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); min-height: 0;}
+  .card-header { padding: 4px 12px; color: white; font-weight: 800; font-size: 10px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; height: 26px; min-height: 26px;}
+  .card-header .pill-weight { background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 12px; font-size: 9px; }
+
+  .card-body { padding: 8px 12px 4px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0;}
+
+  /* Mapeamento de Cores */
+  .bg-green { background-color: var(--agi-green); }
+  .bg-blue { background-color: var(--agi-blue); }
+  .bg-brown { background-color: var(--agi-brown); }
+
+  /* Métricas do Topo do Card */
+  .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+  .metric-value { font-size: 26px; font-weight: 900; color: var(--text-dark); display: flex; align-items: baseline; gap: 6px; line-height: 1; letter-spacing: -1px;}
+  .metric-desc { font-size: 8.5px; color: var(--text-gray); font-weight: 600; max-width: 120px; line-height: 1.1;}
+
+  .delta-badge { padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+  .delta-up-bad, .delta-down-bad { background-color: var(--trend-red-bg); color: var(--trend-red-txt); }
+  .delta-up-good, .delta-down-good { background-color: var(--trend-green-bg); color: var(--trend-green-txt); }
+
+  .custom-legend { display: flex; gap: 8px; font-size: 8px; color: var(--text-gray); margin-top: 4px; margin-bottom: 2px; font-weight: 600;}
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-color { width: 10px; height: 4px; border-radius: 2px; }
+  .legend-color.bar { height: 10px; width: 10px; border-radius: 2px; }
+
   /* =======================================================================
-     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     A MÁGICA QUE IMPEDE O GRÁFICO DE VAZAR
      ======================================================================= */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .chart-container { flex: 1; width: 100%; position: relative; min-height: 0; }
+  .chart-container canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
 
-  :root {
-    --bg-main: #f4f5f8;        
-    --header-bg: #000c36;      
-    --agi-blue: #1a56db;       
-    --agi-green: #239a48;      
-    --agi-green-light: #a3ff00;
-    --agi-brown: #b37022;      
-    --agi-yellow: #f59e0b;     
-    --agi-red: #dc2626;        
-    --text-dark: #1f2937;      
-    --text-gray: #6b7280;      
-    --border-color: #e5e7eb;   
-    
-    --trend-green-bg: #e6f4ea;
-    --trend-green-txt: #1b853f;
-    --trend-red-bg: #fef2f2;
-    --trend-red-txt: #991b1b;
-  }
+  /* Destaque de Redução (Bracket) PA's */
+  .reduction-bracket { position: absolute; top: 10px; left: 5%; right: 5%; height: 15px; border-top: 1.5px solid var(--agi-blue); border-left: 1.5px solid var(--agi-blue); border-right: 1.5px solid var(--agi-blue); z-index: 10; }
+  .reduction-box { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: white; border: 1.5px solid var(--agi-blue); color: var(--agi-red); font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+  /* =======================================================================
+     RODAPÉ DO CARD LADO A LADO (Texto + Métricas)
+     ======================================================================= */
+  .card-footer { padding: 6px 12px; background: #ffffff; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 48px; min-height: 48px;}
+  .footer-text { font-size: 8.5px; color: var(--text-gray); line-height: 1.3; flex: 1; margin: 0;}
+  .footer-text strong { color: var(--text-dark); }
+  .footer-metrics { display: flex; justify-content: space-between; gap: 4px; flex: 1.2;}
+  .footer-metric { flex: 1; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 0; text-align: center; display: flex; flex-direction: column; justify-content: center;}
+  .footer-metric h4 { font-size: 11px; font-weight: 800; margin-bottom: 1px; line-height: 1;}
+  .footer-metric p { font-size: 7px; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0; line-height: 1;}
 
-  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-
-  .slide-wrapper {
-    width: 1280px; height: 720px; background-color: var(--bg-main);
-    display: flex; flex-direction: column; position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
-    overflow: hidden;
-  }
-
-  /* --- CABEÇALHO PADRÃO --- */
-  .header {
-    background: var(--header-bg); color: white;
-    height: 64px; min-height: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
-    flex-shrink: 0;
-  }
-  .header-left { display: flex; align-items: center; gap: 15px; }
-  
-  .logo {
-    background: white; color: var(--agi-blue); 
-    font-weight: 800; font-size: 28px;
-    padding: 6px 14px 8px 14px; border-radius: 8px;
-    display: inline-flex; align-items: baseline; 
-    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
-  }
-  .agi-i {
-    display: inline-block; width: 6px; height: 15px; 
-    background-color: var(--agi-blue); margin-left: 2px; position: relative;
-  }
-  .agi-i::after {
-    content: ''; position: absolute; top: -8px; left: 50%;
-    transform: translateX(-50%); width: 6.5px; height: 6.5px;
-    background-color: var(--agi-green); border-radius: 50%;
-  }
-  
-  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
-  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
-  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
-  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
-
-  /* --- RODAPÉ --- */
-  .footer {
-    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
-    display: flex; justify-content: center; align-items: center;
-    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
-    flex-shrink: 0; position: relative;
-  }
-  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
-  .footer .slide-counter { position: absolute; right: 30px; color: white;}
-  .footer .footer-center { color: rgba(255,255,255,0.8); }
-
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 05 ================= */
-  .content { padding: 12px 30px; display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0;}
-
-  /* 1. Insight Bar */
-  .insight-bar { 
-    background: white; border-bottom: 1px solid var(--border-color);
-    padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
-  }
-  .insight-text { width: 65%; }
-  .insight-text h2 { font-size: 16px; font-weight: 500; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3;}
-  .insight-text h2 b { font-weight: 800; color: var(--agi-red); }
-  .insight-text p { font-size: 10.5px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
-  
-  /* 2. Insight Quádruplo (4 KPIs no topo) */
-  .insight-quad { display: flex; gap: 15px; text-align: center; align-items: center; justify-content: flex-end; width: 35%;}
-  .insight-quad .divider { width: 1px; height: 50px; background: var(--border-color); }
-  .quad-kpi { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;}
-  .quad-kpi h3 { font-size: 26px; font-weight: 900; line-height: 1; letter-spacing: -1px; }
-  .quad-kpi p { font-size: 7.5px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-  .quad-kpi span.sub { font-size: 7.5px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
-  
-  .trend-pill { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block;}
-  .trend-good { background: var(--trend-green-bg); color: var(--trend-green-txt); }
-  .trend-bad { background: var(--trend-red-bg); color: var(--trend-red-txt); }
-
-  /* 3. Compactação das Tabelas */
-  .pill-title { 
-    background: var(--header-bg); color: white; padding: 4px 12px; border-radius: 6px 6px 0 0; 
-    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; 
-    display: inline-flex; align-items: center; gap: 6px; width: 100%;
-  }
-  .pill-title .dot { width: 6px; height: 6px; background: var(--agi-green-light); border-radius: 50%; }
-
-  .table-container { background: white; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
-  .data-table { width: 100%; border-collapse: collapse; text-align: right; }
-  .data-table th { 
-    padding: 6px 15px; font-size: 9px; color: var(--text-gray); font-weight: 800; 
-    text-transform: uppercase; border-bottom: 2px solid var(--agi-blue); background: #f8f9fa;
-  }
-  .data-table th:first-child { text-align: left; }
-  .data-table td { padding: 6px 15px; font-size: 11px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color);}
-  .data-table td:first-child { text-align: left; }
-  
-  .data-table tr.main-row td { font-weight: 800; font-size: 12px; background: #f0f7ff;}
-  .data-table tr.sub-row td { color: var(--text-gray); }
-  .data-table tr.indent td:first-child { padding-left: 20px; position: relative;}
-  .data-table tr.indent td:first-child::before { content: '↳'; position: absolute; left: 8px; color: #cbd5e1; font-weight: bold;}
-  
-  .data-table td.current-month { color: var(--agi-blue); font-weight: 800; }
-  .data-table td.ytd-col { color: var(--agi-blue); font-weight: 800; background: #f8f9fa;}
-  .data-table th.ytd-col { background: #e0e7ff; color: var(--agi-blue);}
-
-  /* 4. Ajuste dos Cards de Rodapé (3 Colunas) */
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-  .info-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
-  
-  .ic-orange { border-left: 4px solid var(--agi-red); }
-  .ic-blue { border-left: 4px solid var(--agi-blue); }
-  .ic-green { border-left: 4px solid var(--agi-green); }
-
-  .ic-header { padding: 10px 15px 4px; display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
-  .ic-orange .ic-header { color: var(--agi-red); }
-  .ic-blue .ic-header { color: var(--agi-blue); }
-  .ic-green .ic-header { color: var(--agi-green); }
-
-  .ic-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
-  .ic-orange .ic-icon { background: var(--agi-red); }
-  .ic-blue .ic-icon { background: var(--agi-blue); }
-  .ic-green .ic-icon { background: var(--agi-green); }
-
-  .ic-body { padding: 4px 15px 12px; font-size: 11px; color: var(--text-dark); line-height: 1.4; flex: 1;}
-  .ic-body b { font-weight: 800; }
-
-  .ic-footer { background: #f8f9fa; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);}
-  .ic-footer h4 { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; line-height: 1;}
-  .ic-orange .ic-footer h4 { color: var(--agi-red); }
-  .ic-blue .ic-footer h4 { color: var(--agi-blue); }
-  .ic-green .ic-footer h4 { color: var(--agi-green); }
-  .ic-footer span { font-size: 9px; color: var(--text-gray); font-weight: 600; display: block; margin-top: 2px;}
-
+  .val-green { color: var(--agi-green); } 
+  .val-brown { color: var(--agi-brown); } 
+  .val-blue  { color: var(--agi-blue); } 
 </style>
 </head>
 <body>
 
-<div class="slide-wrapper" id="scale-wrapper">
+<div class="slide-wrapper">
   
   <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
-      <h1>Custo & Investimento</h1>
+      <h1>Performance Operacional</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 5 DE 36</div>
+      <div class="slide-num">SLIDE 05 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
@@ -181,175 +89,361 @@
   <!-- INSIGHT PRINCIPAL -->
   <div class="insight-bar">
     <div class="insight-text">
-      <h2>Custo unitário sobe para <b>R$ 13,74</b> (+11%) puxado pela forte alta no custo Inbound (<b>R$ 24,13</b>). Custo Operacional total recua.</h2>
-      <p>Apesar do custo da operação cair para R$ 4,36M (-5%), o custo unitário do Inbound disparou (+74%). Em contrapartida, o WhatsApp ficou mais eficiente (R$ 10,92). Plataforma subiu para 872K (+9%).</p>
+      <h2>Jun/26 consolidado: NS em <b>85,17%</b>, CSAT em <b>78,00%</b>; Contact Rate Topo recua para <b>7,66%</b>, Resolutividade atinge <b>68,00%</b> e Stress Rate cai para <b>1,37%</b>.</h2>
+      <p>Junho consolidado para todos os indicadores (Comparativo de deltas realizados contra Maio consolidado). Dados atualizados de acordo com a volumetria mensal.</p>
     </div>
-    
-    <!-- BADGE QUÁDRUPLO -->
-    <div class="insight-quad">
-      <div class="quad-kpi">
-        <h3 style="color: var(--agi-red);">R$13,74</h3>
-        <p>CUSTO UNIT. · JUN</p>
-        <span class="sub">In R$24,13 · WA R$10,92</span>
-        <div class="trend-pill trend-bad">▲ +11% vs Mai</div>
-      </div>
-      <div class="divider"></div>
-      <div class="quad-kpi">
-        <h3 style="color: var(--agi-green);">R$4,36M</h3>
-        <p>CUSTO OP. · JUN</p>
-        <span class="sub">In 1,64M · WA 2,72M</span>
-        <div class="trend-pill trend-good">▼ -5% vs Mai</div>
-      </div>
-      <div class="divider"></div>
-      <div class="quad-kpi">
-        <h3 style="color: var(--agi-red);">R$0,42</h3>
-        <p>CUSTO/TOPO · JUN</p>
-        <span class="sub">YTD R$ 0,36</span>
-        <div class="trend-pill trend-bad">▲ +13% vs Mai</div>
-      </div>
-      <div class="divider"></div>
-      <div class="quad-kpi">
-        <h3 style="color: var(--agi-red);">872K</h3>
-        <p>PLATAFORMA · JUN</p>
-        <span class="sub">YTD R$ 5,17M</span>
-        <div class="trend-pill trend-bad">▲ +9% vs Mai</div>
-      </div>
+    <div class="insight-badge">
+      <h3>JUN/26</h3>
+      <p>CONSOLIDADO</p>
     </div>
   </div>
 
   <div class="content">
-    
-    <!-- TABELA 1: CUSTO OPERAÇÃO -->
-    <div class="table-container">
-      <div class="pill-title"><div class="dot"></div> CUSTO OPERAÇÃO — MENSAL 2026 (R$)</div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Indicador</th>
-            <th>Jan/26</th>
-            <th>Fev/26</th>
-            <th>Mar/26</th>
-            <th>Abr/26</th>
-            <th>Mai/26</th>
-            <th class="current-month">Jun/26</th>
-            <th class="ytd-col">YTD</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="main-row">
-            <td>Custo Operação</td>
-            <td>4.575.942</td><td>3.901.767</td><td>3.791.862</td><td>4.339.447</td><td>4.601.173</td><td class="current-month">4.367.496</td><td class="ytd-col">25.577.687</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>Inbound</td>
-            <td>1.428.592</td><td>1.259.135</td><td>1.090.000</td><td>1.276.509</td><td>1.308.481</td><td class="current-month">1.640.947</td><td class="ytd-col">8.003.664</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>WhatsApp</td>
-            <td>3.147.350</td><td>2.642.632</td><td>2.701.862</td><td>3.062.938</td><td>3.292.693</td><td class="current-month">2.726.549</td><td class="ytd-col">17.574.024</td>
-          </tr>
-          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
-            <td>Custo Unitário</td>
-            <td>R$ 13,58</td><td>R$ 12,16</td><td>R$ 10,29</td><td>R$ 12,16</td><td>R$ 12,32</td><td class="current-month">R$ 13,74</td><td class="ytd-col">R$ 12,38</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>Inbound (Unit.)</td>
-            <td>R$ 14,96</td><td>R$ 13,38</td><td>R$ 11,52</td><td>R$ 13,71</td><td>R$ 13,88</td><td class="current-month">R$ 24,13</td><td class="ytd-col">R$ 14,73</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>WhatsApp (Unit.)</td>
-            <td>R$ 13,04</td><td>R$ 11,68</td><td>R$ 9,86</td><td>R$ 11,61</td><td>R$ 11,80</td><td class="current-month">R$ 10,92</td><td class="ytd-col">R$ 11,72</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- TABELA 2: CUSTO INFRA & PLATAFORMA -->
-    <div class="table-container">
-      <div class="pill-title"><div class="dot"></div> CUSTO INFRA & PLATAFORMA — 2026</div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Indicador</th>
-            <th>Jan/26</th>
-            <th>Fev/26</th>
-            <th>Mar/26</th>
-            <th>Abr/26</th>
-            <th>Mai/26</th>
-            <th class="current-month">Jun/26</th>
-            <th class="ytd-col">YTD</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="main-row">
-            <td>Custo Total Plataforma</td>
-            <td>970.512</td><td>903.258</td><td>851.197</td><td>779.341</td><td>802.291</td><td class="current-month">872.386</td><td class="ytd-col">5.178.985</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>Custo Por Topo</td>
-            <td>R$ 0,35</td><td>R$ 0,36</td><td>R$ 0,32</td><td>R$ 0,30</td><td>R$ 0,37</td><td class="current-month">R$ 0,42</td><td class="ytd-col">R$ 0,36</td>
-          </tr>
-          <tr class="sub-row indent">
-            <td>Custo/Cliente Atendido</td>
-            <td>R$ 2,88</td><td>R$ 2,85</td><td>R$ 2,31</td><td>R$ 2,18</td><td>R$ 2,15</td><td class="current-month">R$ 2,75</td><td class="ytd-col">R$ 2,52</td>
-          </tr>
-          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
-            <td>BPO + INFRA</td>
-            <td>R$ 16,46</td><td>R$ 15,02</td><td>R$ 12,60</td><td>R$ 14,34</td><td>R$ 14,47</td><td class="current-month">R$ 16,49</td><td class="ytd-col">R$ 14,90</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- CAIXAS DE CONTEXTO (GRID 3) -->
-    <div class="grid-3">
-      <div class="info-card ic-orange">
-        <div class="ic-header"><div class="ic-icon">!</div> ATENÇÃO INBOUND</div>
-        <div class="ic-body">Disparada no custo unitário do Inbound, saltando de R$ 13,88 para <b>R$ 24,13 (+74%)</b>. Isso puxou o custo unitário geral para <b>R$ 13,74</b>. Necessário investigar ociosidade ou queda de volume que encareceu o canal.</div>
-        <div class="ic-footer">
-          <div><h4>R$ 24,13</h4><span>Custo Inbound Jun/26</span></div>
-          <span class="trend-pill trend-bad">▲ +74%</span>
+    <div class="grid">
+        
+        <!-- Card 1: Contact Rate Topo -->
+        <div class="card">
+            <div class="card-header bg-green">
+                <span>CONTACT RATE TOPO</span>
+                <span class="pill-weight">Peso 15%</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">7,66% <span class="metric-desc">Volume total (bot + URA + humano) / base</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> CR%</div>
+                            <div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Vol.</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-down-good">▼ -0,12 p.p. vs Mai</div>
+                </div>
+                <div class="chart-container"><canvas id="chartCRTopo"></canvas></div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho fecha em <strong>7,66%</strong> (567K vol.) — leve queda de <strong>0,12 p.p.</strong> vs Mai (7,78%). Redução sustentada.</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">7,66%</h4><p>Junho</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">7,78%</h4><p>Mai</p></div>
+                    <div class="footer-metric"><h4 class="val-green">-0,12pp</h4><p>Vs Mai</p></div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="info-card ic-blue">
-        <div class="ic-header"><div class="ic-icon">↓</div> MONITORAR</div>
-        <div class="ic-body">Custo Total de Plataforma subiu para <b>R$ 872K</b> (+9%), refletindo no Custo por Topo que atingiu <b>R$ 0,42</b>. O Custo por Cliente Atendido também subiu forte para <b>R$ 2,75</b>.</div>
-        <div class="ic-footer">
-          <div><h4>R$ 0,42</h4><span>Custo/Topo Jun/26</span></div>
-          <span class="trend-pill trend-bad">▲ +13%</span>
+        <!-- Card 2: Nível de Serviço -->
+        <div class="card">
+            <div class="card-header bg-blue">
+                <span>NÍVEL DE SERVIÇO</span>
+                <span class="pill-weight">✓ Meta 75% - Peso 10%</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">85,17% <span class="metric-desc">% atendidas no tempo-alvo</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Geral</div>
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> Voz</div>
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-brown);"></div> Chat</div>
+                            <div class="legend-item"><div class="legend-color" style="background: #9ca3af; border-top: 2px dashed #9ca3af; height:0;"></div> Meta 75%</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-up-good">▲ +1,05 p.p. vs Mai</div>
+                </div>
+                <div class="chart-container"><canvas id="chartNS"></canvas></div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho em <strong>85,17%</strong> — bem acima da meta mensal (75%). Voz avança para 92,43% e Chat 83,15%.</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">85,17%</h4><p>Junho</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">84,12%</h4><p>Mai</p></div>
+                    <div class="footer-metric"><h4 class="val-green">+1,05pp</h4><p>Vs Mai</p></div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="info-card ic-green">
-        <div class="ic-header"><div class="ic-icon">↑</div> EFICIÊNCIA WA</div>
-        <div class="ic-body">Apesar das altas unitárias, o custo total da operação caiu 5% (<b>R$ 4,36M</b>). O canal WhatsApp apresentou ganho de eficiência, com o custo unitário caindo para <b>R$ 10,92</b> (-7%), segurando o impacto geral.</div>
-        <div class="ic-footer">
-          <div><h4>R$ 10,92</h4><span>Custo WA Jun/26</span></div>
-          <span class="trend-pill trend-good">▼ -7%</span>
+        <!-- Card 3: Quantidade de PA's (MANTIDO INTACTO) -->
+        <div class="card">
+            <div class="card-header bg-green">
+                <span>QUANTIDADE DE PA'S</span>
+                <span class="pill-weight">Eficiência operacional</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">339 <span class="metric-desc">Volume total de PA's para Julho</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Histórico</div>
+                            <div class="legend-item"><div class="legend-color bar" style="background: var(--agi-green);"></div> Julho</div>
+                            <div class="legend-item"><div class="legend-color bar" style="background: #bfdbfe;"></div> Ago (P)</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-down-good">▼ -29 vs Mai</div>
+                </div>
+                <div class="chart-container">
+                    <div class="reduction-bracket"><div class="reduction-box">-160</div></div>
+                    <canvas id="chartPAs"></canvas>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho fecha em <strong>357</strong> PA's. Projeção de forte redução de <strong>160</strong> posições até Agosto (306).</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">306</h4><p>Ago (Proj)</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">466</h4><p>Dez/25</p></div>
+                    <div class="footer-metric"><h4 class="val-green">-160</h4><p>Vs Dez</p></div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- Card 4: CSAT -->
+        <div class="card">
+            <div class="card-header bg-blue">
+                <span>CSAT</span>
+                <span class="pill-weight">Peso 15%</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">78,00% <span class="metric-desc">Satisfação do cliente (nota 4+5)</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> CSAT</div>
+                            <div class="legend-item"><div class="legend-color bar" style="background: #f3f4f6; border: 1px dashed #ccc;"></div> Bench 72-76%</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-up-good">▲ +2,00 p.p. vs Mai</div>
+                </div>
+                <div class="chart-container"><canvas id="chartCSAT"></canvas></div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho em <strong>78,00%</strong> — superando o benchmark (72-76%); avanço consistente vs Mai (76,00%).</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">78,00%</h4><p>Junho</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">76,00%</h4><p>Mai</p></div>
+                    <div class="footer-metric"><h4 class="val-green">+2,00pp</h4><p>Vs Mai</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5: Resolutividade -->
+        <div class="card">
+            <div class="card-header bg-green">
+                <span>RESOLUTIVIDADE</span>
+                <span class="pill-weight">Peso 15%</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">68,00% <span class="metric-desc">% resolvidas no 1º contato</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Geral</div>
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> Voz</div>
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-brown);"></div> Chat</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-up-good">▲ +3,00 p.p. vs Mai</div>
+                </div>
+                <div class="chart-container"><canvas id="chartResolutividade"></canvas></div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho em <strong>68,00%</strong> — acima do topo do benchmark (55-65%). Voz atinge 74,00% e Chat 66,00%.</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">68,00%</h4><p>Junho</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">65,00%</h4><p>Mai</p></div>
+                    <div class="footer-metric"><h4 class="val-green">+3,00pp</h4><p>Vs Mai</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Stress Rate -->
+        <div class="card">
+            <div class="card-header bg-brown">
+                <span>STRESS RATE</span>
+                <span class="pill-weight">Meta <2%</span>
+            </div>
+            <div class="card-body">
+                <div class="metric-header">
+                    <div>
+                        <div class="metric-value">1,37% <span class="metric-desc">5+ acionamentos em 7d / base de CPFs</span></div>
+                        <div class="custom-legend">
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Stress</div>
+                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-red); border-top: 2px dashed var(--agi-red); height:0;"></div> Meta <2%</div>
+                        </div>
+                    </div>
+                    <div class="delta-badge delta-down-good">▼ -0,24 p.p. vs Mai</div>
+                </div>
+                <div class="chart-container"><canvas id="chartStress"></canvas></div>
+            </div>
+            <div class="card-footer">
+                <div class="footer-text">Junho em <strong>1,37%</strong> — mantendo-se abaixo da meta (<2%) com conforto; recuo de 0,24 p.p. vs Mai.</div>
+                <div class="footer-metrics">
+                    <div class="footer-metric"><h4 class="val-green">1,37%</h4><p>Junho</p></div>
+                    <div class="footer-metric"><h4 class="val-blue">1,61%</h4><p>Mai</p></div>
+                    <div class="footer-metric"><h4 class="val-green">-0,24pp</h4><p>Vs Mai</p></div>
+                </div>
+            </div>
+        </div>
+
     </div>
-
   </div>
 
   <!-- RODAPÉ -->
   <div class="footer">
     <span class="confidencial">CONFIDENCIAL</span>
-    <span class="footer-center">Atendimento ao Cliente · Custo & Investimento · Junho 2026</span>
-    <span class="slide-counter">5 / 36</span>
+    <span>Atendimento ao Cliente · Performance Operacional · Junho 2026</span>
+    <span>05 / 30</span>
   </div>
 
 </div>
 
 <script>
+  // Escala da Tela
   function resizeSlide() {
-    const wrapper = document.getElementById('scale-wrapper');
+    const wrapper = document.querySelector('.slide-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     wrapper.style.transform = `scale(${scale})`;
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
+
+  // Registra o Plugin DataLabels Globalmente
+  Chart.register(ChartDataLabels);
+
+  // Common Chart.js Settings
+  Chart.defaults.font.family = "'Inter', sans-serif";
+  Chart.defaults.color = '#6b7280';
+  Chart.defaults.scale.grid.color = '#e5e7eb';
+  
+  const commonOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      devicePixelRatio: window.devicePixelRatio * 2, // Mantém a nitidez
+      plugins: { 
+          legend: { display: false }, 
+          tooltip: { mode: 'index', intersect: false },
+          datalabels: { display: false } 
+      },
+      scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } },
+          y: { display: true, beginAtZero: false, border: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }
+      },
+      elements: {
+          line: { tension: 0.4, borderWidth: 2 },
+          point: { radius: 3, hitRadius: 10, hoverRadius: 5 }
+      }
+  };
+
+  const applySolidPointStyle = (color) => {
+      return { pointBackgroundColor: color, pointBorderColor: color, pointRadius: 3.5, pointBorderWidth: 1.5 };
+  };
+
+  // LABELS 
+  const labels1 = ['Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+  const labelsPA = ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago(P)'];
+
+  // Cores
+  const colorGreen = '#239a48';
+  const colorBlue = '#1a56db';
+  const colorBrown = '#b37022';
+  const colorRed = '#d93025';
+
+  // 1. Contact Rate Topo
+  new Chart(document.getElementById('chartCRTopo'), {
+      type: 'line',
+      data: {
+          labels: labels1,
+          datasets: [
+              {
+                  type: 'line', label: 'CR%',
+                  data: [12.20, 10.20, 8.60, 10.60, 9.40, 9.85, 8.59, 7.78, 7.66],
+                  borderColor: colorGreen, yAxisID: 'y',
+                  ...applySolidPointStyle(colorGreen),
+                  datalabels: {
+                      display: true, align: 'top', offset: 4, color: colorGreen, font: { size: 9, weight: 'bold' },
+                      formatter: function(value) { return value.toFixed(2).replace('.', ',') + '%'; }
+                  }
+              },
+              { type: 'bar', label: 'Volume', data: [720, 540, 330, 560, 520, 560, 540, 574, 567], backgroundColor: '#e5e7eb', borderRadius: 4, yAxisID: 'y1' }
+          ]
+      },
+      options: {
+          ...commonOptions, layout: { padding: { top: 20 } },
+          scales: {
+              x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } },
+              y: { display: false, min: 0, max: 15 },
+              y1: { display: false, position: 'right', min: 0, max: 1000 }
+          }
+      }
+  });
+
+  // 2. Nível de Serviço
+  new Chart(document.getElementById('chartNS'), {
+      type: 'line',
+      data: {
+          labels: labels1,
+          datasets: [
+              { label: 'Geral', data: [82.53, 84.83, 96.63, 82.34, 85.27, 72.14, 74.93, 84.12, 85.17], borderColor: colorBlue, ...applySolidPointStyle(colorBlue) },
+              { label: 'Voz', data: [79.50, 80.36, 94.14, 76.83, 80.38, 73.88, 83.25, 76.77, 92.43], borderColor: colorGreen, ...applySolidPointStyle(colorGreen) },
+              { label: 'Chat', data: [83.76, 86.60, 97.72, 84.82, 87.47, 71.48, 71.76, 86.87, 83.15], borderColor: colorBrown, ...applySolidPointStyle(colorBrown) },
+              { label: 'Meta', data: [75, 75, 75, 75, 75, 75, 75, 75, 75], borderColor: '#9ca3af', borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }
+          ]
+      },
+      options: { ...commonOptions, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 60, max: 100, ticks: { font: { size: 9, weight: 'bold' } } } } }
+  });
+
+  // 3. Quantidade de PA's (MANTIDO INTACTO)
+  const dataPAs = [466, 420, 362, 343, 377, 386, 357, 339, 306];
+  const bgColorsPAs = ['#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', colorGreen, '#bfdbfe'];
+  new Chart(document.getElementById('chartPAs'), {
+      type: 'bar',
+      data: {
+          labels: labelsPA,
+          datasets: [
+              { type: 'line', label: 'Tendência', data: dataPAs, borderColor: '#9ca3af', borderWidth: 2, borderDash: [5, 5], fill: false, tension: 0.4, pointRadius: 0 },
+              { type: 'bar', label: 'PA\'s', data: dataPAs, backgroundColor: bgColorsPAs, borderRadius: 4, datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#4b5563', font: { size: 9, weight: 'bold' } } }
+          ]
+      },
+      options: {
+          ...commonOptions, layout: { padding: { top: 30 } },
+          scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { display: false, min: 0, max: 550 } }
+      }
+  });
+
+  // 4. CSAT
+  new Chart(document.getElementById('chartCSAT'), {
+      type: 'line',
+      data: {
+          labels: labels1,
+          datasets: [{ label: 'CSAT', data: [65.0, 69.0, 74.0, 76.0, 76.0, 78.0, 78.0, 76.0, 78.0], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(1).replace('.', ',') + '%'; } } }]
+      },
+      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 60, max: 85, ticks: { font: { size: 9, weight: 'bold' } } } } }
+  });
+
+  // 5. Resolutividade
+  new Chart(document.getElementById('chartResolutividade'), {
+      type: 'line',
+      data: {
+          labels: labels1,
+          datasets: [
+              { label: 'Geral', data: [48.44, 51.60, 55.36, 58.0, 58.0, 60.0, 64.0, 65.0, 68.0], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(1).replace('.', ',') + '%'; } } },
+              { label: 'Voz', data: [32.0, 37.0, 35.0, 37.0, 39.0, 41.0, 57.0, 75.0, 74.0], borderColor: colorGreen, ...applySolidPointStyle(colorGreen) },
+              { label: 'Chat', data: [56.0, 59.0, 65.0, 66.0, 64.0, 67.0, 67.0, 63.0, 66.0], borderColor: colorBrown, ...applySolidPointStyle(colorBrown) }
+          ]
+      },
+      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 20, max: 80, ticks: { font: { size: 9, weight: 'bold' } } } } }
+  });
+
+  // 6. Stress Rate
+  new Chart(document.getElementById('chartStress'), {
+      type: 'line',
+      data: {
+          labels: labels1,
+          datasets: [
+              { label: 'Stress', data: [4.30, 3.80, 3.40, 3.00, 2.70, 2.73, 2.38, 1.61, 1.37], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(2).replace('.', ',') + '%'; } } },
+              { label: 'Meta', data: [2, 2, 2, 2, 2, 2, 2, 2, 2], borderColor: colorRed, borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }
+          ]
+      },
+      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 0, max: 6, ticks: { font: { size: 9, weight: 'bold' } } } } }
+  });
 </script>
+
 </body>
 </html>
