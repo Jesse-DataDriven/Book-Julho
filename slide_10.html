@@ -3,140 +3,165 @@
 <head>
 <meta charset="utf-8">
 <style>
-  /* ================= VARIÁVEIS DO DESIGN SYSTEM ================= */
+  /* =======================================================================
+     AGIBANK CX - DESIGN SYSTEM BASE (MANTIDO NO ARQUIVO PARA NÃO QUEBRAR)
+     ======================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
   :root {
-    --agi-blue: #0064f5;
-    --agi-green: #16a34a;
-    --agi-light-green: #77df40;
-    --agi-red: #dc2626;
-    --header-bg: #001e50;
-    --text-dark: #1e293b;
-    --text-gray: #64748b;
-    --border-color: #e2e8f0;
-    --bg-main: #f4f5f8;
-    --bg-light-blue: #f0f4ff;
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #1f2937;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+    
+    --trend-green-bg: #e6f4ea;
+    --trend-green-txt: #1b853f;
+    --trend-red-bg: #fef2f2;
+    --trend-red-txt: #991b1b;
   }
 
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #222;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
 
   .slide-wrapper {
-    width: 1280px;
-    height: 720px;
-    background: white;
-    position: relative;
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
     overflow: hidden;
-    transform-origin: top left;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
   }
 
-  /* ================= CABEÇALHO E RODAPÉ ================= */
-  .header { display: flex; justify-content: space-between; align-items: center; padding: 0 30px; height: 64px; background: var(--header-bg); border-bottom: 4px solid var(--agi-blue); box-sizing: border-box; }
+  /* --- CABEÇALHO PADRÃO --- */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
   .header-left { display: flex; align-items: center; gap: 15px; }
-  .logo { background: white; color: var(--agi-blue); font-weight: 900; font-size: 24px; padding: 4px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; }
-  .agi-i { display: inline-block; width: 6px; height: 6px; background: var(--agi-light-green); border-radius: 50%; margin-left: 2px; }
-  .header h1 { font-size: 18px; color: white; font-weight: 600; margin: 0; letter-spacing: -0.5px;}
-  .header-right { display: flex; align-items: center; gap: 15px; text-align: right; }
-  .slide-num { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;}
-  .slide-date { font-size: 22px; font-weight: 900; color: var(--agi-light-green); letter-spacing: -1px;}
   
-  .footer { height: 40px; background: var(--header-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; box-sizing: border-box; color: white; font-size: 10px; font-weight: 600; margin-top: auto;}
-  .confidencial { color: var(--agi-light-green); font-weight: 800; letter-spacing: 1px; }
-
-  /* ================= CONTEÚDO DO SLIDE ================= */
-  .content { 
-    padding: 20px 30px; 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-    height: 616px; 
-    background: var(--bg-main);
-    box-sizing: border-box;
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
   }
-
-  .slide-title { margin-bottom: 5px; }
-  .slide-title h2 { font-size: 26px; color: var(--agi-blue); margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
-  .slide-title p { font-size: 12px; color: var(--text-gray); margin: 4px 0 0 0; font-weight: 600; }
-
-  /* Layout Grids */
-  .tables-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-  .bottom-section { display: grid; grid-template-columns: 260px 1fr; gap: 15px; flex: 1; }
-
-  /* ================= TABELAS ================= */
-  .table-container { 
-    background: white; border: 1px solid var(--border-color); 
-    border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
   }
   
-  .table-header { 
-    background: var(--header-bg); color: white; padding: 8px 15px; font-size: 11px; 
-    font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: flex-start;
-    letter-spacing: 0.5px;
-  }
-  .pill-principal { background: var(--agi-light-green); color: var(--header-bg); padding: 2px 8px; border-radius: 12px; font-size: 9px; margin-left: 10px; font-weight: 900;}
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
 
-  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: right; }
-  .data-table th { background: #f8f9fa; color: var(--text-gray); font-weight: 800; padding: 8px 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); font-size: 9px; }
-  .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); color: var(--text-dark); font-weight: 600; }
-  
-  .data-table th:first-child, .data-table td:first-child { text-align: left; }
-  
-  /* Destaques nas Linhas e Colunas */
-  .data-table tr.row-total td { background-color: #f8f9fa; font-weight: 800; color: var(--text-dark); border-bottom: none;}
-  .data-table td.col-delta, .data-table th.col-delta { color: var(--agi-blue); font-weight: 800; }
+  /* --- RODAPÉ --- */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+    flex-shrink: 0; position: relative;
+  }
+  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { position: absolute; right: 30px; color: white;}
+  .footer .footer-center { color: rgba(255,255,255,0.8); }
 
-  /* ================= GRÁFICO ROSCA ================= */
-  .chart-container { 
-    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  }
-  .chart-title { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
-  
-  .donut-chart {
-    width: 120px; height: 120px; border-radius: 50%;
-    /* Tel (Verde) 51.58%, Almaviva (Azul) 48.42% */
-    background: conic-gradient(var(--agi-light-green) 0% 51.58%, var(--agi-blue) 51.58% 100%);
-    display: flex; justify-content: center; align-items: center; margin-bottom: 15px;
-  }
-  .donut-inner { width: 70px; height: 70px; background: white; border-radius: 50%; }
-  
-  .chart-legend { width: 100%; font-size: 11px; font-weight: 700; color: var(--text-dark); display: flex; flex-direction: column; gap: 8px; padding: 0 20px;}
-  .legend-item { display: flex; align-items: center; justify-content: space-between; }
-  .legend-color { width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; display: inline-block; }
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 10 ================= */
+  .content { padding: 12px 30px; display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0;}
 
-  /* ================= LEITURA EXECUTIVA ================= */
-  .leitura-container {
-    background: var(--bg-light-blue); border-radius: 8px; padding: 25px 30px;
-    border: 1px solid #dbeafe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    display: flex; flex-direction: column; justify-content: center;
+  /* 1. Insight Bar (Ajustado para evitar sobreposição) */
+  .insight-bar { 
+    background: white; border-bottom: 1px solid var(--border-color);
+    padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+    gap: 20px; /* Adicionado para separar o texto dos KPIs */
   }
+  .insight-text { flex: 1; min-width: 0; } /* Alterado de width fixa para flex: 1 */
+  .insight-text h2 { font-size: 16px; font-weight: 500; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3;}
+  .insight-text h2 b { font-weight: 800; color: var(--agi-red); }
+  .insight-text p { font-size: 10.5px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
   
-  .leitura-title {
-    display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; 
-    color: var(--header-bg); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px;
-  }
-  .green-square { width: 12px; height: 12px; background: var(--agi-light-green); border-radius: 2px; }
+  /* 2. Insight Quádruplo (4 KPIs no topo) */
+  .insight-quad { display: flex; gap: 15px; text-align: center; align-items: center; justify-content: flex-end; flex-shrink: 0; } /* Removido width fixa e adicionado flex-shrink: 0 */
+  .insight-quad .divider { width: 1px; height: 50px; background: var(--border-color); }
+  .quad-kpi { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;}
+  .quad-kpi h3 { font-size: 26px; font-weight: 900; line-height: 1; letter-spacing: -1px; }
+  .quad-kpi p { font-size: 7.5px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .quad-kpi span.sub { font-size: 7.5px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
+  
+  .trend-pill { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block;}
+  .trend-good { background: var(--trend-green-bg); color: var(--trend-green-txt); }
+  .trend-bad { background: var(--trend-red-bg); color: var(--trend-red-txt); }
 
-  .leitura-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-  .leitura-list li { 
-    position: relative; padding-left: 18px; font-size: 13px; color: var(--text-dark); line-height: 1.5; font-weight: 500;
+  /* 3. Compactação das Tabelas */
+  .pill-title { 
+    background: var(--header-bg); color: white; padding: 4px 12px; border-radius: 6px 6px 0 0; 
+    font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; 
+    display: inline-flex; align-items: center; gap: 6px; width: 100%;
   }
-  .leitura-list li::before {
-    content: '▶'; position: absolute; left: 0; top: 1px; color: var(--agi-blue); font-size: 10px;
+  .pill-title .dot { width: 6px; height: 6px; background: var(--agi-green-light); border-radius: 50%; }
+
+  .table-container { background: white; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  .data-table { width: 100%; border-collapse: collapse; text-align: right; }
+  .data-table th { 
+    padding: 6px 15px; font-size: 9px; color: var(--text-gray); font-weight: 800; 
+    text-transform: uppercase; border-bottom: 2px solid var(--agi-blue); background: #f8f9fa;
   }
-  .leitura-list li b { font-weight: 800; }
-  .text-red { color: var(--agi-red); }
+  .data-table th:first-child { text-align: left; }
+  .data-table td { padding: 6px 15px; font-size: 11px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid var(--border-color);}
+  .data-table td:first-child { text-align: left; }
+  
+  .data-table tr.main-row td { font-weight: 800; font-size: 12px; background: #f0f7ff;}
+  .data-table tr.sub-row td { color: var(--text-gray); }
+  .data-table tr.indent td:first-child { padding-left: 20px; position: relative;}
+  .data-table tr.indent td:first-child::before { content: '↳'; position: absolute; left: 8px; color: #cbd5e1; font-weight: bold;}
+  
+  .data-table td.current-month { color: var(--agi-blue); font-weight: 800; }
+  .data-table td.ytd-col { color: var(--agi-blue); font-weight: 800; background: #f8f9fa;}
+  .data-table th.ytd-col { background: #e0e7ff; color: var(--agi-blue);}
+
+  /* 4. Ajuste dos Cards de Rodapé (3 Colunas) */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .info-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+  
+  .ic-orange { border-left: 4px solid var(--agi-red); }
+  .ic-blue { border-left: 4px solid var(--agi-blue); }
+  .ic-green { border-left: 4px solid var(--agi-green); }
+
+  .ic-header { padding: 10px 15px 4px; display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
+  .ic-orange .ic-header { color: var(--agi-red); }
+  .ic-blue .ic-header { color: var(--agi-blue); }
+  .ic-green .ic-header { color: var(--agi-green); }
+
+  .ic-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
+  .ic-orange .ic-icon { background: var(--agi-red); }
+  .ic-blue .ic-icon { background: var(--agi-blue); }
+  .ic-green .ic-icon { background: var(--agi-green); }
+
+  .ic-body { padding: 4px 15px 12px; font-size: 11px; color: var(--text-dark); line-height: 1.4; flex: 1;}
+  .ic-body b { font-weight: 800; }
+
+  .ic-footer { background: #f8f9fa; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);}
+  .ic-footer h4 { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; line-height: 1;}
+  .ic-orange .ic-footer h4 { color: var(--agi-red); }
+  .ic-blue .ic-footer h4 { color: var(--agi-blue); }
+  .ic-green .ic-footer h4 { color: var(--agi-green); }
+  .ic-footer span { font-size: 9px; color: var(--text-gray); font-weight: 600; display: block; margin-top: 2px;}
+
 </style>
 </head>
 <body>
@@ -146,140 +171,175 @@
   <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
-      <h1>Dispersão e Quartis de TMA | Canal Voz</h1>
+      <div class="logo">ag<span class="agi-i"></span></div>
+      <h1>Custo & Investimento</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 12 DE 35</div>
+      <div class="slide-num">SLIDE 10 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- INSIGHT PRINCIPAL (TEXTO ATUALIZADO) -->
+  <div class="insight-bar">
+    <div class="insight-text">
+      <h2>Embora custo Operacional total recue, o custo unitário sobe para <b>R$ 13,74</b> (+11%), puxado pela forte alta no custo voz (<b>R$ 24,13</b>) explicada pela queda de -31,28%.</h2>
+      <p>Apesar do custo da operação cair para R$ 4,36M (-5%), o custo unitário do canal voz disparou (+74%). Em contrapartida, o WhatsApp ficou mais eficiente (R$ 10,92). Plataforma subiu para 872K (+9%).</p>
+    </div>
+    
+    <!-- BADGE QUÁDRUPLO -->
+    <div class="insight-quad">
+      <div class="quad-kpi">
+        <h3 style="color: var(--agi-red);">R$13,74</h3>
+        <p>CUSTO UNIT. · JUN</p>
+        <span class="sub">In R$24,13 · WA R$10,92</span>
+        <div class="trend-pill trend-bad">▲ +11% vs Mai</div>
+      </div>
+      <div class="divider"></div>
+      <div class="quad-kpi">
+        <h3 style="color: var(--agi-green);">R$4,36M</h3>
+        <p>CUSTO OP. · JUN</p>
+        <span class="sub">In 1,64M · WA 2,72M</span>
+        <div class="trend-pill trend-good">▼ -5% vs Mai</div>
+      </div>
+      <div class="divider"></div>
+      <div class="quad-kpi">
+        <h3 style="color: var(--agi-red);">R$0,42</h3>
+        <p>CUSTO/TOPO · JUN</p>
+        <span class="sub">YTD R$ 0,36</span>
+        <div class="trend-pill trend-bad">▲ +13% vs Mai</div>
+      </div>
+      <div class="divider"></div>
+      <div class="quad-kpi">
+        <h3 style="color: var(--agi-red);">872K</h3>
+        <p>PLATAFORMA · JUN</p>
+        <span class="sub">YTD R$ 5,17M</span>
+        <div class="trend-pill trend-bad">▲ +9% vs Mai</div>
+      </div>
+    </div>
+  </div>
+
   <div class="content">
     
-    <div class="slide-title">
-      <h2>TMA por Quartil · SN / N1 / SAC</h2>
-      <p>Tempo Médio de Atendimento (segundos) por quartil — Mar a Jun/26 · Δ Jun×Mai</p>
+    <!-- TABELA 1: CUSTO OPERAÇÃO -->
+    <div class="table-container">
+      <div class="pill-title"><div class="dot"></div> CUSTO OPERAÇÃO — MENSAL 2026 (R$)</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th class="current-month">Jun/26</th>
+            <th class="ytd-col">YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>Custo Operação</td>
+            <td>4.575.942</td><td>3.901.767</td><td>3.791.862</td><td>4.339.447</td><td>4.601.173</td><td class="current-month">4.367.496</td><td class="ytd-col">25.577.687</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>VOZ</td>
+            <td>1.428.592</td><td>1.259.135</td><td>1.090.000</td><td>1.276.509</td><td>1.308.481</td><td class="current-month">1.640.947</td><td class="ytd-col">8.003.664</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>WhatsApp</td>
+            <td>3.147.350</td><td>2.642.632</td><td>2.701.862</td><td>3.062.938</td><td>3.292.693</td><td class="current-month">2.726.549</td><td class="ytd-col">17.574.024</td>
+          </tr>
+          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
+            <td>Custo Unitário</td>
+            <td>R$ 13,58</td><td>R$ 12,16</td><td>R$ 10,29</td><td>R$ 12,16</td><td>R$ 12,32</td><td class="current-month">R$ 13,74</td><td class="ytd-col">R$ 12,38</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>VOZ (Unit.)</td>
+            <td>R$ 14,96</td><td>R$ 13,38</td><td>R$ 11,52</td><td>R$ 13,71</td><td>R$ 13,88</td><td class="current-month">R$ 24,13</td><td class="ytd-col">R$ 14,73</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>WhatsApp (Unit.)</td>
+            <td>R$ 13,04</td><td>R$ 11,68</td><td>R$ 9,86</td><td>R$ 11,61</td><td>R$ 11,80</td><td class="current-month">R$ 10,92</td><td class="ytd-col">R$ 11,72</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- SEÇÃO SUPERIOR (3 Tabelas Lado a Lado) -->
-    <div class="tables-section">
-      
-      <!-- Tabela 1: SN -->
-      <div class="table-container">
-        <div class="table-header">
-          SN — TMA (s) <span class="pill-principal">CONSOLIDADO</span>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Q1</td><td>776</td><td>636</td><td>704</td><td>643</td><td class="col-delta">-8,65%</td></tr>
-            <tr><td>Q2</td><td>991</td><td>765</td><td>880</td><td>762</td><td class="col-delta">-13,38%</td></tr>
-            <tr><td>Q3</td><td>1.165</td><td>940</td><td>1.100</td><td>917</td><td class="col-delta">-16,63%</td></tr>
-            <tr><td>Q4</td><td>1.463</td><td>1.129</td><td>1.340</td><td>1.265</td><td class="col-delta">-5,53%</td></tr>
-            <tr class="row-total"><td>Total</td><td>975</td><td>845</td><td>978</td><td>920</td><td class="col-delta">-5,96%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tabela 2: N1 FONADO -->
-      <div class="table-container">
-        <div class="table-header">
-          N1 FONADO — TMA (s) <span class="pill-principal">FONADO</span>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Q1</td><td>279</td><td>298</td><td>293</td><td>266</td><td class="col-delta">-8,96%</td></tr>
-            <tr><td>Q2</td><td>374</td><td>395</td><td>387</td><td>315</td><td class="col-delta">-18,70%</td></tr>
-            <tr><td>Q3</td><td>452</td><td>478</td><td>458</td><td>356</td><td class="col-delta">-22,25%</td></tr>
-            <tr><td>Q4</td><td>572</td><td>596</td><td>568</td><td>471</td><td class="col-delta">-17,09%</td></tr>
-            <tr class="row-total"><td>Total</td><td>417</td><td>430</td><td>411</td><td>335</td><td class="col-delta">-18,60%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tabela 3: SAC -->
-      <div class="table-container">
-        <div class="table-header">
-          SAC — TMA (s) <span class="pill-principal">SAC</span>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Q1</td><td>235</td><td>213</td><td>340</td><td>235</td><td class="col-delta">-30,82%</td></tr>
-            <tr><td>Q2</td><td>339</td><td>332</td><td>424</td><td>308</td><td class="col-delta">-27,48%</td></tr>
-            <tr><td>Q3</td><td>440</td><td>419</td><td>508</td><td>358</td><td class="col-delta">-29,46%</td></tr>
-            <tr><td>Q4</td><td>597</td><td>602</td><td>615</td><td>428</td><td class="col-delta">-30,44%</td></tr>
-            <tr class="row-total"><td>Total</td><td>402</td><td>380</td><td>454</td><td>337</td><td class="col-delta">-25,75%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
+    <!-- TABELA 2: CUSTO INFRA & PLATAFORMA -->
+    <div class="table-container">
+      <div class="pill-title"><div class="dot"></div> CUSTO INFRA & PLATAFORMA — 2026</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Jan/26</th>
+            <th>Fev/26</th>
+            <th>Mar/26</th>
+            <th>Abr/26</th>
+            <th>Mai/26</th>
+            <th class="current-month">Jun/26</th>
+            <th class="ytd-col">YTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="main-row">
+            <td>Custo Total Plataforma</td>
+            <td>970.512</td><td>903.258</td><td>851.197</td><td>779.341</td><td>802.291</td><td class="current-month">872.386</td><td class="ytd-col">5.178.985</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Custo Por Topo</td>
+            <td>R$ 0,35</td><td>R$ 0,36</td><td>R$ 0,32</td><td>R$ 0,30</td><td>R$ 0,37</td><td class="current-month">R$ 0,42</td><td class="ytd-col">R$ 0,36</td>
+          </tr>
+          <tr class="sub-row indent">
+            <td>Custo/Cliente Atendido</td>
+            <td>R$ 2,88</td><td>R$ 2,85</td><td>R$ 2,31</td><td>R$ 2,18</td><td>R$ 2,15</td><td class="current-month">R$ 2,75</td><td class="ytd-col">R$ 2,52</td>
+          </tr>
+          <tr class="main-row" style="border-top: 1px solid var(--border-color);">
+            <td>BPO + INFRA</td>
+            <td>R$ 16,46</td><td>R$ 15,02</td><td>R$ 12,60</td><td>R$ 14,34</td><td>R$ 14,47</td><td class="current-month">R$ 16,49</td><td class="ytd-col">R$ 14,90</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- SEÇÃO INFERIOR (Gráfico + Leitura Executiva) -->
-    <div class="bottom-section">
-      
-      <!-- Gráfico Rosca -->
-      <div class="chart-container">
-        <div class="chart-title">VOZ POR PARCEIRO</div>
-        <div class="donut-chart">
-          <div class="donut-inner"></div>
-        </div>
-        <div class="chart-legend">
-          <div class="legend-item">
-            <div><span class="legend-color" style="background: var(--agi-blue);"></span>Almaviva</div>
-            <span>48,42 %</span>
-          </div>
-          <div class="legend-item">
-            <div><span class="legend-color" style="background: var(--agi-light-green);"></span>Tel</div>
-            <span>51,58 %</span>
-          </div>
+    <!-- CAIXAS DE CONTEXTO (GRID 3) -->
+    <div class="grid-3">
+      <div class="info-card ic-orange">
+        <div class="ic-header"><div class="ic-icon">!</div> ATENÇÃO CANAL VOZ</div>
+        <div class="ic-body">Disparada no custo unitário no canal voz, saltando de R$ 13,88 para <b>R$ 24,13 (+74%)</b>. Isso puxou o custo unitário geral para <b>R$ 13,74</b>. Explicado pela expressiva queda de volume (-31%) que encareceu o canal.</div>
+        <div class="ic-footer">
+          <div><h4>R$ 24,13</h4><span>Custo Voz Jun/26</span></div>
+          <span class="trend-pill trend-bad">▲ +74%</span>
         </div>
       </div>
 
-      <!-- Caixa de Leitura Executiva -->
-      <div class="leitura-container">
-        <div class="leitura-title">
-          <span class="green-square"></span> LEITURA EXECUTIVA · TMA VOZ
+      <div class="info-card ic-blue">
+        <div class="ic-header"><div class="ic-icon">↓</div> MONITORAR</div>
+        <div class="ic-body">Custo Total de Plataforma subiu para <b>R$ 872K</b> (+9%), refletindo no Custo por Topo que atingiu <b>R$ 0,42</b>. O Custo por Cliente Atendido também subiu forte para <b>R$ 2,75</b>.</div>
+        <div class="ic-footer">
+          <div><h4>R$ 0,42</h4><span>Custo/Topo Jun/26</span></div>
+          <span class="trend-pill trend-bad">▲ +13%</span>
         </div>
-        <ul class="leitura-list">
-          <li><b>SN consolidado:</b> TMA total de <b>920s</b> em Jun (<b class="text-red">-5,96%</b> vs Mai) — pressão concentrada em Q3/Q4.</li>
-          <li><b>N1 Fonado: 335s</b> (<b style="color: var(--agi-green);">-18,60%</b> vs Mai) — única frente em queda no mês.</li>
-          <li><b>SAC: 337s</b> (<b class="text-red">-25,75%</b> vs Mai) — maior alta, puxada pelo Q1 (<b class="text-red">-30,82%</b>).</li>
-          <li><b>Voz por parceiro:</b> Tel 51,58% · Almaviva 48,42% do volume.</li>
-        </ul>
       </div>
 
+      <div class="info-card ic-green">
+        <div class="ic-header"><div class="ic-icon">↑</div> EFICIÊNCIA WHATSAPP</div>
+        <div class="ic-body">Apesar das altas unitárias, o custo total da operação caiu 5% (<b>R$ 4,36M</b>). O canal WhatsApp apresentou ganho de eficiência, com o custo unitário caindo para <b>R$ 10,92</b> (-7%), segurando o impacto geral.</div>
+        <div class="ic-footer">
+          <div><h4>R$ 10,92</h4><span>Custo WA Jun/26</span></div>
+          <span class="trend-pill trend-good">▼ -7%</span>
+        </div>
+      </div>
     </div>
 
   </div>
 
   <!-- RODAPÉ -->
   <div class="footer">
-    <div style="display: flex; gap: 20px;">
-      <span>Janela: Março a Junho/2026 · TMA em segundos · quartis Q1–Q4 + Total</span>
-    </div>
-    <div style="text-align: center; flex: 1;">
-      <span>Atendimento ao Cliente · Voz — TMA por Quartil · Junho 2026</span>
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-      <span class="confidencial">CONFIDENCIAL</span>
-      <span>· 12 / 35</span>
-    </div>
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span class="footer-center">Atendimento ao Cliente · Custo & Investimento · Junho 2026</span>
+    <span class="slide-counter">10 / 30</span>
   </div>
 
 </div>
@@ -289,13 +349,6 @@
     const wrapper = document.getElementById('scale-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     wrapper.style.transform = `scale(${scale})`;
-    if (scale < 1) {
-        document.body.style.display = 'flex';
-        document.body.style.justifyContent = 'center';
-        document.body.style.alignItems = 'center';
-        document.body.style.height = '100vh';
-        document.body.style.backgroundColor = '#222';
-    }
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
