@@ -2,304 +2,392 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="estilo.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 13 (HEATMAP) ================= */
-  .content-grid { 
-    display: grid; grid-template-columns: 72% 28%; gap: 15px; 
-    padding: 15px 30px; height: 606px; background: #f4f5f8;
+  /* =======================================================================
+     AGIBANK CX - DESIGN SYSTEM BASE (Trazido para o HTML para não quebrar)
+     ======================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+    
+    /* Variáveis Específicas deste Slide */
+    --purple-main: #6b21a8;
+    --orange-main: #ea580c;
   }
 
-  /* --- BARRA DE KPIs SUPERIOR --- */
-  .top-kpi-bar { display: flex; gap: 10px; padding: 12px 30px 0; height: 85px; min-height: 85px; }
-  .kpi-box { flex: 1; background: white; border: 1px solid var(--border-color); border-radius: 6px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 4px; text-align: center; }
-  .kpi-box h3 { font-size: 22px; font-weight: 900; line-height: 1; letter-spacing: -1px; margin-bottom: 2px;}
-  .kpi-box p { font-size: 8px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px;}
-  .kpi-box .pill { font-size: 8px; padding: 2px 8px; margin-top: 4px; border-radius: 10px; font-weight: 700;}
-  
-  .k-blue h3 { color: var(--agi-blue); } .k-blue .pill { background: #e0e7ff; color: var(--agi-blue); }
-  .k-green h3 { color: var(--agi-green); } .k-green .pill { background: #e6f4ea; color: #1b853f; }
-  .k-dark h3 { color: var(--header-bg); } .k-dark .pill { background: #f3f4f6; color: var(--text-gray); }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
 
-  .kpi-insight { flex: 1.8; background: white; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 15px; display: flex; flex-direction: column; justify-content: center; }
-  .kpi-insight p { font-size: 11px; color: var(--text-dark); line-height: 1.4; font-weight: 500;}
-  .kpi-insight b { color: var(--text-dark); font-weight: 800;}
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
 
-  /* --- PAINEL ESQUERDO (HEATMAP) --- */
-  .left-panel { background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); }
-  
-  .lp-header { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);}
-  .lp-header h3 { font-size: 10px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; letter-spacing: 0.5px;}
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
 
-  /* Tabela do Heatmap */
-  .heatmap-table { width: 100%; border-collapse: collapse; text-align: center; }
-  .heatmap-table th { padding: 5px 2px; font-size: 8px; color: var(--header-bg); font-weight: 800; text-transform: uppercase; border-bottom: 2px solid var(--border-color); }
-  .heatmap-table th:first-child { text-align: left; padding-left: 15px;}
-  .heatmap-table th:last-child { text-align: right; padding-right: 15px;}
+  /* ================= CABEÇALHO PADRÃO ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
   
-  /* Ajuste extremo de padding para caber as 20 linhas perfeitamente */
-  .heatmap-table td { padding: 2.5px 2px; font-size: 8.5px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid #f9fafb; transition: all 0.3s;}
-  .heatmap-table td:first-child { text-align: left; font-weight: 800; padding-left: 15px; font-size: 7.5px; text-transform: uppercase; white-space: nowrap;}
-  .heatmap-table td:last-child { text-align: right; font-weight: 800; padding-right: 15px;}
-  
-  /* Cores do Mapa de Calor (Corrigido com !important no background para sobrepor o estilo.css) */
-  .hm-1 { background: #ffffff !important; color: var(--text-dark) !important; } /* Baixo */
-  .hm-2 { background: #eff6ff !important; color: var(--text-dark) !important; } /* Médio- */
-  .hm-3 { background: #bfdbfe !important; color: var(--text-dark) !important; } /* Médio */
-  .hm-4 { background: #60a5fa !important; color: white !important; }            /* Médio+ */
-  .hm-5 { background: #2563eb !important; color: white !important; }            /* Alto */
-  .hm-6 { background: #1e3a8a !important; color: white !important; }            /* Pico */
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
 
-  .legend-bar { padding: 8px 15px; display: flex; align-items: center; gap: 8px; font-size: 8px; color: var(--text-gray); font-weight: 600; border-top: 1px solid var(--border-color); background: #f8f9fa; margin-top: auto;}
-  .legend-box { padding: 2px 6px; border-radius: 4px; color: white; font-weight: 700;}
+  /* ================= RODAPÉ CENTRALIZADO ================= */
+  .footer {
+    background: var(--header-bg); color: white; 
+    height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; 
+    margin-top: auto; flex-shrink: 0; position: relative;
+  }
+  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
 
-  /* --- PAINEL DIREITO --- */
-  .right-panel { display: flex; flex-direction: column; gap: 15px; }
-  
-  .side-card { background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); padding: 15px; border: 1px solid var(--border-color); flex: 1; display: flex; flex-direction: column;}
-  .sc-title { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;}
-  
-  /* Tabela de Composição */
-  .comp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 10px;}
-  .comp-name { width: 70px; font-weight: 700; color: var(--text-gray); }
-  .comp-bar-bg { flex: 1; height: 10px; background: #f3f4f6; border-radius: 5px; position: relative;}
-  .comp-bar-fill { height: 100%; border-radius: 5px; }
-  .comp-val { width: 50px; text-align: right; font-weight: 800; }
-  .comp-pct { width: 30px; text-align: right; color: var(--text-gray); font-weight: 600; font-size: 9px;}
+  /* ================= CONTEÚDO DO SLIDE ================= */
+  /* Redução de padding e gap para ganhar espaço vertical */
+  .title-area { padding: 10px 30px 0px; flex-shrink: 0;}
+  .title-area h2 { color: var(--header-bg); font-size: 22px; font-weight: 900; margin-bottom: 2px; letter-spacing: -0.5px;}
+  .title-area p { color: var(--text-gray); font-size: 11px; font-weight: 600; margin-top: 0px;}
 
-  /* Takeaways */
-  .takeaway-box { background: #f0f4ff; border-left: 3px solid var(--agi-blue); border-radius: 0 6px 6px 0; padding: 12px; margin-top: auto;}
-  .takeaway-box h4 { font-size: 9px; font-weight: 800; color: var(--agi-blue); text-transform: uppercase; margin-bottom: 6px;}
-  .takeaway-box p { font-size: 10px; color: var(--text-dark); line-height: 1.4; margin-bottom: 4px;}
-  .takeaway-box p b { font-weight: 700; }
+  .content { padding: 10px 30px 10px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px; background: var(--bg-main); }
+
+  /* --- INSIGHT BAR --- */
+  .insight-bar { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 8px 20px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); flex-shrink: 0;
+  }
+  .insight-text h3 { font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
+  .insight-text p { font-size: 10.5px; color: var(--text-gray); font-weight: 500; line-height: 1.3;}
+  .insight-badge { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;}
+
+  /* --- KPIs TOP --- */
+  .top-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; flex-shrink: 0; }
+  .kpi-card { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 8px 15px; display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
+  }
+  .kpi-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .kpi-q1::before { background: var(--agi-green); }
+  .kpi-q4::before { background: var(--agi-red); }
+  .kpi-gap::before { background: var(--agi-yellow); }
+
+  .kpi-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;}
+  .kpi-val { font-size: 24px; font-weight: 900; color: var(--text-dark); line-height: 1; display: flex; align-items: baseline; gap: 5px;}
+  .kpi-val span { font-size: 10px; color: var(--text-gray); font-weight: 600;}
+  .kpi-sub { font-size: 9px; font-weight: 600; color: var(--text-gray); margin-top: 2px;}
+
+  /* --- MAIN SPLIT (Tabela + Gráfico) --- */
+  .main-split { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0;}
+
+  /* TABELA */
+  .tbl-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column;
+  }
+  .tbl-header { 
+    background: var(--header-bg); color: white; padding: 6px 12px; 
+    font-size: 9.5px; font-weight: 800; text-transform: uppercase; 
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge-principal { background: var(--agi-green); color: white; padding: 2px 8px; border-radius: 12px; font-size: 8px; letter-spacing: 0.5px;}
+
+  /* Compressão nas células da tabela para caber as duas tabelas */
+  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 9.5px; } 
+  th { 
+    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
+    padding: 4px 8px; border-bottom: 2px solid var(--border-color); 
+    text-transform: uppercase; font-size: 8px;
+  }
+  th:first-child, td:first-child { text-align: left; font-weight: 800; color: var(--text-dark);}
+  td { padding: 4.5px 8px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); } 
+  tr:last-child td { border-bottom: none; }
   
-  .trend-bad { background: #fce8e6 !important; color: #c5221f !important; }
+  .row-total td { background-color: #f8fafc; font-weight: 800; color: var(--agi-blue); border-top: 2px solid #e2e8f0;}
+  .col-delta { font-weight: 800; }
+  .delta-good { color: var(--agi-green); }
+  .delta-bad { color: var(--agi-red); }
+  .col-jun { background-color: #f0f7ff; color: var(--agi-blue); font-weight: 800;}
+  th.col-jun { background-color: #e0e7ff; color: var(--agi-blue); }
+
+  /* GRÁFICO */
+  .chart-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    padding: 10px 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .chart-header { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;}
+  .chart-legend { display: flex; gap: 12px; font-size: 8.5px; color: var(--text-gray); font-weight: 700;}
+  .legend-item { display: flex; align-items: center; gap: 4px;}
+  .box { width: 10px; height: 10px; border-radius: 2px; }
+  .canvas-wrapper { flex: 1; width: 100%; position: relative; min-height: 0;}
+  .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
 </style>
 </head>
 <body>
 
-<div class="slide-wrapper">
+<div class="slide-wrapper" id="scale-wrapper">
   
-  <!-- CABEÇALHO -->
+  <!-- CABEÇALHO PADRÃO ESTILO.CSS (SEM LOGO) -->
   <div class="header">
     <div class="header-left">
-      <h1>Comportamento DU - Volume por célula</h1>
+      <h1>Atendimento Humano Chat</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 09 DE 36</div>
+      <div class="slide-num">SLIDE 09 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
-  <!-- BARRA DE KPIs -->
-  <div class="top-kpi-bar">
-    <div class="kpi-box k-dark">
-      <h3 id="kpi-total">312.708</h3><p>TOTAL ATEND. JUN</p><span class="pill">Volume Total</span>
-    </div>
-    <div class="kpi-box k-blue">
-      <h3 id="kpi-chat">245.325</h3><p>CHAT N1 JUN</p><span class="pill" style="background:#fffbeb; color:#b37022;">78,4% do total</span>
-    </div>
-    <div class="kpi-box k-dark">
-      <h3 id="kpi-voz">67.383</h3><p>N1 VOZ JUN</p><span class="pill">21,5% do total</span>
-    </div>
-    <div class="kpi-box k-green">
-      <h3 id="kpi-sn">15.890</h3><p>SN JUN</p><span class="pill trend-bad">▼ -24,9% vs Mai</span>
-    </div>
-    <div class="kpi-box k-dark">
-      <h3 id="kpi-sac">17.831</h3><p>SAC JUN</p><span class="pill">5,7% do total</span>
-    </div>
-    <div class="kpi-insight">
-      <p>Volume em <b>312,7K</b> em Junho. Chat N1 mantém share (<b>78,4%</b>). Pico no início do mês (DU4 <b>16.836</b> Chat N1).</p>
-    </div>
+  <div class="title-area">
+    <h2>Dispersão de TMA | Chat</h2>
+    <p>Tempo Médio de Atendimento (segundos) por quartil — Fev a Jun/26 · Δ Jun×Mai</p>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <div class="content-grid">
+  <div class="content">
     
-    <!-- PAINEL ESQUERDO (HEATMAP) -->
-    <div class="left-panel">
-      <div class="lp-header">
-        <h3>VOLUME POR CÉLULA × DIA ÚTIL — <span id="hm-month">COMPARATIVO MAI E JUN/26</span> · ESCALA POR GRUPO</h3>
+    <!-- INSIGHT BAR -->
+    <div class="insight-bar">
+      <div class="insight-text">
+        <h3>Redução geral de TMA em Junho aproxima os quartis, mas ofensores (Q4) ainda custam 73% a mais de tempo.</h3>
+        <p>A otimização da fila N1 em Junho reduziu o TMA consolidado em 5,75%. O Q1 (Alta Performance) atende em média em 14,7 minutos (884s), enquanto o Q4 consome 25,5 minutos (1.531s) por atendimento. Tel apresenta a melhor eficiência entre os BPOs (1.109s).</p>
       </div>
-
-      <table class="heatmap-table">
-        <thead>
-          <tr>
-            <th>Célula</th>
-            <th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th><th>D11</th><th>D12</th><th>D13</th><th>D14</th><th>D15</th><th>D16</th><th>D17</th><th>D18</th><th>D19</th><th>D20</th><th>D21</th><th>D22</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody id="heatmap-body">
-          <!-- Linhas geradas pelo JS -->
-        </tbody>
-      </table>
-
-      <div class="legend-bar">
-        Escala (por célula): 
-        <span class="legend-box hm-1" style="border:1px solid #ccc;">Baixo</span>
-        <span class="legend-box hm-2">Méd-</span>
-        <span class="legend-box hm-3">Médio</span>
-        <span class="legend-box hm-4">Méd+</span>
-        <span class="legend-box hm-5">Alto</span>
-        <span class="legend-box hm-6">Pico</span>
-        <span style="margin-left: 10px; font-weight: 500;">cada linha normalizada pelo próprio máximo no mês</span>
+      <div class="insight-badge">
+        FOCO EM EFICIÊNCIA
       </div>
     </div>
 
-    <!-- PAINEL DIREITO -->
-    <div class="right-panel">
+    <!-- KPIs SUPERIORES -->
+    <div class="top-kpis">
+      <div class="kpi-card kpi-q1">
+        <div class="kpi-title">Q1 · Alta Performance</div>
+        <div class="kpi-val">884 <span>segundos</span></div>
+        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais rápidos.</div>
+      </div>
+      <div class="kpi-card kpi-q4">
+        <div class="kpi-title">Q4 · Ofensores (Cauda Longa)</div>
+        <div class="kpi-val">1.531 <span>segundos</span></div>
+        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais lentos.</div>
+      </div>
+      <div class="kpi-card kpi-gap">
+        <div class="kpi-title">GAP Operacional (Q4 vs Q1)</div>
+        <div class="kpi-val" style="color: var(--agi-yellow);">+73% <span>de tempo</span></div>
+        <div class="kpi-sub">Um atendimento no Q4 custa 73% a mais que no Q1.</div>
+      </div>
+    </div>
+
+    <!-- MAIN SPLIT -->
+    <div class="main-split">
       
-      <div class="side-card">
-        <div class="sc-title">COMPOSIÇÃO — JUN/26</div>
-        <div id="comp-container">
-          <!-- Barras de Composição geradas pelo JS -->
+      <!-- TABELAS QUARTIS + BPO -->
+      <div class="tbl-container">
+        <!-- Tabela Evolução -->
+        <div class="tbl-header">
+          <span>N1 CHAT — TMA (s) <span class="badge-principal">CHAT</span></span>
         </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Fev-26</th>
+              <th>Mar-26</th>
+              <th>Abr-26</th>
+              <th>Mai-26</th>
+              <th class="col-jun">Jun-26</th>
+              <th>Δ J×M</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Q1 (Mais Rápidos)</td>
+              <td>836</td><td>856</td><td>964</td><td>951</td><td class="col-jun">884</td><td class="col-delta delta-good">-7,05%</td>
+            </tr>
+            <tr>
+              <td>Q2</td>
+              <td>997</td><td>1.056</td><td>1.173</td><td>1.204</td><td class="col-jun">1.102</td><td class="col-delta delta-good">-8,51%</td>
+            </tr>
+            <tr>
+              <td>Q3</td>
+              <td>1.152</td><td>1.238</td><td>1.361</td><td>1.417</td><td class="col-jun">1.285</td><td class="col-delta delta-good">-9,32%</td>
+            </tr>
+            <tr>
+              <td>Q4 (Mais Lentos)</td>
+              <td>1.392</td><td>1.515</td><td>1.651</td><td>1.764</td><td class="col-jun">1.531</td><td class="col-delta delta-good">-13,19%</td>
+            </tr>
+            <tr class="row-total">
+              <td>Total (Média)</td>
+              <td>1.070</td><td>1.110</td><td>1.254</td><td>1.278</td><td class="col-jun">1.204</td><td class="col-delta delta-good">-5,75%</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <div class="sc-title" style="margin-top: 20px;">EVOLUÇÃO MENSAL — TOTAL (FEV-JUN)</div>
-        <div id="evo-container">
-          <!-- Barras de Evolução geradas pelo JS -->
+        <!-- Tabela BPO Split -->
+        <div class="tbl-header" style="border-top: 1px solid var(--border-color);">
+          <span>N1 CHAT — BPO (s) <span class="badge-principal">JUN/26</span></span>
         </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>AEC</th>
+              <th>Almaviva</th>
+              <th>Tel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Q1 (Mais Rápidos)</td>
+              <td>918</td><td>872</td><td>850</td>
+            </tr>
+            <tr>
+              <td>Q2</td>
+              <td>1.137</td><td>1.104</td><td>1.030</td>
+            </tr>
+            <tr>
+              <td>Q3</td>
+              <td>1.366</td><td>1.271</td><td>1.156</td>
+            </tr>
+            <tr>
+              <td>Q4 (Mais Lentos)</td>
+              <td>1.608</td><td>1.532</td><td>1.378</td>
+            </tr>
+            <tr class="row-total">
+              <td>Total (Média)</td>
+              <td>1.262</td><td>1.197</td><td>1.109</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <div class="takeaway-box">
-          <h4>TAKEAWAYS</h4>
-          <p><b>Chat N1:</b> dominante (78,4% do total), pico no DU4 (16.836).</p>
-          <p><b>Células Táticas:</b> Faixa Preta Chat atinge 23K atend. Concierge Chat inicia rampa (2,7K).</p>
-          <p><b>AgiReverte:</b> Chat concentra o volume (10,5K); Voz cai para 947 casos.</p>
-          <p><b>Padrão DU:</b> volume concentrado na 1ª semana útil, decai ao longo do mês.</p>
+      </div>
+
+      <!-- GRÁFICO DE DISPERSÃO -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <span>Evolução da Dispersão (Segundos)</span>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="box" style="background: var(--agi-green);"></div> Q1</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> Q2</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-yellow);"></div> Q3</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-red);"></div> Q4</div>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="dispersionChart"></canvas>
         </div>
       </div>
 
     </div>
 
+  </div>
+
+  <!-- RODAPÉ CENTRALIZADO -->
+  <div class="footer">
+    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
+    <div style="flex: 2; text-align: center;">Atendimento ao Cliente · Dispersão de TMA Chat · Junho 2026</div>
+    <div style="flex: 1; text-align: right;">09 / 30</div>
   </div>
 
 </div>
 
 <script>
+  // Ajuste de escala para caber em qualquer tela
   function resizeSlide() {
-    const wrapper = document.querySelector('.slide-wrapper');
+    const wrapper = document.getElementById('scale-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     wrapper.style.transform = `scale(${scale})`;
+    if (scale < 1) {
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+        document.body.style.height = '100vh';
+        document.body.style.backgroundColor = '#222';
+    }
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
 
-  /* =======================================================================
-     MOTOR DE DADOS - HEATMAP (Maio e Junho com Faixa Preta e Concierge)
-     ======================================================================= */
-  const HEATMAP_DATA = [
-    { name: "SN (Mai/26)", data: [962, 1031, 1020, 1034, 1159, 1063, 1124, 1122, 1006, 1049, 959, 911, 1090, 1073, 1017, 1091, 1215, 1150, 1028, 1053, null, null], total: 21157 },
-    { name: "SN (Jun/26)", data: [1011, 1211, 1241, 1344, 1134, 1166, 1117, 1044, 851, 979, 1083, 1032, 1067, 950, 911, 1012, 824, 1095, 1063, 882, 1254, null], total: 22271 },
-    { name: "SAC (Mai/26)", data: [1359, 1113, 1137, 1098, 1293, 735, 717, 654, 643, 724, 670, 668, 754, 685, 887, 848, 966, 858, 855, 1009, null, null], total: 17673 },
-    { name: "SAC (Jun/26)", data: [1174, 1110, 1246, 1207, 1194, 833, 718, 593, 757, 644, 844, 702, 663, 894, 713, 645, 618, 710, 1103, 657, 959, null], total: 17984 },
-    { name: "N1 Voz (Mai/26)", data: [5205, 5157, 5045, 4975, 5817, 4265, 3887, 3461, 3214, 3947, 2812, 2064, 2049, 1780, 2266, 2151, 2111, 2097, 1908, 2661, null, null], total: 66872 },
-    { name: "N1 Voz (Jun/26)", data: [2463, 2230, 2853, 2821, 2583, 2136, 1862, 1687, 1892, 1934, 1650, 1609, 1659, 1694, 1659, 1476, 1365, 1485, 2286, 1399, 1845, null], total: 40588 },
-    { name: "CHAT N1 (Mai/26)", data: [14990, 14747, 14018, 14566, 17724, 9317, 8637, 7937, 7719, 11120, 8955, 9870, 9390, 8042, 15482, 12955, 14127, 12900, 10399, 13150, null, null], total: 236045 },
-    { name: "CHAT N1 (Jun/26)", data: [12837, 12603, 16256, 16836, 11842, 10954, 9602, 7824, 8734, 7701, 7757, 7508, 7209, 9762, 7886, 7370, 6963, 7461, 15348, 7839, 11872, null], total: 212164 },
-    { name: "AgiReverte Voz (Mai)", data: [557, 539, 525, 516, 491, 350, 392, 385, 362, 348, 289, 222, 242, 260, 329, 253, 262, 292, 262, 288, null, null], total: 7164 },
-    { name: "AgiReverte Voz (Jun)", data: [144, 105, 135, 87, 80, 85, 85, 58, 77, 91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null], total: 947 },
-    { name: "AgiReverte Chat (Mai)", data: [774, 1104, 1322, 1025, 847, 523, 476, 469, 461, 498, 606, 614, 663, 483, 592, 607, 653, 639, 661, 768, null, null], total: 13785 },
-    { name: "AgiReverte Chat (Jun)", data: [433, 575, 931, 853, 657, 637, 535, 517, 369, 528, 486, 383, 428, 442, 584, 25, 16, 478, 681, 418, 592, null], total: 10568 },
-    { name: "Faixa Preta Voz (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 703, 696, 577, 515, 346, 484, 563, 489, 432, null], total: 4810 },
-    { name: "Faixa Preta Voz (Jun)", data: [453, 510, 733, 559, 518, 593, 628, 444, 481, 378, 157, 159, 132, 361, 256, 319, 339, 363, 443, 302, 372, null], total: 8500 },
-    { name: "Faixa Preta Chat (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 593, 652, 711, 388, 804, 944, 880, 984, null], total: 6148 },
-    { name: "Faixa Preta Chat (Jun)", data: [438, 684, 1080, 649, 220, 419, 553, 693, 670, 442, 1178, 1296, 1340, 1461, 1111, 1712, 1589, 1523, 2519, 1403, 2072, null], total: 23052 },
-    { name: "Concierge Voz (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 29, 43, 25, 10, 6, 12, null, null], total: 126 },
-    { name: "Concierge Voz (Jun)", data: [8, 14, 10, 7, 2, 2, 4, 0, 2, 4, 5, 3, 17, 46, 6, 12, 11, 11, 19, 15, 14, null], total: 212 },
-    { name: "Concierge Chat (Mai)", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 39, 58, 74, 68, 77, 92, 112, null, null], total: 523 },
-    { name: "Concierge Chat (Jun)", data: [121, 92, 74, 1, 3, 14, 23, 154, 97, 150, 180, 158, 196, 176, 267, 269, 209, 286, 101, 78, 113, null], total: 2762 }
-  ];
+  // Inicialização do Gráfico de Dispersão (Chart.js)
+  Chart.register(ChartDataLabels);
+  Chart.defaults.font.family = "'Inter', sans-serif";
 
-  const tbody = document.getElementById('heatmap-body');
-
-  function getHeatmapClass(val, max) {
-    if (val === null || val === 0) return 'hm-1';
-    const pct = val / max;
-    if (pct > 0.9) return 'hm-6';
-    if (pct > 0.75) return 'hm-5';
-    if (pct > 0.6) return 'hm-4';
-    if (pct > 0.4) return 'hm-3';
-    if (pct > 0.2) return 'hm-2';
-    return 'hm-1';
-  }
-
-  const fmtNum = (num) => num.toLocaleString('pt-BR');
-
-  HEATMAP_DATA.forEach(row => {
-    const tr = document.createElement('tr');
-    
-    const validData = row.data.filter(v => v !== null && v > 0);
-    const maxVal = Math.max(...validData);
-
-    let html = `<td style="color: ${row.name.includes('Jun') ? 'var(--agi-blue)' : '#000000'};">${row.name}</td>`;
-    
-    row.data.forEach(val => {
-      if (val === null) {
-        html += `<td></td>`;
-      } else {
-        const colorClass = getHeatmapClass(val, maxVal);
-        html += `<td class="${colorClass}">${val === 0 ? '0' : val}</td>`;
+  const ctx = document.getElementById('dispersionChart').getContext('2d');
+  
+  new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ['Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
+          datasets: [
+              {
+                  label: 'Q4 (Lentos)',
+                  data: [1392, 1515, 1651, 1764, 1531],
+                  borderColor: '#d93025', backgroundColor: '#d93025',
+                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'top', offset: 4, color: '#d93025', font: { weight: 'bold', size: 10 } }
+              },
+              {
+                  label: 'Q3',
+                  data: [1152, 1238, 1361, 1417, 1285],
+                  borderColor: '#f59e0b', backgroundColor: '#f59e0b',
+                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'top', offset: 4, color: '#f59e0b', font: { weight: 'bold', size: 9 } } 
+              },
+              {
+                  label: 'Q2',
+                  data: [997, 1056, 1173, 1204, 1102],
+                  borderColor: '#1a56db', backgroundColor: '#1a56db',
+                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'bottom', offset: 4, color: '#1a56db', font: { weight: 'bold', size: 9 } } 
+              },
+              {
+                  label: 'Q1 (Rápidos)',
+                  data: [836, 856, 964, 951, 884],
+                  borderColor: '#239a48', backgroundColor: '#239a48',
+                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
+                  datalabels: { display: true, align: 'bottom', offset: 4, color: '#239a48', font: { weight: 'bold', size: 10 } }
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
+          layout: { padding: { top: 20, bottom: 20, left: 10, right: 20 } },
+          plugins: {
+              legend: { display: false },
+              tooltip: { mode: 'index', intersect: false }
+          },
+          scales: {
+              x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
+              y: { 
+                grid: { color: '#f3f4f6' }, border: { display: false },
+                ticks: { font: { size: 10 }, color: '#6b7280', stepSize: 200 }
+              }
+          }
       }
-    });
-
-    html += `<td>${fmtNum(row.total)}</td>`;
-    
-    tr.innerHTML = html;
-    tbody.appendChild(tr);
   });
-
-  /* =======================================================================
-     MOTOR DE DADOS - COMPOSIÇÃO E EVOLUÇÃO
-     ======================================================================= */
-  const COMP_DATA = [
-    { name: "Chat N1", val: 245325, pct: "78.4%", color: "#1a56db" },
-    { name: "N1 Voz", val: 67383, pct: "21.5%", color: "#000c36" },
-    { name: "SAC", val: 17831, pct: "5.7%", color: "#6b7280" },
-    { name: "SN", val: 15890, pct: "5.0%", color: "#239a48" }
-  ];
-
-  const compContainer = document.getElementById('comp-container');
-  const maxComp = Math.max(...COMP_DATA.map(d => d.val));
-
-  COMP_DATA.forEach(d => {
-    const w = (d.val / maxComp) * 100;
-    compContainer.innerHTML += `
-      <div class="comp-row">
-        <div class="comp-name">${d.name}</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width: ${w}%; background: ${d.color};"></div></div>
-        <div class="comp-val">${fmtNum(d.val)}</div>
-        <div class="comp-pct">${d.pct}</div>
-      </div>
-    `;
-  });
-
-  const EVO_DATA = [
-    { name: "Fev/26", val: 286, delta: "-4.0%" },
-    { name: "Mar/26", val: 322, delta: "+12.4%" },
-    { name: "Abr/26", val: 319, delta: "-0.9%" },
-    { name: "Mai/26", val: 321, delta: "+0.8%" },
-    { name: "Jun/26", val: 312, delta: "-2.6%", isCurrent: true }
-  ];
-
-  const evoContainer = document.getElementById('evo-container');
-  const maxEvo = Math.max(...EVO_DATA.map(d => d.val));
-
-  EVO_DATA.forEach(d => {
-    const w = (d.val / maxEvo) * 100;
-    const color = d.isCurrent ? "#b37022" : "#1a56db";
-    const deltaColor = d.delta.includes('-') ? "var(--text-gray)" : "var(--agi-brown)";
-    
-    evoContainer.innerHTML += `
-      <div class="comp-row">
-        <div class="comp-name">${d.name}</div>
-        <div class="comp-bar-bg"><div class="comp-bar-fill" style="width: ${w}%; background: ${color};"></div></div>
-        <div class="comp-val">${d.val}K</div>
-        <div class="comp-pct" style="color: ${deltaColor};">${d.delta}</div>
-      </div>
-    `;
-  });
-
 </script>
+
 </body>
 </html>
