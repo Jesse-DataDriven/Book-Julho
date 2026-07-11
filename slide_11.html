@@ -2,279 +2,252 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<!-- Importação do seu CSS Oficial -->
 <link rel="stylesheet" href="estilo.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* ================= VARIÁVEIS ESPECÍFICAS DESTE SLIDE ================= */
-  :root {
-    --purple-main: #6b21a8;
-    --orange-main: #ea580c;
-  }
-
-  /* ================= CONTEÚDO DO SLIDE ================= */
-  /* Redução de padding e gap para ganhar espaço vertical */
-  .title-area { padding: 10px 30px 0px; flex-shrink: 0;}
-  .title-area h2 { color: var(--header-bg); font-size: 22px; font-weight: 900; margin-bottom: 2px; letter-spacing: -0.5px;}
-  .title-area p { color: var(--text-gray); font-size: 11px; font-weight: 600; margin-top: 0px;}
-
-  .content { padding: 10px 30px 10px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px; background: var(--bg-main); }
-
-  /* --- INSIGHT BAR --- */
-  .insight-bar { 
-    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    padding: 8px 20px; display: flex; justify-content: space-between; align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02); flex-shrink: 0;
-  }
-  .insight-text h3 { font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
-  .insight-text p { font-size: 10.5px; color: var(--text-gray); font-weight: 500; line-height: 1.3;}
-  .insight-badge { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;}
-
-  /* --- KPIs TOP --- */
-  .top-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; flex-shrink: 0; }
-  .kpi-card { 
-    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    padding: 8px 15px; display: flex; flex-direction: column; justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; overflow: hidden;
-  }
-  .kpi-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
-  .kpi-q1::before { background: var(--agi-green); }
-  .kpi-q4::before { background: var(--agi-red); }
-  .kpi-gap::before { background: var(--agi-yellow); }
-
-  .kpi-title { font-size: 9px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;}
-  .kpi-val { font-size: 24px; font-weight: 900; color: var(--text-dark); line-height: 1; display: flex; align-items: baseline; gap: 5px;}
-  .kpi-val span { font-size: 10px; color: var(--text-gray); font-weight: 600;}
-  .kpi-sub { font-size: 9px; font-weight: 600; color: var(--text-gray); margin-top: 2px;}
-
-  /* --- MAIN SPLIT (Tabela + Gráfico) --- */
-  .main-split { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; flex: 1; min-height: 0;}
-
-  /* TABELA */
-  .tbl-container { 
-    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; flex-direction: column;
-  }
-  .tbl-header { 
-    background: var(--header-bg); color: white; padding: 6px 12px; 
-    font-size: 9.5px; font-weight: 800; text-transform: uppercase; 
-    display: flex; align-items: center; gap: 10px;
-  }
-  .badge-principal { background: var(--agi-green); color: white; padding: 2px 8px; border-radius: 12px; font-size: 8px; letter-spacing: 0.5px;}
-
-  /* Compressão nas células da tabela para caber as duas tabelas */
-  table { width: 100%; border-collapse: collapse; text-align: right; font-size: 9.5px; } 
-  th { 
-    background: #f8f9fa; color: var(--text-gray); font-weight: 800; 
-    padding: 4px 8px; border-bottom: 2px solid var(--border-color); 
-    text-transform: uppercase; font-size: 8px;
-  }
-  th:first-child, td:first-child { text-align: left; font-weight: 800; color: var(--text-dark);}
-  td { padding: 4.5px 8px; border-bottom: 1px solid #f3f4f6; font-weight: 600; color: var(--text-dark); } 
-  tr:last-child td { border-bottom: none; }
+  /* ================= AJUSTES ESTRITOS DO SLIDE 12 (Matriz COPC) ================= */
   
-  .row-total td { background-color: #f8fafc; font-weight: 800; color: var(--agi-blue); border-top: 2px solid #e2e8f0;}
-  .col-delta { font-weight: 800; }
-  .delta-good { color: var(--agi-green); }
-  .delta-bad { color: var(--agi-red); }
-  .col-jun { background-color: #f0f7ff; color: var(--agi-blue); font-weight: 800;}
-  th.col-jun { background-color: #e0e7ff; color: var(--agi-blue); }
-
-  /* GRÁFICO */
-  .chart-container { 
-    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
-    padding: 10px 15px; display: flex; flex-direction: column; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  .content-grid { 
+    display: grid; 
+    grid-template-columns: 32% 68%; 
+    gap: 20px; 
+    padding: 20px 30px; 
+    height: 606px; /* Ajustado para caber perfeitamente com o header de 64px e footer de 50px */
+    background: #f4f5f8;
+    box-sizing: border-box;
   }
-  .chart-header { font-size: 10px; font-weight: 800; color: var(--text-dark); text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;}
-  .chart-legend { display: flex; gap: 12px; font-size: 8.5px; color: var(--text-gray); font-weight: 700;}
-  .legend-item { display: flex; align-items: center; gap: 4px;}
-  .box { width: 10px; height: 10px; border-radius: 2px; }
-  .canvas-wrapper { flex: 1; width: 100%; position: relative; min-height: 0;}
-  .canvas-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
 
-  /* ================= RODAPÉ ================= */
-  .footer {
-    background: var(--header-bg); color: white; 
-    height: 40px; min-height: 40px;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 30px; font-size: 11px; font-weight: 600; 
-    margin-top: auto; flex-shrink: 0; position: relative;
+  /* --- PAINEL ESQUERDO --- */
+  .left-panel {
+    width: 100%; height: 100%; 
+    background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color);
   }
-  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .lp-header {
+    height: 48px; min-height: 48px; background: linear-gradient(90deg, #001a99 0%, #1a56db 100%); color: white;
+    padding: 0 15px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .lp-header h3 { font-size: 12px; font-weight: 700; line-height: 1.2; }
+  .lp-header-meta { text-align: right; font-size: 8px; color: #93c5fd; }
+  .lp-header-meta strong { font-size: 14px; color: white; display: block; margin-top: 1px;}
+
+  .lp-body { padding: 15px 20px; display: flex; flex-direction: column; height: calc(100% - 48px);}
+  
+  .main-metric-title { font-size: 9px; font-weight: 700; color: var(--text-gray); letter-spacing: 0.5px; margin-bottom: 2px; text-transform: uppercase;}
+  .main-metric-value { font-size: 52px; font-weight: 900; color: #16a34a; line-height: 1; letter-spacing: -2px; }
+  .main-metric-delta { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .delta-red { color: #ef4444; font-weight: 800; font-size: 11px; }
+  .sub-meta { font-size: 10px; color: var(--text-gray); font-weight: 600;}
+
+  /* Caixinhas de Status */
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .kpi-box { border: 1px solid #e5e7eb; border-radius: 6px; padding: 6px; text-align: center; background: #fafafa; }
+  .kpi-box p { font-size: 7.5px; color: var(--text-gray); font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
+  .kpi-box h4 { font-size: 12px; font-weight: 800; color: var(--text-dark); }
+  .kpi-box h4.green { color: #16a34a; }
+  .kpi-box h4.red { color: #ef4444; }
+  
+  /* Contexto (Verde - Dentro da Meta) */
+  .kpi-context { grid-column: span 2; background: #f0fdf4; border-color: #bbf7d0; text-align: left; padding: 8px 12px;}
+  .kpi-context p { color: #16a34a; margin-bottom: 2px;}
+  .kpi-context h4 { font-size: 9.5px; font-weight: 600; color: var(--text-dark); line-height: 1.3;}
+
+  .chart-title { font-size: 9px; font-weight: 700; color: var(--text-gray); margin-bottom: 4px; text-transform: uppercase; }
+  
+  .left-chart-container { flex: 1; width: 100%; position: relative; min-height: 140px;}
+  .left-chart-container canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+
+  /* --- PAINEL DIREITO --- */
+  .right-panel {
+    width: 100%; height: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 15px 20px; display: flex; flex-direction: column; border: 1px solid var(--border-color);
+  }
+
+  .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; margin-bottom: 12px;}
+  .header-left-panel { display: flex; align-items: center; gap: 10px; }
+  
+  .pill { background: #3b82f6; color: white; font-size: 9px; font-weight: 800; padding: 3px 10px; border-radius: 12px; white-space: nowrap;}
+  .pill.red { background: #ef4444; }
+  .pill.dark { background: #001a99; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--text-dark); display: block;}
+  .section-subtitle { font-size: 9px; color: var(--text-gray); font-weight: 600; margin-top: 2px; display: block;}
+
+  /* Top 4 List */
+  .top4-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;}
+  .top4-item { display: grid; grid-template-columns: 26px 170px 1fr 70px 60px 60px; align-items: center; gap: 10px; }
+  
+  .square-num { width: 26px; height: 26px; border-radius: 4px; color: white; font-weight: 800; font-size: 12px; display: flex; justify-content: center; align-items: center; }
+  .c1 { background: #ef4444; } .c2 { background: #f97316; } .c3 { background: #eab308; } .c4 { background: #14b8a6; }
+  
+  .bar-title { font-size: 12px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+  .bar-fill { height: 10px; border-radius: 5px; }
+  .bg1 { background: #ef4444; } .bg2 { background: #f97316; } .bg3 { background: #eab308; } .bg4 { background: #14b8a6; }
+
+  .stat-col { display: flex; flex-direction: column; text-align: right; line-height: 1.2; }
+  .stat-main { font-size: 13px; font-weight: 800; }
+  .stat-sub-main { font-size: 11px; font-weight: 800; color: var(--text-dark); }
+  .stat-lbl { font-size: 7px; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-top: 2px;}
+  .c1-text { color: #ef4444; } .c2-text { color: #f97316; } .c3-text { color: #eab308; } .c4-text { color: #14b8a6; }
+
+  /* Tabela Top 10 */
+  .table-container { flex: 1; display: flex; flex-direction: column; overflow: hidden;}
+  table.compact-table { width: 100%; border-collapse: collapse; }
+  table.compact-table th { text-align: left; padding: 6px 8px; font-size: 9px; color: var(--text-gray); font-weight: 700; border-bottom: 2px solid #e5e7eb; background: #f8fafc; text-transform: uppercase; }
+  table.compact-table th.right, table.compact-table td.right { text-align: right; }
+  table.compact-table td { padding: 6px 8px; font-size: 11px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid #f3f4f6; }
+  table.compact-table .col-num { width: 25px; color: var(--text-gray); font-weight: 800; font-size: 11px;}
+  table.compact-table .col-alert { color: #ef4444; font-weight: 800; } 
+  table.compact-table .col-good { color: #16a34a; font-weight: 800; } 
+
+  /* --- RODAPÉ DE INSIGHT --- */
+  .bottom-footer {
+    background-color: #0f172a; color: white; padding: 0 30px; font-size: 11px;
+    display: flex; justify-content: space-between; align-items: center; height: 50px; min-height: 50px;
+  }
+  .bottom-footer p { width: 85%; line-height: 1.4; color: #cbd5e1; margin: 0;}
+  .bottom-footer strong { color: white; }
+  .footer-badge {
+    border: 1px solid #16a34a; color: #16a34a; padding: 4px 10px; border-radius: 4px;
+    font-weight: 800; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(22, 163, 74, 0.1);
+  }
 </style>
 </head>
 <body>
 
-<div class="slide-wrapper" id="scale-wrapper">
+<div class="slide-wrapper">
   
-  <!-- CABEÇALHO PADRÃO ESTILO.CSS -->
+  <!-- CABEÇALHO (Agora 100% no padrão do estilo.css) -->
   <div class="header">
     <div class="header-left">
-      <h1>Atendimento Humano Chat</h1>
+      <h1>Desdobramento Rechamada (Matriz Atualizada)</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 14 DE 36</div>
+      <div class="slide-num">SLIDE 11 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
-  <div class="title-area">
-    <h2>Dispersão de TMA | Chat</h2>
-    <p>Tempo Médio de Atendimento (segundos) por quartil — Fev a Jun/26 · Δ Jun×Mai</p>
-  </div>
-
-  <div class="content">
+  <!-- CONTEÚDO PRINCIPAL (GRID) -->
+  <div class="content-grid">
     
-    <!-- INSIGHT BAR -->
-    <div class="insight-bar">
-      <div class="insight-text">
-        <h3>Redução geral de TMA em Junho aproxima os quartis, mas ofensores (Q4) ainda custam 73% a mais de tempo.</h3>
-        <p>A otimização da fila N1 em Junho reduziu o TMA consolidado em 5,75%. O Q1 (Alta Performance) atende em média em 14,7 minutos (884s), enquanto o Q4 consome 25,5 minutos (1.531s) por atendimento. Tel apresenta a melhor eficiência entre os BPOs (1.109s).</p>
-      </div>
-      <div class="insight-badge">
-        FOCO EM EFICIÊNCIA
-      </div>
-    </div>
-
-    <!-- KPIs SUPERIORES -->
-    <div class="top-kpis">
-      <div class="kpi-card kpi-q1">
-        <div class="kpi-title">Q1 · Alta Performance</div>
-        <div class="kpi-val">884 <span>segundos</span></div>
-        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais rápidos.</div>
-      </div>
-      <div class="kpi-card kpi-q4">
-        <div class="kpi-title">Q4 · Ofensores (Cauda Longa)</div>
-        <div class="kpi-val">1.531 <span>segundos</span></div>
-        <div class="kpi-sub">Tempo médio dos 25% atendimentos mais lentos.</div>
-      </div>
-      <div class="kpi-card kpi-gap">
-        <div class="kpi-title">GAP Operacional (Q4 vs Q1)</div>
-        <div class="kpi-val" style="color: var(--agi-yellow);">+73% <span>de tempo</span></div>
-        <div class="kpi-sub">Um atendimento no Q4 custa 73% a mais que no Q1.</div>
-      </div>
-    </div>
-
-    <!-- MAIN SPLIT -->
-    <div class="main-split">
-      
-      <!-- TABELAS QUARTIS + BPO -->
-      <div class="tbl-container">
-        <!-- Tabela Evolução -->
-        <div class="tbl-header">
-          <span>N1 CHAT — TMA (s) <span class="badge-principal">CHAT</span></span>
+    <!-- PAINEL ESQUERDO -->
+    <div class="left-panel">
+      <div class="lp-header">
+        <div class="left-header-titles">
+          <h3>Recontato 48h — Central<br>Visão COPC Junho</h3>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Indicador</th>
-              <th>Fev-26</th>
-              <th>Mar-26</th>
-              <th>Abr-26</th>
-              <th>Mai-26</th>
-              <th class="col-jun">Jun-26</th>
-              <th>Δ J×M</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Q1 (Mais Rápidos)</td>
-              <td>836</td><td>856</td><td>964</td><td>951</td><td class="col-jun">884</td><td class="col-delta delta-good">-7,05%</td>
-            </tr>
-            <tr>
-              <td>Q2</td>
-              <td>997</td><td>1.056</td><td>1.173</td><td>1.204</td><td class="col-jun">1.102</td><td class="col-delta delta-good">-8,51%</td>
-            </tr>
-            <tr>
-              <td>Q3</td>
-              <td>1.152</td><td>1.238</td><td>1.361</td><td>1.417</td><td class="col-jun">1.285</td><td class="col-delta delta-good">-9,32%</td>
-            </tr>
-            <tr>
-              <td>Q4 (Mais Lentos)</td>
-              <td>1.392</td><td>1.515</td><td>1.651</td><td>1.764</td><td class="col-jun">1.531</td><td class="col-delta delta-good">-13,19%</td>
-            </tr>
-            <tr class="row-total">
-              <td>Total (Média)</td>
-              <td>1.070</td><td>1.110</td><td>1.254</td><td>1.278</td><td class="col-jun">1.204</td><td class="col-delta delta-good">-5,75%</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Tabela BPO Split -->
-        <div class="tbl-header" style="border-top: 1px solid var(--border-color);">
-          <span>N1 CHAT — BPO (s) <span class="badge-principal">JUN/26</span></span>
+        <div class="lp-header-meta">
+          Meta < 23,0%
+          <strong>16,6%</strong>
+          atual
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Indicador</th>
-              <th>AEC</th>
-              <th>Almaviva</th>
-              <th>Tel</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Q1 (Mais Rápidos)</td>
-              <td>918</td><td>872</td><td>850</td>
-            </tr>
-            <tr>
-              <td>Q2</td>
-              <td>1.137</td><td>1.104</td><td>1.030</td>
-            </tr>
-            <tr>
-              <td>Q3</td>
-              <td>1.366</td><td>1.271</td><td>1.156</td>
-            </tr>
-            <tr>
-              <td>Q4 (Mais Lentos)</td>
-              <td>1.608</td><td>1.532</td><td>1.378</td>
-            </tr>
-            <tr class="row-total">
-              <td>Total (Média)</td>
-              <td>1.262</td><td>1.197</td><td>1.109</td>
-            </tr>
-          </tbody>
-        </table>
-
       </div>
 
-      <!-- GRÁFICO DE DISPERSÃO -->
-      <div class="chart-container">
-        <div class="chart-header">
-          <span>Evolução da Dispersão (Segundos)</span>
-          <div class="chart-legend">
-            <div class="legend-item"><div class="box" style="background: var(--agi-green);"></div> Q1</div>
-            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> Q2</div>
-            <div class="legend-item"><div class="box" style="background: var(--agi-yellow);"></div> Q3</div>
-            <div class="legend-item"><div class="box" style="background: var(--agi-red);"></div> Q4</div>
+      <div class="lp-body">
+        <div class="main-metric-title">TAXA DE RECONTATO GLOBAL · JUN/26</div>
+        <div class="main-metric-value">16,60%</div>
+        <div class="main-metric-delta">
+          <span class="delta-red">▲ +0,70 p.p vs Mai</span>
+          <span class="sub-meta">Dentro da Meta (<23,0%)</span>
+        </div>
+
+        <div class="status-grid">
+          <div class="kpi-box">
+            <p>VAR. MAI - JUN</p>
+            <h4 class="red">Aumento</h4>
+          </div>
+          <div class="kpi-box">
+            <p>STATUS GLOBAL</p>
+            <h4 class="green">Dentro da Meta</h4>
+          </div>
+          <div class="kpi-box kpi-context">
+            <p>ANÁLISE DE CONTEXTO</p>
+            <h4>Junho fecha dentro da meta (16,60% vs 23%). Contudo, houve piora na taxa global tracionada por atritos transacionais (Antecipação e Pix). Atenção ao Erro App que subiu para o 3º lugar.</h4>
           </div>
         </div>
-        <div class="canvas-wrapper">
-          <canvas id="dispersionChart"></canvas>
+
+        <div class="chart-title">EVOLUÇÃO SEMESTRAL</div>
+        <div class="left-chart-container">
+          <canvas id="chartEvolucao"></canvas>
+        </div>
+        <div style="display: flex; gap: 15px; font-size: 9px; font-weight: 600; color: var(--text-gray); justify-content: center; margin-top: 6px;">
+          <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 3px; background: #16a34a;"></div> Recontato 48h</div>
+          <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 0px; border-top: 2px dashed #eab308;"></div> Meta 23%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAINEL DIREITO -->
+    <div class="right-panel">
+      
+      <!-- GATILHO 4: TOP 4 BARS -->
+      <div>
+        <div class="section-header">
+          <div class="header-left-panel">
+            <span class="pill red">GATILHO IMPACTO</span>
+            <div>
+              <span class="section-title">Matriz de Impacto COPC (Top 4 Ofensores Absolutos)</span>
+              <span class="section-subtitle">Os leviatãs estruturais do mês (Volume x Taxa). Foco prioritário de atuação.</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="top4-list" id="bars-container">
+          <!-- As 4 barras serão injetadas aqui pelo JavaScript -->
         </div>
       </div>
 
-    </div>
+      <!-- GATILHOS 1 E 2: TABLE TOP 10 -->
+      <div class="table-container">
+        <div class="section-header" style="margin-bottom: 8px;">
+          <div class="header-left-panel">
+            <span class="pill dark">TOP 10</span>
+            <div>
+              <span class="section-title">Análise de Degradação (Δ%) vs Grandes Volumes (Share)</span>
+              <span class="section-subtitle">A "Cauda Longa": Os próximos 6 motivos que fecham o Top 10 de maior impacto na operação.</span>
+            </div>
+          </div>
+        </div>
+        
+        <table class="compact-table">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th>MOTIVO</th>
+              <th class="right">MAI %</th>
+              <th class="right">JUN %</th>
+              <th class="right" style="color: var(--agi-blue);">COMPARATIVO: Δ MÊS</th>
+              <th class="right" style="color: #f97316;">REPRESENTATIVIDADE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="col-num">5</td><td>Valores debitados</td><td class="right">17,76%</td><td class="right">18,60%</td><td class="right col-alert">▲ 0,84 p.p</td><td class="right" style="color: #f97316;">4,25%</td></tr>
+            <tr><td class="col-num">6</td><td>Parcelas Pagas</td><td class="right">13,56%</td><td class="right">12,16%</td><td class="right col-good">▼ 1,40 p.p</td><td class="right" style="color: #f97316;">3,78%</td></tr>
+            <tr><td class="col-num">7</td><td>Pagamento Benefício</td><td class="right">19,45%</td><td class="right">18,45%</td><td class="right col-good">▼ 1,00 p.p</td><td class="right" style="color: #f97316;">3,52%</td></tr>
+            <tr><td class="col-num">8</td><td>Cancelamento de Seguro</td><td class="right">25,92%</td><td class="right">24,36%</td><td class="right col-good">▼ 1,56 p.p</td><td class="right" style="color: #f97316;">3,44%</td></tr>
+            <tr><td class="col-num">9</td><td>Proposta em Andamento</td><td class="right">36,25%</td><td class="right">30,26%</td><td class="right col-good">▼ 5,99 p.p</td><td class="right" style="color: #f97316;">3,40%</td></tr>
+            <tr><td class="col-num">10</td><td>Extrato</td><td class="right">18,38%</td><td class="right">17,41%</td><td class="right col-good">▼ 0,97 p.p</td><td class="right" style="color: #f97316;">3,13%</td></tr>
+          </tbody>
+        </table>
+      </div>
 
+    </div>
   </div>
 
-  <!-- RODAPÉ CENTRALIZADO -->
-  <div class="footer">
-    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
-    <div style="flex: 2; text-align: center;">Atendimento ao Cliente · Dispersão de TMA Chat · Junho 2026</div>
-    <div style="flex: 1; text-align: right;">14 / 36</div>
+  <!-- RODAPÉ DE INSIGHT -->
+  <div class="bottom-footer">
+    <p><strong>Visão COPC (Insight Chave):</strong> A taxa global fechou em 16,60% (dentro da meta de 23%). O <strong>Gatilho 4</strong> revela que atritos transacionais dominam a central: "Antecipação de Parcelas" e "Pix" assumiram a liderança. Atenção à mudança de ranking: <strong>Erro App</strong> subiu para o 3º lugar, enquanto Cancelamento de Optante caiu para 4º.</p>
+    <div class="footer-badge">META ATINGIDA</div>
   </div>
 
 </div>
 
 <script>
-  // Ajuste de escala para caber em qualquer tela
   function resizeSlide() {
-    const wrapper = document.getElementById('scale-wrapper');
+    const wrapper = document.querySelector('.slide-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    wrapper.style.transform = `scale(${scale})`;
+    if(wrapper) wrapper.style.transform = `scale(${scale})`;
     if (scale < 1) {
         document.body.style.display = 'flex';
         document.body.style.justifyContent = 'center';
@@ -286,66 +259,90 @@
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
 
-  // Inicialização do Gráfico de Dispersão (Chart.js)
+  /* =======================================================================
+     MOTOR DE DADOS - TOP 4 MOTIVOS
+     ======================================================================= */
+  const MOTIVOS_DATA = [
+    { num: 1, nome: "Antecipação de Parcelas", volAbs: "1.727", taxaJun: 20.41, taxaMai: 20.36, class: "c1", bgClass: "bg1", txtClass: "c1-text" },
+    { num: 2, nome: "Pix", volAbs: "1.658", taxaJun: 20.64, taxaMai: 18.35, class: "c2", bgClass: "bg2", txtClass: "c2-text" },
+    { num: 3, nome: "Erro App", volAbs: "1.500", taxaJun: 26.40, taxaMai: 25.43, class: "c3", bgClass: "bg3", txtClass: "c3-text" },
+    { num: 4, nome: "Cancelamento de Optante", volAbs: "1.475", taxaJun: 17.12, taxaMai: 20.98, class: "c4", bgClass: "bg4", txtClass: "c4-text" }
+  ];
+
+  const barsContainer = document.getElementById('bars-container');
+  const MAX_TAXA = 30; 
+
+  if(barsContainer) {
+      MOTIVOS_DATA.forEach((item) => {
+        const widthPct = (item.taxaJun / MAX_TAXA) * 100;
+        
+        const barHtml = `
+          <div class="top4-item">
+            <div class="square-num ${item.class}">${item.num}</div>
+            <div class="bar-title">${item.nome}</div>
+            <div><div class="bar-fill ${item.bgClass}" style="width: ${widthPct}%;"></div></div>
+            <div class="stat-col"><span class="stat-main ${item.txtClass}">${item.volAbs}</span><span class="stat-lbl">Vol. Rechamada</span></div>
+            <div class="stat-col"><span class="stat-sub-main">${item.taxaJun.toFixed(2).replace('.', ',')}%</span><span class="stat-lbl">Taxa Junho</span></div>
+            <div class="stat-col"><span class="stat-sub-main">${item.taxaMai.toFixed(2).replace('.', ',')}%</span><span class="stat-lbl">Taxa Maio</span></div>
+          </div>
+        `;
+        barsContainer.innerHTML += barHtml;
+      });
+  }
+
+  /* =======================================================================
+     GRÁFICO DE EVOLUÇÃO GLOBAL
+     ======================================================================= */
   Chart.register(ChartDataLabels);
   Chart.defaults.font.family = "'Inter', sans-serif";
 
-  const ctx = document.getElementById('dispersionChart').getContext('2d');
-  
-  new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: ['Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
-          datasets: [
-              {
-                  label: 'Q4 (Lentos)',
-                  data: [1392, 1515, 1651, 1764, 1531],
-                  borderColor: '#d93025', backgroundColor: '#d93025',
-                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
-                  datalabels: { display: true, align: 'top', offset: 4, color: '#d93025', font: { weight: 'bold', size: 10 } }
-              },
-              {
-                  label: 'Q3',
-                  data: [1152, 1238, 1361, 1417, 1285],
-                  borderColor: '#f59e0b', backgroundColor: '#f59e0b',
-                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
-                  datalabels: { display: false } 
-              },
-              {
-                  label: 'Q2',
-                  data: [997, 1056, 1173, 1204, 1102],
-                  borderColor: '#1a56db', backgroundColor: '#1a56db',
-                  borderWidth: 2, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#fff',
-                  datalabels: { display: false } 
-              },
-              {
-                  label: 'Q1 (Rápidos)',
-                  data: [836, 856, 964, 951, 884],
-                  borderColor: '#239a48', backgroundColor: '#239a48',
-                  borderWidth: 2.5, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#fff',
-                  datalabels: { display: true, align: 'bottom', offset: 4, color: '#239a48', font: { weight: 'bold', size: 10 } }
-              }
-          ]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2),
-          layout: { padding: { top: 20, bottom: 20, left: 10, right: 20 } },
-          plugins: {
-              legend: { display: false },
-              tooltip: { mode: 'index', intersect: false }
+  const canvasEvolucao = document.getElementById('chartEvolucao');
+  if(canvasEvolucao) {
+      const ctxEvolucao = canvasEvolucao.getContext('2d');
+      
+      new Chart(ctxEvolucao, {
+          type: 'line',
+          data: {
+              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+              datasets: [
+                  {
+                      label: 'Recontato Mensal',
+                      data: [17.0, 17.5, 17.3, 15.7, 15.9, 16.60],
+                      borderColor: '#16a34a', // Linha Verde
+                      backgroundColor: 'rgba(22, 163, 74, 0.15)', // Fundo Verde
+                      fill: true, borderWidth: 2, tension: 0.4,
+                      // Pontos Azuis, último vermelho indicando que subiu (piora vs maio)
+                      pointBackgroundColor: ['#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#ef4444'], 
+                      pointBorderColor: '#fff', pointBorderWidth: 1.5, pointRadius: [3, 3, 3, 3, 3, 5], 
+                      datalabels: {
+                          display: true, align: 'bottom', offset: 6,
+                          color: (context) => context.dataIndex === 5 ? '#ef4444' : '#1a56db',
+                          font: { weight: 'bold', size: 9 },
+                          formatter: (value) => value.toFixed(2).replace('.', ',') + '%'
+                      }
+                  },
+                  {
+                      label: 'Meta', data: [23, 23, 23, 23, 23, 23], 
+                      borderColor: '#eab308', borderDash: [4, 4], borderWidth: 1.5, pointRadius: 0, fill: false, // Linha Meta Amarela Tracejada
+                      datalabels: { display: false }
+                  }
+              ]
           },
-          scales: {
-              x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
-              y: { 
-                grid: { color: '#f3f4f6' }, border: { display: false },
-                ticks: { font: { size: 10 }, color: '#6b7280', stepSize: 200 }
+          options: {
+              responsive: true, maintainAspectRatio: false, devicePixelRatio: window.devicePixelRatio * 2,
+              layout: { padding: { top: 15, right: 15, left: 0, bottom: 5 } },
+              plugins: { legend: { display: false }, tooltip: { enabled: false } },
+              scales: {
+                  x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#6b7280' } },
+                  y: { 
+                    min: 10, max: 25, // Ajustado para 25 para acomodar a linha da meta (23)
+                    grid: { color: '#f3f4f6' }, border: { display: false }, 
+                    ticks: { font: { size: 9 }, color: '#6b7280', stepSize: 5, callback: (v) => v.toFixed(1).replace('.', ',') + '%' } 
+                  }
               }
           }
-      }
-  });
+      });
+  }
 </script>
-
 </body>
 </html>
