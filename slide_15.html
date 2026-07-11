@@ -2,18 +2,82 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="estilo.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 10 ================= */
+  /* =======================================================================
+     AGIBANK CX - DESIGN SYSTEM BASE (Trazido para o HTML para não quebrar)
+     ======================================================================= */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+    
+    --trend-green-bg: #e6f4ea;
+    --trend-green-txt: #1b853f;
+    --trend-red-bg: #fce8e6;
+    --trend-red-txt: #c5221f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
+
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
+
+  /* ================= CABEÇALHO PADRÃO ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* ================= RODAPÉ CENTRALIZADO ================= */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+    flex-shrink: 0; position: relative;
+  }
+  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { position: absolute; right: 30px; color: white;}
+  .footer .footer-center { color: rgba(255,255,255,0.8); }
+
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 15 ================= */
   .content { padding: 10px 30px !important; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px;}
   
   /* Insight Bar */
-  .insight-bar { height: 75px !important; min-height: 75px !important; padding: 10px 30px !important; }
-  .insight-text h2 { font-size: 15px !important; margin-bottom: 2px !important; }
-  .insight-text p { font-size: 10.5px !important; }
-  .insight-badge h3 { font-size: 32px !important; }
+  .insight-bar { background: white; border-bottom: 1px solid var(--border-color); height: 75px !important; min-height: 75px !important; padding: 10px 30px !important; display: flex; justify-content: space-between; align-items: center;}
+  .insight-text h2 { font-size: 15px !important; margin-bottom: 2px !important; color: var(--text-dark); font-weight: 500;}
+  .insight-text h2 b { font-weight: 800; }
+  .insight-text p { font-size: 10.5px !important; color: var(--text-gray); font-weight: 500;}
+  
+  .insight-badge { text-align: right; }
+  .insight-badge h3 { font-size: 32px !important; font-weight: 900; color: var(--header-bg); line-height: 1; letter-spacing: -1px;}
+  .insight-badge p { font-size: 9px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;}
 
   /* Grid dos Cartões */
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; min-height: 0; padding: 0;}
@@ -73,7 +137,7 @@
       <h1>Risco, Regulatório & Reclamações</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 19 DE 36</div>
+      <div class="slide-num">SLIDE 15 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
@@ -81,12 +145,12 @@
   <!-- INSIGHT PRINCIPAL -->
   <div class="insight-bar">
     <div class="insight-text">
-      <h2 id="main-insight">Jun/26 Consolidado: Canais regulatórios em forte queda (Procon recua -17%). Stress Rate atinge mínima histórica (<b>1,37%</b>) e Reputação no RA salta para <b>8,6</b>.</h2>
-      <p>Junho consolidado. Todos os canais de reclamação (Consumidor.gov, BACEN, Procon e Reclame Aqui) apresentaram redução de volume. Recontato (16,6%) e Stress Rate (1,37%) seguem com folga abaixo das metas.</p>
+      <h2 id="main-insight">Jun/26 Consolidado: Canais regulatórios em forte queda (Procon recua -17%). Stress Rate atinge mínima histórica (<b>1,37%</b>) e Reputação no RA salta para <b>8,68</b>.</h2>
+      <p>Junho consolidado. Todos os canais de reclamação (Consumidor.gov, BACEN, Procon e Reclame Aqui) apresentaram redução de volume. Stress Rate (1,37%) segue com folga abaixo da meta.</p>
     </div>
     <div class="insight-badge">
       <h3>JUN/26</h3>
-      <p>RISCO & REGULATÓRIO</p>
+      <p>RISCO & REGULATÓRIO • CX</p>
     </div>
   </div>
 
@@ -96,11 +160,11 @@
     </div>
   </div>
 
-  <!-- RODAPÉ -->
+  <!-- RODAPÉ CENTRALIZADO -->
   <div class="footer">
-    <span class="confidencial">CONFIDENCIAL</span>
-    <span>Atendimento ao Cliente · Risco, Regulatório & Reclamações · Junho 2026</span>
-    <span>10 / 36</span>
+    <div style="flex: 1;"><span class="confidencial">CONFIDENCIAL</span></div>
+    <div style="flex: 2; text-align: center;" class="footer-center">Atendimento ao Cliente · Risco, Regulatório & Reclamações · Junho 2026</div>
+    <div style="flex: 1; text-align: right;" class="slide-counter">15 / 30</div>
   </div>
 
 </div>
@@ -139,13 +203,6 @@
       desc: "Junho fecha em <b>{VAL}</b>. Queda expressiva após a alta de Maio, distanciando do pico."
     },
     {
-      id: "recontato", title: "RECONTATO 48H", colorClass: "bg-blue", peso: "✓ Meta 23% · Peso 15%",
-      mainLabel: "% clientes que retornam em 48h",
-      data: [35, 32, 30, 27, 17, 17.5, 17.3, 15.7, 15.9, 16.6],
-      meta: 23, isPct: true, goodIsUp: false, color: "#1a56db", chartType: "line",
-      desc: "Junho em <b>{VAL}</b> — abaixo da meta de 23%. Leve alta no mês, mas estrutura controlada."
-    },
-    {
       id: "stress", title: "STRESS RATE", colorClass: "bg-green", peso: "✓ Meta 3,56% · Peso 15%",
       mainLabel: "5+ acionamentos em 7d / base CPFs",
       data: [4.3, 4.5, 3.5, 3, 3, 2.7, 2.73, 2.38, 1.61, 1.37],
@@ -153,18 +210,18 @@
       desc: "Junho em <b>{VAL}</b> — bem abaixo da meta (3,56%); Menor patamar da série histórica."
     },
     {
-      id: "ra", title: "RECLAME AQUI", colorClass: "bg-blue", peso: "Vol. 3.010 · Sol. 92,5%",
+      id: "ra", title: "RECLAME AQUI", colorClass: "bg-blue", peso: "Vol. 3.008 · Sol. 92,5%",
       mainLabel: "Nota de reputação (0–10)",
-      data: [8.4, 8.5, 8.5, 8.5, 8.4, 8.5, 8.5, 8.4, 8.2, 8.6], 
-      dataBar: [3.3, 3, 2.6, 2.5, 3.2, 2.9, 3.7, 3.62, 3.33, 3.01], 
+      data: [8.4, 8.5, 8.5, 8.5, 8.57, 8.41, 8.42, 8.43, 8.20, 8.68], 
+      dataBar: [3.3, 3, 2.6, 2.5, 3.104, 2.869, 3.634, 3.516, 3.251, 3.008], 
       isPct: false, goodIsUp: true, color: "#1a56db", chartType: "mixed",
-      desc: "Junho: reputação salta para <b>{VAL}</b> com queda no volume para 3.010 reclamações."
+      desc: "Junho: reputação salta para <b>{VAL}</b> com queda no volume para 3.008 reclamações."
     }
   ];
 
   const fmt = (num, isPct, id) => {
-    // Força 1 casa decimal para Reputação do RA (ex: 8.2)
-    if (id === 'ra') return num.toLocaleString('pt-BR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+    // Força 2 casas decimais para Reputação do RA (ex: 8,68)
+    if (id === 'ra') return num.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     let s = num.toLocaleString('pt-BR', {minimumFractionDigits: isPct?2:0, maximumFractionDigits: isPct?2:0});
     return isPct ? s + '%' : s;
   };
@@ -213,7 +270,7 @@
             <div>
               <div class="metric-value" style="color:${valColor}">${fmt(valJun, d.isPct, d.id)} <span class="metric-desc">${d.mainLabel}</span></div>
               <div class="custom-legend">
-                <div class="legend-item"><div class="legend-color" style="background: ${d.color};"></div> ${d.id==='ra'?'Reputação':(d.id==='stress'?'Stress':(d.id==='recontato'?'Recontato':'Volume'))}</div>
+                <div class="legend-item"><div class="legend-color" style="background: ${d.color};"></div> ${d.id==='ra'?'Reputação':(d.id==='stress'?'Stress':'Volume')}</div>
                 ${d.meta ? `<div class="legend-item"><div class="legend-color" style="background: transparent; border-top: 2px dashed #d93025;"></div> Meta ${fmt(d.meta, d.isPct, d.id)}</div>` : ''}
                 ${d.dataBar ? `<div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Vol. (mil)</div>` : ''}
               </div>
@@ -287,7 +344,7 @@
             ...chartOptions, 
             scales: { 
                 x: { grid: { display: false }, ticks: { font: { size: 8, weight: 'bold' } } },
-                y: { display: false, min: 7.5, suggestedMax: 9 }, // Escala da Linha
+                y: { display: false, min: 1.5, suggestedMax: 9 }, // Escala da Linha
                 y1: { display: false, min: 0, max: 5, position: 'right' } // Escala da Barra
             }
         }
