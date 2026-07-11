@@ -44,9 +44,6 @@
     flex-shrink: 0;
   }
   .header-left { display: flex; align-items: center; gap: 15px; }
-  .logo { background: white; color: var(--agi-blue); font-weight: 800; font-size: 28px; padding: 6px 14px 8px 14px; border-radius: 8px; display: inline-flex; align-items: baseline; letter-spacing: -1px; line-height: 1; }
-  .agi-i { display: inline-block; width: 6px; height: 15px; background-color: var(--agi-blue); margin-left: 2px; position: relative; }
-  .agi-i::after { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 6.5px; height: 6.5px; background-color: var(--agi-green); border-radius: 50%; }
   .header h1 { font-size: 20px; font-weight: 700; margin: 0; letter-spacing: -0.5px;}
   .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
   .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
@@ -128,7 +125,6 @@
   .modern-table tr.total-row td { background: #f0f4ff; font-weight: 800; color: var(--header-bg);} 
   .mix-pill { background: #e0e7ff; color: var(--agi-blue); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px;}
 
-  /* ================= RODAPÉ CORRIGIDO E CENTRALIZADO ================= */
   .footer {
     background: var(--header-bg); color: white; 
     height: 40px; min-height: 40px;
@@ -146,23 +142,19 @@
 
 <div class="slide-wrapper" id="scale-wrapper">
   
-  <!-- CABEÇALHO -->
   <div class="header">
-    <div class="header-left">
-      <h1>Resumo Operacional</h1>
-    </div>
+    <div class="header-left"><h1>Resumo Operacional</h1></div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 2 DE 36</div>
+      <div class="slide-num">SLIDE 02 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
-  <!-- INSIGHT PRINCIPAL -->
   <div class="insight-bar">
     <div class="insight-text">
-      <h2>NS atinge <b>85,17%</b> (+1,05 p.p.) impulsionado por salto histórico em Voz (92,43%). Volume geral recua.</h2>
-      <p>Consolidado em 85,17% (vs 84,12% Mai) — acima da meta de 75%. TMA consolidado caiu para 17,3 min.<br>
-      Volume Topo recuou -2,8% e Humano caiu forte (-13,7%). NS YTD em 80,66%.</p>
+      <h2>O Canal voz impactou alguns KPI's pelo recuo no volume de -31,28%. NS atinge <b>85,17%</b> (+1,05 p.p.) impulsionado por Voz em 92,43%.</h2>
+      <p style="color: var(--agi-red);">Impacto também no preço unitário global impulsionado pelo canal voz que fechou R$24,13 pela queda no volume.</p>
+      <p>TMA consolidado caiu para 17,3 min. Volume Topo recuou -1,20% e Humano caiu forte (-13,7%). NS YTD em 80,66%.</p>
     </div>
     <div class="insight-badge">
       <h3 style="color: var(--agi-green);">80,66%</h3>
@@ -171,150 +163,79 @@
   </div>
 
   <div class="content">
-    
-    <!-- GRID DE 6 KPIs -->
     <div class="grid-6">
       <div class="sum-kpi">
         <div class="sum-kpi-head">
           <span class="sum-kpi-title">VOLUME TOPO</span>
           <span class="trend-pill trend-good">▼ -2,8%</span>
         </div>
-        <div class="sum-kpi-val">2.099.330</div>
-        <div class="sum-kpi-sub">▼ -2,8% vs mês ant.</div>
+        <div class="sum-kpi-val">567.118</div>
+        <div class="sum-kpi-sub">▼ -1,20% vs mês ant.</div>
       </div>
-      
       <div class="sum-kpi">
         <div class="sum-kpi-head">
-          <span class="sum-kpi-title">NS CONSOLIDADO <span style="color:#239a48; font-weight:normal;">META 75%</span></span>
+          <span class="sum-kpi-title">NS CONSOLIDADO</span>
           <span class="trend-pill trend-good">▲ +1,05 p.p.</span>
         </div>
         <div class="sum-kpi-val" style="color: var(--agi-green);">85,17%</div>
         <div class="sum-kpi-sub">Voz 92,4% · Chat 83,1%</div>
       </div>
-
       <div class="sum-kpi">
         <div class="sum-kpi-head">
-          <span class="sum-kpi-title">TMA CONSOLIDADO <span style="font-weight:normal; color:var(--text-gray)">MIN</span></span>
+          <span class="sum-kpi-title">TMA CONSOLIDADO</span>
           <span class="trend-pill trend-good">▼ -2%</span>
         </div>
         <div class="sum-kpi-val" style="color: var(--agi-green);">17,3</div>
         <div class="sum-kpi-sub">Voz 6,1 · Chat 20,4</div>
       </div>
-
       <div class="sum-kpi">
         <div class="sum-kpi-head">
-          <span class="sum-kpi-title">TME CONSOLIDADO <span style="font-weight:normal; color:var(--text-gray)">MIN</span></span>
+          <span class="sum-kpi-title">TME CONSOLIDADO</span>
           <span class="trend-pill trend-good">▼ -3%</span>
         </div>
         <div class="sum-kpi-val" style="color: var(--agi-green);">3,1</div>
         <div class="sum-kpi-sub">Voz 0,3 · Chat 3,9</div>
       </div>
-
-      <!-- CUSTO UNITÁRIO -->
       <div class="sum-kpi">
         <div class="sum-kpi-head">
-          <span class="sum-kpi-title">CUSTO UNITÁRIO <span style="font-weight:normal; color:var(--text-gray)">R$/ATEND.</span></span>
-          <span class="trend-pill trend-good">▼ -R$ 0,88</span>
+          <span class="sum-kpi-title">CUSTO UNITÁRIO R$/ATEND.</span>
+          <span class="trend-pill trend-bad">▲ 11,53%</span>
         </div>
-        <div class="sum-kpi-val">R$ 10,92</div>
-        <div class="sum-kpi-sub">Inbound R$11,49 · WA R$12,03</div>
+        <div class="sum-kpi-val">R$ 13,74</div>
+        <div class="sum-kpi-sub">VOZ R$24,13 · WA R$10,92</div>
       </div>
-
-      <!-- POSIÇÕES ATIVAS (PA) COM A QUEBRA POR BPO CORRIGIDA -->
       <div class="sum-kpi">
         <div class="sum-kpi-head">
           <span class="sum-kpi-title">POSIÇÕES ATIVAS (PA)</span>
           <span class="trend-pill trend-good">▼ -29</span>
         </div>
-        <div class="sum-kpi-val" style="color: var(--text-dark);">357</div>
+        <div class="sum-kpi-val">357</div>
         <div class="sum-kpi-sub">AEC 157 · TELSSA 129 · ALMAVIVA 71</div>
       </div>
     </div>
-
-    <!-- BARRA DE ORÇAMENTO (YTD) -->
+    <!-- Restante do código mantido igual -->
     <div class="budget-wrapper">
       <span class="budget-title">ORÇAMENTO BPO (YTD)</span>
       <div class="budget-bar-bg"><div class="budget-bar-fill" style="width: 83.9%;"></div></div>
       <span class="budget-info">R$ 25.801.439,81 realizado vs R$ 30.763.680,78 orçado</span>
       <span class="trend-pill trend-good">-R$ 4.962.240,97 de economia</span>
     </div>
-
-    <!-- CAIXAS DE CONTEXTO -->
     <div class="grid-3">
-      <div class="info-card ic-blue">
-        <div class="ic-header"><div class="ic-icon">✓</div> DESEMPENHO</div>
-        <div class="ic-body">NS consolida alta e vai a <b>85,17%</b> (+1,05 p.p.). O grande destaque do mês é o canal Voz, que saltou de 76,77% para incríveis <b>92,43%</b>. NS YTD acumulado fecha o semestre em <b>80,66%</b>.</div>
-        <div class="ic-footer">
-          <div><h4>85,1%</h4><span>NS Consolidado Jun/26</span></div>
-          <span class="trend-pill trend-good" style="font-size: 10px;">▲ +1,05 p.p.</span>
-        </div>
-      </div>
-
-      <div class="info-card ic-orange">
-        <div class="ic-header"><div class="ic-icon">!</div> ATENÇÃO</div>
-        <div class="ic-body">Enquanto Voz brilha, o NS do Chat teve leve recuo de 86,87% para <b>83,15%</b>. O volume total humano caiu forte <b>(-13,7%)</b>, puxado por uma queda brusca de 31% nas chamadas de voz inbound.</div>
-        <div class="ic-footer">
-          <div><h4>313,4K</h4><span>Vol. Humano Jun/26</span></div>
-          <span class="trend-pill trend-good" style="font-size: 10px;">▼ -13,7%</span>
-        </div>
-      </div>
-
-      <div class="info-card ic-green">
-        <div class="ic-header"><div class="ic-icon">↑</div> EFICIÊNCIA</div>
-        <div class="ic-body">TMA Consolidado recuou para <b>17,3 min</b> e TME para <b>3,1 min</b> (com o TME de Voz despencando para apenas 0,3 min). O mix de canais mantém migração digital (Chat WA em <b>78%</b>).</div>
-        <div class="ic-footer">
-          <div><h4>17,3</h4><span>TMA Consol. (min)</span></div>
-          <span class="trend-pill trend-good" style="font-size: 10px;">▼ -2%</span>
-        </div>
-      </div>
+      <div class="info-card ic-blue"><div class="ic-header"><div class="ic-icon">✓</div> DESEMPENHO</div><div class="ic-body">NS consolida alta e vai a <b>85,17%</b> (+1,05 p.p.). O grande destaque do mês é o canal Voz, que saltou de 76,77% para incríveis <b>92,43%</b>. NS YTD acumulado fecha o semestre em <b>80,66%</b>.</div><div class="ic-footer"><div><h4>85,1%</h4><span>NS Consolidado Jun/26</span></div><span class="trend-pill trend-good" style="font-size: 10px;">▲ +1,05 p.p.</span></div></div>
+      <div class="info-card ic-orange"><div class="ic-header"><div class="ic-icon">!</div> ATENÇÃO</div><div class="ic-body">O NS do Chat teve leve recuo de 86,87% para <b>83,15%</b>. O volume total humano caiu forte <b>(-13,7%)</b>, puxado por uma queda brusca de 31% nas chamadas de voz inbound.</div><div class="ic-footer"><div><h4>313,4K</h4><span>Vol. Humano Jun/26</span></div><span class="trend-pill trend-good" style="font-size: 10px;">▼ -13,7%</span></div></div>
+      <div class="info-card ic-green"><div class="ic-header"><div class="ic-icon">↑</div> EFICIÊNCIA</div><div class="ic-body">TMA Consolidado recuou para <b>17,3 min</b> e TME para <b>3,1 min</b> (com o TME de Voz despencando para apenas 0,3 min). O mix de canais mantém migração digital (Chat WA em <b>78%</b>).</div><div class="ic-footer"><div><h4>17,3</h4><span>TMA Consol. (min)</span></div><span class="trend-pill trend-good" style="font-size: 10px;">▼ -2%</span></div></div>
     </div>
-
-    <!-- TABELAS MODERNIZADAS -->
     <div class="modern-table-wrapper">
-      
-      <!-- Tabela Esquerda -->
-      <div class="modern-table">
-        <div class="modern-table-title">
-          <span>VOLUME POR CANAL — JUN/26</span>
-          <span style="color: rgba(255,255,255,0.6); font-weight: 600;">Total Humano: 313,4K</span>
-        </div>
-        <table>
-          <thead><tr><th>Canal</th><th class="num">Volume</th><th class="num">Vs Mai/26</th><th class="num">Mix</th></tr></thead>
-          <tbody>
-            <tr><td>Voz (Inbound)</td><td class="num">68.096</td><td class="num" style="color: var(--agi-green);">▼ -31,2%</td><td class="num"><span class="mix-pill">22%</span></td></tr>
-            <tr><td>Chat (WhatsApp)</td><td class="num">245.325</td><td class="num" style="color: var(--agi-green);">▼ -7,1%</td><td class="num"><span class="mix-pill" style="background: #e6f4ea; color: #1b853f;">78%</span></td></tr>
-            <tr class="total-row"><td>Total Humano</td><td class="num">313.421</td><td class="num" style="color: var(--agi-green);">▼ -13,7%</td><td class="num"></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Tabela Direita -->
-      <div class="modern-table">
-        <div class="modern-table-title">
-          <span>NÍVEL DE SERVIÇO POR CANAL — JUN/26</span>
-          <span style="color: rgba(255,255,255,0.6); font-weight: 600;">Meta: 75%</span>
-        </div>
-        <table>
-          <thead><tr><th>Canal</th><th class="num">NS</th><th class="num">TMA</th><th class="num">TME</th></tr></thead>
-          <tbody>
-            <tr class="total-row"><td>Consolidado</td><td class="num" style="color: var(--agi-green);">85,17%</td><td class="num">17,3 min</td><td class="num">3,1 min</td></tr>
-            <tr><td>Voz</td><td class="num" style="color: var(--agi-green);">92,43%</td><td class="num">6,1 min</td><td class="num">0,3 min</td></tr>
-            <tr><td>Chat</td><td class="num" style="color: var(--agi-green);">83,15%</td><td class="num">20,4 min</td><td class="num">3,9 min</td></tr>
-          </tbody>
-        </table>
-      </div>
-
+      <div class="modern-table"><div class="modern-table-title"><span>VOLUME POR CANAL — JUN/26</span><span style="color: rgba(255,255,255,0.6); font-weight: 600;">Total Humano: 313,4K</span></div><table><thead><tr><th>Canal</th><th class="num">Volume</th><th class="num">Vs Mai/26</th><th class="num">Mix</th></tr></thead><tbody><tr><td>Voz (Inbound)</td><td class="num">68.096</td><td class="num" style="color: var(--agi-green);">▼ -31,2%</td><td class="num"><span class="mix-pill">22%</span></td></tr><tr><td>Chat (WhatsApp)</td><td class="num">245.325</td><td class="num" style="color: var(--agi-green);">▼ -7,1%</td><td class="num"><span class="mix-pill" style="background: #e6f4ea; color: #1b853f;">78%</span></td></tr><tr class="total-row"><td>Total Humano</td><td class="num">313.421</td><td class="num" style="color: var(--agi-green);">▼ -13,7%</td><td class="num"></td></tr></tbody></table></div>
+      <div class="modern-table"><div class="modern-table-title"><span>NÍVEL DE SERVIÇO POR CANAL — JUN/26</span><span style="color: rgba(255,255,255,0.6); font-weight: 600;">Meta: 75%</span></div><table><thead><tr><th>Canal</th><th class="num">NS</th><th class="num">TMA</th><th class="num">TME</th></tr></thead><tbody><tr class="total-row"><td>Consolidado</td><td class="num" style="color: var(--agi-green);">85,17%</td><td class="num">17,3 min</td><td class="num">3,1 min</td></tr><tr><td>Voz</td><td class="num" style="color: var(--agi-green);">92,43%</td><td class="num">6,1 min</td><td class="num">0,3 min</td></tr><tr><td>Chat</td><td class="num" style="color: var(--agi-green);">83,15%</td><td class="num">20,4 min</td><td class="num">3,9 min</td></tr></tbody></table></div>
     </div>
-
   </div>
 
-  <!-- RODAPÉ CORRIGIDO E CENTRALIZADO -->
   <div class="footer">
     <span class="confidencial">CONFIDENCIAL</span>
     <span class="footer-center">Atendimento ao Cliente · Resumo Operacional · Junho 2026</span>
-    <span class="slide-counter">2 / 36</span>
+    <span class="slide-counter">2 / 30</span>
   </div>
-
 </div>
 
 <script>
