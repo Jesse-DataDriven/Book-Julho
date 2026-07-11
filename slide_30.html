@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+  body { background-color: #111; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; 
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform-origin: top left;
+    overflow: hidden;
+    /* TEMA CAPA (GRADIENTE ESCURO) */
+    background: linear-gradient(135deg, #000c36 0%, #001a70 50%, #0033b0 100%); 
+    color: white;
+  }
+
+  /* --- CABEÇALHO DA CAPA --- */
+  .header {
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; 
+    background: transparent; 
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+  }
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
+  }
+  
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: white; letter-spacing: -1px; line-height: 1;}
+
+  /* --- RODAPÉ DA CAPA --- */
+  .footer {
+    height: 40px; min-height: 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; 
+    margin-top: auto; flex-shrink: 0; position: relative;
+    background: transparent; color: rgba(255,255,255,0.5);
+  }
+  .footer .confidencial { color: var(--agi-green-light); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { color: white; font-weight: 800;}
+
+  /* --- CONTEÚDO DA CAPA --- */
+  .cover-content { flex: 1; display: flex; padding: 20px 40px; }
+  .cover-left { flex: 1.3; display: flex; flex-direction: column; justify-content: center; padding-right: 20px;}
+  .cover-right { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 40px; }
+
+  .cover-kicker { color: var(--agi-green-light); font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
+  .cover-title { font-size: 80px; font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -2px; }
+  
+  /* Subtítulo Sutil (Nomes) */
+  .cover-subtitle { 
+    font-size: 16px; 
+    color: rgba(255,255,255,0.6); 
+    margin-bottom: 30px; 
+    font-weight: 300; 
+    line-height: 1.6;
+    max-width: 90%;
+  }
+
+  .cover-line { width: 80px; height: 4px; background: var(--agi-green-light); margin-bottom: 20px; }
+  .cover-date { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 40px; font-weight: 600;}
+
+  /* --- ÍNDICE DA CAPA --- */
+  .index-title { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1.5px; margin-bottom: 20px; font-weight: 800; text-transform: uppercase;}
+  
+  .index-item { 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-left: 4px solid var(--agi-green-light); 
+    border-radius: 8px; 
+    padding: 16px 20px; 
+    margin-bottom: 12px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    transition: transform 0.2s, background 0.2s;
+  }
+  .index-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateX(5px);
+  }
+  
+  /* Cores dinâmicas para as bordas dos 5 itens */
+  .index-item:nth-child(2) { border-left-color: var(--agi-green-light); }
+  .index-item:nth-child(3) { border-left-color: #60a5fa; }
+  .index-item:nth-child(4) { border-left-color: #f59e0b; }
+  .index-item:nth-child(5) { border-left-color: #a78bfa; }
+  .index-item:nth-child(6) { border-left-color: #f87171; }
+
+  .index-info h4 { font-size: 18px; font-weight: 800; color: white; margin-bottom: 4px; letter-spacing: -0.5px;}
+  .index-info p { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 600;}
+  .index-badge { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 800; color: white; letter-spacing: 0.5px;}
+
+</style>
+</head>
+<body>
+
+<div class="slide-wrapper" id="scale-wrapper">
+  
+  <!-- CABEÇALHO -->
+  <div class="header">
+    <div class="header-left">
+    </div>
+    <div class="header-right">
+      <div class="slide-num">SLIDE 30 DE 30</div>
+      <div class="slide-date">JUN/26</div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO DA CAPA -->
+  <div class="cover-content">
+    
+    <!-- Lado Esquerdo -->
+    <div class="cover-left">
+      <span class="cover-kicker">COMITÊ DE RESULTADOS</span>
+      <h1 class="cover-title">Obrigado.</h1>
+      
+      <div class="cover-line"></div>
+      <p class="cover-date">Apresentado em Julho de 2026</p>
+    </div>
+
+    <!-- Lado Direito (Índice de Fontes) -->
+    <div class="cover-right">
+      <h5 class="index-title">ÍNDICE DE FONTES</h5>
+      
+      <div class="index-item">
+        <div class="index-info"><h4>Intraday</h4><p>Base de Dados Operacional</p></div>
+        <div class="index-badge">FONTE 01</div>
+      </div>
+      <div class="index-item">
+        <div class="index-info"><h4>Painel de Filas</h4><p>Base de Dados Operacional</p></div>
+        <div class="index-badge">FONTE 02</div>
+      </div>
+      <div class="index-item">
+        <div class="index-info"><h4>Reclame Aqui</h4><p>Base de Dados Operacional</p></div>
+        <div class="index-badge">FONTE 03</div>
+      </div>
+      <div class="index-item">
+        <div class="index-info"><h4>Birdie - Monitoramento</h4><p>Base de Dados Operacional</p></div>
+        <div class="index-badge">FONTE 04</div>
+      </div>
+      <div class="index-item">
+        <div class="index-info"><h4>Monitoramento Multicanais</h4><p>Base de Dados Operacional</p></div>
+        <div class="index-badge">FONTE 05</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <span class="confidencial">CONFIDENCIAL</span>
+    <span>Comitê de Resultados · Junho 2026</span>
+    <span class="slide-counter">30 / 30</span>
+  </div>
+
+</div>
+
+<script>
+  function resizeSlide() {
+    const wrapper = document.getElementById('scale-wrapper');
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    wrapper.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', resizeSlide);
+  resizeSlide();
+</script>
+
+</body>
+</html>
