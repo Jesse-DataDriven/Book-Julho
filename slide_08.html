@@ -2,252 +2,293 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="estilo.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* ================= AJUSTES ESTRITOS DO SLIDE 12 (Matriz COPC) ================= */
+  /* ================= VARIÁVEIS DO DESIGN SYSTEM ================= */
+  :root {
+    --agi-blue: #0064f5;
+    --agi-green: #16a34a;
+    --agi-light-green: #77df40;
+    --agi-red: #dc2626;
+    --header-bg: #001e50;
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --border-color: #e2e8f0;
+    --bg-main: #f4f5f8;
+    --bg-light-blue: #f0f4ff;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .slide-wrapper {
+    width: 1280px;
+    height: 720px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top left;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ================= CABEÇALHO E RODAPÉ ================= */
+  .header { display: flex; justify-content: space-between; align-items: center; padding: 0 30px; height: 64px; background: var(--header-bg); border-bottom: 4px solid var(--agi-blue); box-sizing: border-box; }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  .logo { background: white; color: var(--agi-blue); font-weight: 900; font-size: 24px; padding: 4px 12px; border-radius: 6px; display: inline-flex; align-items: baseline; letter-spacing: -1px; }
+  .agi-i { display: inline-block; width: 6px; height: 6px; background: var(--agi-light-green); border-radius: 50%; margin-left: 2px; }
+  .header h1 { font-size: 18px; color: white; font-weight: 600; margin: 0; letter-spacing: -0.5px;}
+  .header-right { display: flex; align-items: center; gap: 15px; text-align: right; }
+  .slide-num { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px;}
+  .slide-date { font-size: 22px; font-weight: 900; color: var(--agi-light-green); letter-spacing: -1px;}
   
-  .content-grid { 
-    display: grid; 
-    grid-template-columns: 32% 68%; 
-    gap: 20px; 
+  .footer { height: 40px; background: var(--header-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; box-sizing: border-box; color: white; font-size: 10px; font-weight: 600; margin-top: auto;}
+  .confidencial { color: var(--agi-light-green); font-weight: 800; letter-spacing: 1px; }
+
+  /* ================= CONTEÚDO DO SLIDE ================= */
+  .content { 
     padding: 20px 30px; 
-    height: 606px; /* Ajustado para caber perfeitamente com o header de 64px e footer de 50px */
-    background: #f4f5f8;
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    height: 616px; 
+    background: var(--bg-main);
     box-sizing: border-box;
   }
 
-  /* --- PAINEL ESQUERDO --- */
-  .left-panel {
-    width: 100%; height: 100%; 
-    background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color);
+  .slide-title { margin-bottom: 5px; }
+  .slide-title h2 { font-size: 26px; color: var(--agi-blue); margin: 0; font-weight: 900; letter-spacing: -1px; line-height: 1.1; }
+  .slide-title p { font-size: 12px; color: var(--text-gray); margin: 4px 0 0 0; font-weight: 600; }
+
+  /* Layout Grids */
+  .tables-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .bottom-section { display: grid; grid-template-columns: 260px 1fr; gap: 15px; flex: 1; }
+
+  /* ================= TABELAS ================= */
+  .table-container { 
+    background: white; border: 1px solid var(--border-color); 
+    border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
   }
-  .lp-header {
-    height: 48px; min-height: 48px; background: linear-gradient(90deg, #001a99 0%, #1a56db 100%); color: white;
-    padding: 0 15px; display: flex; justify-content: space-between; align-items: center;
+  
+  .table-header { 
+    background: var(--header-bg); color: white; padding: 8px 15px; font-size: 11px; 
+    font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: flex-start;
+    letter-spacing: 0.5px;
   }
-  .lp-header h3 { font-size: 12px; font-weight: 700; line-height: 1.2; }
-  .lp-header-meta { text-align: right; font-size: 8px; color: #93c5fd; }
-  .lp-header-meta strong { font-size: 14px; color: white; display: block; margin-top: 1px;}
+  .pill-principal { background: var(--agi-light-green); color: var(--header-bg); padding: 2px 8px; border-radius: 12px; font-size: 9px; margin-left: 10px; font-weight: 900;}
 
-  .lp-body { padding: 15px 20px; display: flex; flex-direction: column; height: calc(100% - 48px);}
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: right; }
+  .data-table th { background: #f8f9fa; color: var(--text-gray); font-weight: 800; padding: 8px 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); font-size: 9px; }
+  .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-color); color: var(--text-dark); font-weight: 600; }
   
-  .main-metric-title { font-size: 9px; font-weight: 700; color: var(--text-gray); letter-spacing: 0.5px; margin-bottom: 2px; text-transform: uppercase;}
-  .main-metric-value { font-size: 52px; font-weight: 900; color: #16a34a; line-height: 1; letter-spacing: -2px; }
-  .main-metric-delta { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-  .delta-red { color: #ef4444; font-weight: 800; font-size: 11px; }
-  .sub-meta { font-size: 10px; color: var(--text-gray); font-weight: 600;}
-
-  /* Caixinhas de Status */
-  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
-  .kpi-box { border: 1px solid #e5e7eb; border-radius: 6px; padding: 6px; text-align: center; background: #fafafa; }
-  .kpi-box p { font-size: 7.5px; color: var(--text-gray); font-weight: 700; margin-bottom: 2px; text-transform: uppercase; }
-  .kpi-box h4 { font-size: 12px; font-weight: 800; color: var(--text-dark); }
-  .kpi-box h4.green { color: #16a34a; }
-  .kpi-box h4.red { color: #ef4444; }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; }
   
-  /* Contexto (Verde - Dentro da Meta) */
-  .kpi-context { grid-column: span 2; background: #f0fdf4; border-color: #bbf7d0; text-align: left; padding: 8px 12px;}
-  .kpi-context p { color: #16a34a; margin-bottom: 2px;}
-  .kpi-context h4 { font-size: 9.5px; font-weight: 600; color: var(--text-dark); line-height: 1.3;}
+  /* Destaques nas Linhas e Colunas */
+  .data-table tr.row-total td { background-color: #f8f9fa; font-weight: 800; color: var(--text-dark); border-bottom: none;}
+  .data-table td.col-delta, .data-table th.col-delta { color: var(--agi-blue); font-weight: 800; }
 
-  .chart-title { font-size: 9px; font-weight: 700; color: var(--text-gray); margin-bottom: 4px; text-transform: uppercase; }
-  
-  .left-chart-container { flex: 1; width: 100%; position: relative; min-height: 140px;}
-  .left-chart-container canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
-
-  /* --- PAINEL DIREITO --- */
-  .right-panel {
-    width: 100%; height: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    padding: 15px 20px; display: flex; flex-direction: column; border: 1px solid var(--border-color);
+  /* ================= GRÁFICO ROSCA ================= */
+  .chart-container { 
+    background: white; border: 1px solid var(--border-color); border-radius: 8px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
-
-  .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; margin-bottom: 12px;}
-  .header-left-panel { display: flex; align-items: center; gap: 10px; }
+  .chart-title { font-size: 10px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
   
-  .pill { background: #3b82f6; color: white; font-size: 9px; font-weight: 800; padding: 3px 10px; border-radius: 12px; white-space: nowrap;}
-  .pill.red { background: #ef4444; }
-  .pill.dark { background: #001a99; }
-  .section-title { font-size: 14px; font-weight: 700; color: var(--text-dark); display: block;}
-  .section-subtitle { font-size: 9px; color: var(--text-gray); font-weight: 600; margin-top: 2px; display: block;}
-
-  /* Top 4 List */
-  .top4-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;}
-  .top4-item { display: grid; grid-template-columns: 26px 170px 1fr 70px 60px 60px; align-items: center; gap: 10px; }
-  
-  .square-num { width: 26px; height: 26px; border-radius: 4px; color: white; font-weight: 800; font-size: 12px; display: flex; justify-content: center; align-items: center; }
-  .c1 { background: #ef4444; } .c2 { background: #f97316; } .c3 { background: #eab308; } .c4 { background: #14b8a6; }
-  
-  .bar-title { font-size: 12px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-  .bar-fill { height: 10px; border-radius: 5px; }
-  .bg1 { background: #ef4444; } .bg2 { background: #f97316; } .bg3 { background: #eab308; } .bg4 { background: #14b8a6; }
-
-  .stat-col { display: flex; flex-direction: column; text-align: right; line-height: 1.2; }
-  .stat-main { font-size: 13px; font-weight: 800; }
-  .stat-sub-main { font-size: 11px; font-weight: 800; color: var(--text-dark); }
-  .stat-lbl { font-size: 7px; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-top: 2px;}
-  .c1-text { color: #ef4444; } .c2-text { color: #f97316; } .c3-text { color: #eab308; } .c4-text { color: #14b8a6; }
-
-  /* Tabela Top 10 */
-  .table-container { flex: 1; display: flex; flex-direction: column; overflow: hidden;}
-  table.compact-table { width: 100%; border-collapse: collapse; }
-  table.compact-table th { text-align: left; padding: 6px 8px; font-size: 9px; color: var(--text-gray); font-weight: 700; border-bottom: 2px solid #e5e7eb; background: #f8fafc; text-transform: uppercase; }
-  table.compact-table th.right, table.compact-table td.right { text-align: right; }
-  table.compact-table td { padding: 6px 8px; font-size: 11px; font-weight: 600; color: var(--text-dark); border-bottom: 1px solid #f3f4f6; }
-  table.compact-table .col-num { width: 25px; color: var(--text-gray); font-weight: 800; font-size: 11px;}
-  table.compact-table .col-alert { color: #ef4444; font-weight: 800; } 
-  table.compact-table .col-good { color: #16a34a; font-weight: 800; } 
-
-  /* --- RODAPÉ DE INSIGHT --- */
-  .bottom-footer {
-    background-color: #0f172a; color: white; padding: 0 30px; font-size: 11px;
-    display: flex; justify-content: space-between; align-items: center; height: 50px; min-height: 50px;
+  .donut-chart {
+    width: 120px; height: 120px; border-radius: 50%;
+    /* Tel (Verde) 51.58%, Almaviva (Azul) 48.42% */
+    background: conic-gradient(var(--agi-light-green) 0% 51.58%, var(--agi-blue) 51.58% 100%);
+    display: flex; justify-content: center; align-items: center; margin-bottom: 15px;
   }
-  .bottom-footer p { width: 85%; line-height: 1.4; color: #cbd5e1; margin: 0;}
-  .bottom-footer strong { color: white; }
-  .footer-badge {
-    border: 1px solid #16a34a; color: #16a34a; padding: 4px 10px; border-radius: 4px;
-    font-weight: 800; font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(22, 163, 74, 0.1);
+  .donut-inner { width: 70px; height: 70px; background: white; border-radius: 50%; }
+  
+  .chart-legend { width: 100%; font-size: 11px; font-weight: 700; color: var(--text-dark); display: flex; flex-direction: column; gap: 8px; padding: 0 20px;}
+  .legend-item { display: flex; align-items: center; justify-content: space-between; }
+  .legend-color { width: 12px; height: 12px; border-radius: 3px; margin-right: 8px; display: inline-block; }
+
+  /* ================= LEITURA EXECUTIVA ================= */
+  .leitura-container {
+    background: var(--bg-light-blue); border-radius: 8px; padding: 25px 30px;
+    border: 1px solid #dbeafe; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    display: flex; flex-direction: column; justify-content: center;
   }
+  
+  .leitura-title {
+    display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; 
+    color: var(--header-bg); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px;
+  }
+  .green-square { width: 12px; height: 12px; background: var(--agi-light-green); border-radius: 2px; }
+
+  .leitura-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .leitura-list li { 
+    position: relative; padding-left: 18px; font-size: 13px; color: var(--text-dark); line-height: 1.5; font-weight: 500;
+  }
+  .leitura-list li::before {
+    content: '▶'; position: absolute; left: 0; top: 1px; color: var(--agi-blue); font-size: 10px;
+  }
+  .leitura-list li b { font-weight: 800; }
+  .text-red { color: var(--agi-red); }
 </style>
 </head>
 <body>
 
-<div class="slide-wrapper">
+<div class="slide-wrapper" id="scale-wrapper">
   
-  <!-- CABEÇALHO (Agora 100% no padrão do estilo.css) -->
+  <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
-      <h1>Desdobramento Rechamada (Matriz Atualizada)</h1>
+      <h1>Dispersão e Quartis de TMA | Canal Voz</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 08 DE 36</div>
+      <div class="slide-num">SLIDE 08 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL (GRID) -->
-  <div class="content-grid">
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="content">
     
-    <!-- PAINEL ESQUERDO -->
-    <div class="left-panel">
-      <div class="lp-header">
-        <div class="left-header-titles">
-          <h3>Recontato 48h — Central<br>Visão COPC Junho</h3>
-        </div>
-        <div class="lp-header-meta">
-          Meta < 23,0%
-          <strong>16,6%</strong>
-          atual
-        </div>
-      </div>
-
-      <div class="lp-body">
-        <div class="main-metric-title">TAXA DE RECONTATO GLOBAL · JUN/26</div>
-        <div class="main-metric-value">16,60%</div>
-        <div class="main-metric-delta">
-          <span class="delta-red">▲ +0,70 p.p vs Mai</span>
-          <span class="sub-meta">Dentro da Meta (<23,0%)</span>
-        </div>
-
-        <div class="status-grid">
-          <div class="kpi-box">
-            <p>VAR. MAI - JUN</p>
-            <h4 class="red">Aumento</h4>
-          </div>
-          <div class="kpi-box">
-            <p>STATUS GLOBAL</p>
-            <h4 class="green">Dentro da Meta</h4>
-          </div>
-          <div class="kpi-box kpi-context">
-            <p>ANÁLISE DE CONTEXTO</p>
-            <h4>Junho fecha dentro da meta (16,60% vs 23%). Contudo, houve piora na taxa global tracionada por atritos transacionais (Antecipação e Pix). Atenção ao Erro App que subiu para o 3º lugar.</h4>
-          </div>
-        </div>
-
-        <div class="chart-title">EVOLUÇÃO SEMESTRAL</div>
-        <div class="left-chart-container">
-          <canvas id="chartEvolucao"></canvas>
-        </div>
-        <div style="display: flex; gap: 15px; font-size: 9px; font-weight: 600; color: var(--text-gray); justify-content: center; margin-top: 6px;">
-          <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 3px; background: #16a34a;"></div> Recontato 48h</div>
-          <div style="display: flex; align-items: center; gap: 4px;"><div style="width: 12px; height: 0px; border-top: 2px dashed #eab308;"></div> Meta 23%</div>
-        </div>
-      </div>
+    <div class="slide-title">
+      <h2>TMA por Quartil · SN / N1 / SAC</h2>
+      <p>Tempo Médio de Atendimento (segundos) por quartil — Mar a Jun/26 · Δ Jun×Mai</p>
     </div>
 
-    <!-- PAINEL DIREITO -->
-    <div class="right-panel">
+    <!-- SEÇÃO SUPERIOR (3 Tabelas Lado a Lado) -->
+    <div class="tables-section">
       
-      <!-- GATILHO 4: TOP 4 BARS -->
-      <div>
-        <div class="section-header">
-          <div class="header-left-panel">
-            <span class="pill red">GATILHO IMPACTO</span>
-            <div>
-              <span class="section-title">Matriz de Impacto COPC (Top 4 Ofensores Absolutos)</span>
-              <span class="section-subtitle">Os leviatãs estruturais do mês (Volume x Taxa). Foco prioritário de atuação.</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="top4-list" id="bars-container">
-          <!-- As 4 barras serão injetadas aqui pelo JavaScript -->
-        </div>
-      </div>
-
-      <!-- GATILHOS 1 E 2: TABLE TOP 10 -->
+      <!-- Tabela 1: SN -->
       <div class="table-container">
-        <div class="section-header" style="margin-bottom: 8px;">
-          <div class="header-left-panel">
-            <span class="pill dark">TOP 10</span>
-            <div>
-              <span class="section-title">Análise de Degradação (Δ%) vs Grandes Volumes (Share)</span>
-              <span class="section-subtitle">A "Cauda Longa": Os próximos 6 motivos que fecham o Top 10 de maior impacto na operação.</span>
-            </div>
-          </div>
+        <div class="table-header">
+          SN — TMA (s) <span class="pill-principal">CONSOLIDADO</span>
         </div>
-        
-        <table class="compact-table">
+        <table class="data-table">
           <thead>
             <tr>
-              <th class="col-num">#</th>
-              <th>MOTIVO</th>
-              <th class="right">MAI %</th>
-              <th class="right">JUN %</th>
-              <th class="right" style="color: var(--agi-blue);">COMPARATIVO: Δ MÊS</th>
-              <th class="right" style="color: #f97316;">REPRESENTATIVIDADE</th>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="col-num">5</td><td>Valores debitados</td><td class="right">17,76%</td><td class="right">18,60%</td><td class="right col-alert">▲ 0,84 p.p</td><td class="right" style="color: #f97316;">4,25%</td></tr>
-            <tr><td class="col-num">6</td><td>Parcelas Pagas</td><td class="right">13,56%</td><td class="right">12,16%</td><td class="right col-good">▼ 1,40 p.p</td><td class="right" style="color: #f97316;">3,78%</td></tr>
-            <tr><td class="col-num">7</td><td>Pagamento Benefício</td><td class="right">19,45%</td><td class="right">18,45%</td><td class="right col-good">▼ 1,00 p.p</td><td class="right" style="color: #f97316;">3,52%</td></tr>
-            <tr><td class="col-num">8</td><td>Cancelamento de Seguro</td><td class="right">25,92%</td><td class="right">24,36%</td><td class="right col-good">▼ 1,56 p.p</td><td class="right" style="color: #f97316;">3,44%</td></tr>
-            <tr><td class="col-num">9</td><td>Proposta em Andamento</td><td class="right">36,25%</td><td class="right">30,26%</td><td class="right col-good">▼ 5,99 p.p</td><td class="right" style="color: #f97316;">3,40%</td></tr>
-            <tr><td class="col-num">10</td><td>Extrato</td><td class="right">18,38%</td><td class="right">17,41%</td><td class="right col-good">▼ 0,97 p.p</td><td class="right" style="color: #f97316;">3,13%</td></tr>
+            <tr><td>Q1</td><td>776</td><td>636</td><td>704</td><td>643</td><td class="col-delta">-8,65%</td></tr>
+            <tr><td>Q2</td><td>991</td><td>765</td><td>880</td><td>762</td><td class="col-delta">-13,38%</td></tr>
+            <tr><td>Q3</td><td>1.165</td><td>940</td><td>1.100</td><td>917</td><td class="col-delta">-16,63%</td></tr>
+            <tr><td>Q4</td><td>1.463</td><td>1.129</td><td>1.340</td><td>1.265</td><td class="col-delta">-5,53%</td></tr>
+            <tr class="row-total"><td>Total</td><td>975</td><td>845</td><td>978</td><td>920</td><td class="col-delta">-5,96%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela 2: N1 FONADO -->
+      <div class="table-container">
+        <div class="table-header">
+          N1 FONADO — TMA (s) <span class="pill-principal">FONADO</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1</td><td>279</td><td>298</td><td>293</td><td>266</td><td class="col-delta">-8,96%</td></tr>
+            <tr><td>Q2</td><td>374</td><td>395</td><td>387</td><td>315</td><td class="col-delta">-18,70%</td></tr>
+            <tr><td>Q3</td><td>452</td><td>478</td><td>458</td><td>356</td><td class="col-delta">-22,25%</td></tr>
+            <tr><td>Q4</td><td>572</td><td>596</td><td>568</td><td>471</td><td class="col-delta">-17,09%</td></tr>
+            <tr class="row-total"><td>Total</td><td>417</td><td>430</td><td>411</td><td>335</td><td class="col-delta">-18,60%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tabela 3: SAC -->
+      <div class="table-container">
+        <div class="table-header">
+          SAC — TMA (s) <span class="pill-principal">SAC</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>INDICADOR</th><th>MAR-26</th><th>ABR-26</th><th>MAI-26</th><th>JUN-26</th><th class="col-delta">Δ J×M</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Q1</td><td>235</td><td>213</td><td>340</td><td>235</td><td class="col-delta">-30,82%</td></tr>
+            <tr><td>Q2</td><td>339</td><td>332</td><td>424</td><td>308</td><td class="col-delta">-27,48%</td></tr>
+            <tr><td>Q3</td><td>440</td><td>419</td><td>508</td><td>358</td><td class="col-delta">-29,46%</td></tr>
+            <tr><td>Q4</td><td>597</td><td>602</td><td>615</td><td>428</td><td class="col-delta">-30,44%</td></tr>
+            <tr class="row-total"><td>Total</td><td>402</td><td>380</td><td>454</td><td>337</td><td class="col-delta">-25,75%</td></tr>
           </tbody>
         </table>
       </div>
 
     </div>
+
+    <!-- SEÇÃO INFERIOR (Gráfico + Leitura Executiva) -->
+    <div class="bottom-section">
+      
+      <!-- Gráfico Rosca -->
+      <div class="chart-container">
+        <div class="chart-title">VOZ POR PARCEIRO</div>
+        <div class="donut-chart">
+          <div class="donut-inner"></div>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-blue);"></span>Almaviva</div>
+            <span>48,42 %</span>
+          </div>
+          <div class="legend-item">
+            <div><span class="legend-color" style="background: var(--agi-light-green);"></span>Tel</div>
+            <span>51,58 %</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Caixa de Leitura Executiva -->
+      <div class="leitura-container">
+        <div class="leitura-title">
+          <span class="green-square"></span> LEITURA EXECUTIVA · TMA VOZ
+        </div>
+        <ul class="leitura-list">
+          <li><b>SN consolidado:</b> TMA total de <b>920s</b> em Jun (<b class="text-red">-5,96%</b> vs Mai) — pressão concentrada em Q3/Q4.</li>
+          <li><b>N1 Fonado: 335s</b> (<b style="color: var(--agi-green);">-18,60%</b> vs Mai) — única frente em queda no mês.</li>
+          <li><b>SAC: 337s</b> (<b class="text-red">-25,75%</b> vs Mai) — maior alta, puxada pelo Q1 (<b class="text-red">-30,82%</b>).</li>
+          <li><b>Voz por parceiro:</b> Tel 51,58% · Almaviva 48,42% do volume.</li>
+        </ul>
+      </div>
+
+    </div>
+
   </div>
 
-  <!-- RODAPÉ DE INSIGHT -->
-  <div class="bottom-footer">
-    <p><strong>Visão COPC (Insight Chave):</strong> A taxa global fechou em 16,60% (dentro da meta de 23%). O <strong>Gatilho 4</strong> revela que atritos transacionais dominam a central: "Antecipação de Parcelas" e "Pix" assumiram a liderança. Atenção à mudança de ranking: <strong>Erro App</strong> subiu para o 3º lugar, enquanto Cancelamento de Optante caiu para 4º.</p>
-    <div class="footer-badge">META ATINGIDA</div>
+  <!-- RODAPÉ -->
+  <div class="footer">
+    <div style="display: flex; gap: 20px;">
+      <span>Janela: Março a Junho/2026 · TMA em segundos · quartis Q1–Q4 + Total</span>
+    </div>
+    <div style="text-align: center; flex: 1;">
+      <span>Atendimento ao Cliente · Voz — TMA por Quartil · Junho 2026</span>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <span class="confidencial">CONFIDENCIAL</span>
+      <span>· 12 / 35</span>
+    </div>
   </div>
 
 </div>
 
 <script>
   function resizeSlide() {
-    const wrapper = document.querySelector('.slide-wrapper');
+    const wrapper = document.getElementById('scale-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    if(wrapper) wrapper.style.transform = `scale(${scale})`;
+    wrapper.style.transform = `scale(${scale})`;
     if (scale < 1) {
         document.body.style.display = 'flex';
         document.body.style.justifyContent = 'center';
@@ -258,91 +299,6 @@
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
-
-  /* =======================================================================
-     MOTOR DE DADOS - TOP 4 MOTIVOS
-     ======================================================================= */
-  const MOTIVOS_DATA = [
-    { num: 1, nome: "Antecipação de Parcelas", volAbs: "1.727", taxaJun: 20.41, taxaMai: 20.36, class: "c1", bgClass: "bg1", txtClass: "c1-text" },
-    { num: 2, nome: "Pix", volAbs: "1.658", taxaJun: 20.64, taxaMai: 18.35, class: "c2", bgClass: "bg2", txtClass: "c2-text" },
-    { num: 3, nome: "Erro App", volAbs: "1.500", taxaJun: 26.40, taxaMai: 25.43, class: "c3", bgClass: "bg3", txtClass: "c3-text" },
-    { num: 4, nome: "Cancelamento de Optante", volAbs: "1.475", taxaJun: 17.12, taxaMai: 20.98, class: "c4", bgClass: "bg4", txtClass: "c4-text" }
-  ];
-
-  const barsContainer = document.getElementById('bars-container');
-  const MAX_TAXA = 30; 
-
-  if(barsContainer) {
-      MOTIVOS_DATA.forEach((item) => {
-        const widthPct = (item.taxaJun / MAX_TAXA) * 100;
-        
-        const barHtml = `
-          <div class="top4-item">
-            <div class="square-num ${item.class}">${item.num}</div>
-            <div class="bar-title">${item.nome}</div>
-            <div><div class="bar-fill ${item.bgClass}" style="width: ${widthPct}%;"></div></div>
-            <div class="stat-col"><span class="stat-main ${item.txtClass}">${item.volAbs}</span><span class="stat-lbl">Vol. Rechamada</span></div>
-            <div class="stat-col"><span class="stat-sub-main">${item.taxaJun.toFixed(2).replace('.', ',')}%</span><span class="stat-lbl">Taxa Junho</span></div>
-            <div class="stat-col"><span class="stat-sub-main">${item.taxaMai.toFixed(2).replace('.', ',')}%</span><span class="stat-lbl">Taxa Maio</span></div>
-          </div>
-        `;
-        barsContainer.innerHTML += barHtml;
-      });
-  }
-
-  /* =======================================================================
-     GRÁFICO DE EVOLUÇÃO GLOBAL
-     ======================================================================= */
-  Chart.register(ChartDataLabels);
-  Chart.defaults.font.family = "'Inter', sans-serif";
-
-  const canvasEvolucao = document.getElementById('chartEvolucao');
-  if(canvasEvolucao) {
-      const ctxEvolucao = canvasEvolucao.getContext('2d');
-      
-      new Chart(ctxEvolucao, {
-          type: 'line',
-          data: {
-              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-              datasets: [
-                  {
-                      label: 'Recontato Mensal',
-                      data: [17.0, 17.5, 17.3, 15.7, 15.9, 16.60],
-                      borderColor: '#16a34a', // Linha Verde
-                      backgroundColor: 'rgba(22, 163, 74, 0.15)', // Fundo Verde
-                      fill: true, borderWidth: 2, tension: 0.4,
-                      // Pontos Azuis, último vermelho indicando que subiu (piora vs maio)
-                      pointBackgroundColor: ['#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#ef4444'], 
-                      pointBorderColor: '#fff', pointBorderWidth: 1.5, pointRadius: [3, 3, 3, 3, 3, 5], 
-                      datalabels: {
-                          display: true, align: 'bottom', offset: 6,
-                          color: (context) => context.dataIndex === 5 ? '#ef4444' : '#1a56db',
-                          font: { weight: 'bold', size: 9 },
-                          formatter: (value) => value.toFixed(2).replace('.', ',') + '%'
-                      }
-                  },
-                  {
-                      label: 'Meta', data: [23, 23, 23, 23, 23, 23], 
-                      borderColor: '#eab308', borderDash: [4, 4], borderWidth: 1.5, pointRadius: 0, fill: false, // Linha Meta Amarela Tracejada
-                      datalabels: { display: false }
-                  }
-              ]
-          },
-          options: {
-              responsive: true, maintainAspectRatio: false, devicePixelRatio: window.devicePixelRatio * 2,
-              layout: { padding: { top: 15, right: 15, left: 0, bottom: 5 } },
-              plugins: { legend: { display: false }, tooltip: { enabled: false } },
-              scales: {
-                  x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#6b7280' } },
-                  y: { 
-                    min: 10, max: 25, // Ajustado para 25 para acomodar a linha da meta (23)
-                    grid: { color: '#f3f4f6' }, border: { display: false }, 
-                    ticks: { font: { size: 9 }, color: '#6b7280', stepSize: 5, callback: (v) => v.toFixed(1).replace('.', ',') + '%' } 
-                  }
-              }
-          }
-      });
-  }
 </script>
 </body>
 </html>
