@@ -2,86 +2,193 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="estilo.css">
-<!-- Importação do Chart.js e Datalabels -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 09 ================= */
-  
-  .content { padding: 10px 30px !important; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 10px;}
-  
-  /* Insight Bar */
-  .insight-bar { height: 75px !important; min-height: 75px !important; padding: 10px 30px !important; }
-  .insight-text h2 { font-size: 15px !important; margin-bottom: 2px !important; }
-  .insight-text p { font-size: 10.5px !important; }
-  .insight-badge h3 { font-size: 32px !important; }
-
-  /* Grid dos Cartões */
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; min-height: 0; padding: 0;}
-  
-  .card { display: flex; flex-direction: column; background: white; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); min-height: 0;}
-  .card-header { padding: 4px 12px; color: white; font-weight: 800; font-size: 10px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; height: 26px; min-height: 26px;}
-  .card-header .pill-weight { background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 12px; font-size: 9px; }
-
-  .card-body { padding: 8px 12px 4px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0;}
-
-  /* Mapeamento de Cores */
-  .bg-green { background-color: var(--agi-green); }
-  .bg-blue { background-color: var(--agi-blue); }
-  .bg-brown { background-color: var(--agi-brown); }
-
-  /* Métricas do Topo do Card */
-  .metric-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
-  .metric-value { font-size: 26px; font-weight: 900; color: var(--text-dark); display: flex; align-items: baseline; gap: 6px; line-height: 1; letter-spacing: -1px;}
-  .metric-desc { font-size: 8.5px; color: var(--text-gray); font-weight: 600; max-width: 120px; line-height: 1.1;}
-
-  .delta-badge { padding: 2px 6px; border-radius: 4px; font-size: 9.5px; font-weight: 800; display: flex; align-items: center; gap: 4px; }
-  .delta-up-bad, .delta-down-bad { background-color: var(--trend-red-bg); color: var(--trend-red-txt); }
-  .delta-up-good, .delta-down-good { background-color: var(--trend-green-bg); color: var(--trend-green-txt); }
-
-  .custom-legend { display: flex; gap: 8px; font-size: 8px; color: var(--text-gray); margin-top: 4px; margin-bottom: 2px; font-weight: 600;}
-  .legend-item { display: flex; align-items: center; gap: 4px; }
-  .legend-color { width: 10px; height: 4px; border-radius: 2px; }
-  .legend-color.bar { height: 10px; width: 10px; border-radius: 2px; }
-
   /* =======================================================================
-     A MÁGICA QUE IMPEDE O GRÁFICO DE VAZAR
+     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
      ======================================================================= */
-  .chart-container { flex: 1; width: 100%; position: relative; min-height: 0; }
-  .chart-container canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-  /* Destaque de Redução (Bracket) PA's */
-  .reduction-bracket { position: absolute; top: 10px; left: 5%; right: 5%; height: 15px; border-top: 1.5px solid var(--agi-blue); border-left: 1.5px solid var(--agi-blue); border-right: 1.5px solid var(--agi-blue); z-index: 10; }
-  .reduction-box { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: white; border: 1.5px solid var(--agi-blue); color: var(--agi-red); font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px;}
+  :root {
+    --bg-main: #f4f5f8;        
+    --header-bg: #000c36;      
+    --agi-blue: #1a56db;       
+    --agi-green: #239a48;      
+    --agi-green-light: #a3ff00;
+    --agi-brown: #b37022;      
+    --agi-yellow: #f59e0b;     
+    --agi-red: #dc2626;        
+    --text-dark: #111827;      
+    --text-gray: #6b7280;      
+    --border-color: #e5e7eb;   
+  }
 
-  /* =======================================================================
-     RODAPÉ DO CARD LADO A LADO (Texto + Métricas)
-     ======================================================================= */
-  .card-footer { padding: 6px 12px; background: #ffffff; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 48px; min-height: 48px;}
-  .footer-text { font-size: 8.5px; color: var(--text-gray); line-height: 1.3; flex: 1; margin: 0;}
-  .footer-text strong { color: var(--text-dark); }
-  .footer-metrics { display: flex; justify-content: space-between; gap: 4px; flex: 1.2;}
-  .footer-metric { flex: 1; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px 0; text-align: center; display: flex; flex-direction: column; justify-content: center;}
-  .footer-metric h4 { font-size: 11px; font-weight: 800; margin-bottom: 1px; line-height: 1;}
-  .footer-metric p { font-size: 7px; color: #64748b; font-weight: 700; text-transform: uppercase; margin: 0; line-height: 1;}
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-  .val-green { color: var(--agi-green); } 
-  .val-brown { color: var(--agi-brown); } 
-  .val-blue  { color: var(--agi-blue); } 
+  body { background-color: #e5e7eb; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+
+  .slide-wrapper {
+    width: 1280px; height: 720px; background-color: var(--bg-main);
+    display: flex; flex-direction: column; position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform-origin: top left;
+    overflow: hidden;
+  }
+
+  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  .header {
+    background: var(--header-bg); color: white;
+    height: 64px; min-height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 30px; border-bottom: 4px solid var(--agi-blue);
+    flex-shrink: 0;
+  }
+  .header-left { display: flex; align-items: center; gap: 15px; }
+  
+  .logo {
+    background: white; color: var(--agi-blue); 
+    font-weight: 800; font-size: 28px;
+    padding: 6px 14px 8px 14px; border-radius: 8px;
+    display: inline-flex; align-items: baseline; 
+    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+  }
+  .agi-i {
+    display: inline-block; width: 6px; height: 15px; 
+    background-color: var(--agi-blue); margin-left: 2px; position: relative;
+  }
+  .agi-i::after {
+    content: ''; position: absolute; top: -8px; left: 50%;
+    transform: translateX(-50%); width: 6.5px; height: 6.5px;
+    background-color: var(--agi-green); border-radius: 50%;
+  }
+  
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
+  .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
+  .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
+  .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
+
+  /* ================= RODAPÉ (REGRAS ESTILO.CSS) ================= */
+  .footer {
+    background: var(--header-bg); color: white; height: 40px; min-height: 40px;
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
+    flex-shrink: 0; position: relative;
+  }
+  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { position: absolute; right: 30px; color: white;}
+  .footer .footer-center { color: rgba(255,255,255,0.8); }
+
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 11 ================= */
+  .content { padding: 15px 30px; display: flex; flex-direction: row; gap: 20px; flex: 1; min-height: 0; background: var(--bg-main);}
+  
+  /* --- Insight Bar Customizado --- */
+  .insight-bar { 
+    background: white; border-bottom: 1px solid var(--border-color);
+    height: 85px; min-height: 85px; padding: 10px 30px; 
+    display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+  }
+  .insight-text { width: 75%; }
+  .insight-text h2 { font-size: 18px; margin-bottom: 4px; color: var(--text-dark); font-weight: 500; letter-spacing: -0.5px;}
+  .insight-text h2 b { color: var(--agi-blue); font-weight: 800;}
+  .insight-text p { font-size: 11px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
+  
+  /* Badges Redondos do Topo */
+  .top-badges { display: flex; gap: 15px; }
+  .t-badge { 
+    background: white; border: 1px solid #dbeafe; border-radius: 12px; 
+    width: 75px; height: 60px; display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(26, 86, 219, 0.05);
+  }
+  .t-badge h3 { font-size: 24px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
+  .t-badge span { font-size: 8px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px;}
+
+  /* --- Colunas Principais --- */
+  .col { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
+  
+  /* Estilo Base dos Cards deste Slide */
+  .dash-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .dc-header { padding: 8px 15px; color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
+  .dc-header span.light { color: rgba(255,255,255,0.7); font-weight: 600; text-transform: none;}
+  .bg-navy { background: var(--header-bg); }
+  .bg-blue { background: var(--agi-blue); }
+  .dc-body { padding: 15px; display: flex; flex-direction: column; flex: 1; justify-content: center;}
+
+  /* --- COLUNA 1: Evolução Consolidada --- */
+  .evo-section { margin-bottom: 15px; }
+  .evo-section:last-child { margin-bottom: 0; }
+  .evo-title { font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;}
+  .txt-blue { color: var(--agi-blue); } .txt-green { color: var(--agi-green); }
+  
+  .evo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .evo-pill { background: #f8f9fa; border-radius: 6px; padding: 10px 12px; border-left: 3px solid; display: flex; flex-direction: column;}
+  .evo-pill.bl { border-left-color: var(--agi-blue); }
+  .evo-pill.gr { border-left-color: var(--agi-green); }
+  .evo-pill span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
+  .evo-pill h4 { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px;}
+  .evo-pill h4.up { color: var(--agi-green); } .evo-pill h4.down { color: var(--agi-blue); }
+  .evo-pill span.sub { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+
+  /* --- COLUNA 2: Ranking & Projeção --- */
+  /* Ranking */
+  .rank-row { display: flex; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 10px; border-left-width: 4px;}
+  .rank-row:last-child { margin-bottom: 0; }
+  .r-gold { border-left-color: #f59e0b; background: #fffbeb;}
+  .r-silver { border-left-color: #9ca3af; background: #f3f4f6;}
+  .r-bronze { border-left-color: #d97706; background: #fff7ed;}
+  
+  .medal { width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 12px;}
+  .r-gold .medal { color: #f59e0b; } .r-silver .medal { color: #6b7280; } .r-bronze .medal { color: #d97706; }
+  
+  .rank-info { flex: 1; }
+  .rank-info h5 { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
+  .rank-info p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  
+  .rank-destaque { text-align: right; }
+  .rank-destaque h4 { font-size: 13px; font-weight: 800; color: var(--agi-green); line-height: 1.2;}
+  .rank-destaque p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+
+  /* Projeção */
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;}
+  .proj-box { border: 1px solid #dbeafe; border-radius: 6px; padding: 12px; text-align: center; background: #f8fafc;}
+  .proj-box span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; display: block;}
+  .proj-box .arrow { font-size: 12px; color: var(--agi-blue); margin: 2px 0; display: block; font-weight: bold;}
+  .proj-box h4 { font-size: 22px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
+  
+  .timeline { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px;}
+  .tl-item { text-align: center; }
+  .tl-item span { display: block; font-size: 9px; color: var(--text-gray); font-weight: 600;}
+  .tl-item b { font-size: 10px; font-weight: 800; color: var(--text-gray);}
+  .tl-item b.active { color: var(--agi-green); }
+  .tl-item b.meta { color: var(--agi-blue); }
+
+  /* --- COLUNA 3: Insights & Ganhos --- */
+  /* Insights (CORREÇÃO APLICADA AQUI PARA NÃO CORTAR O TEXTO) */
+  .insight-list { display: flex; flex-direction: column; gap: 8px; }
+  .insight-box { border: 1px solid var(--border-color); border-left: 3px solid var(--agi-green); border-radius: 6px; padding: 8px 12px; font-size: 10.5px; color: var(--text-dark); line-height: 1.3;}
+  .insight-box b { font-weight: 700; color: var(--header-bg); }
+
+  /* Ganhos */
+  .ganhos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;}
+  .ganho-box { background: #e6f4ea; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 5px; text-align: center;}
+  .ganho-box h4 { font-size: 20px; font-weight: 900; color: var(--agi-green); line-height: 1; margin-bottom: 4px;}
+  .ganho-box p { font-size: 9px; color: var(--text-dark); font-weight: 600;}
+  
+  .ganho-wide { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 15px;}
+  .ganho-wide h4 { font-size: 24px; font-weight: 900; color: var(--agi-green);}
+  .ganho-wide p { font-size: 10px; color: var(--text-dark); font-weight: 600; line-height: 1.3;}
+  .ganho-footer { text-align: center; font-size: 9px; color: var(--text-gray); margin-top: 8px;}
 </style>
 </head>
 <body>
 
-<div class="slide-wrapper">
+<div class="slide-wrapper" id="scale-wrapper">
   
   <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
       <h1>Performance Operacional</h1>
     </div>
     <div class="header-right">
-      <div class="slide-num">SLIDE 6 DE 36</div>
+      <div class="slide-num">SLIDE 06 DE 30</div>
       <div class="slide-date">JUN/26</div>
     </div>
   </div>
@@ -89,361 +196,220 @@
   <!-- INSIGHT PRINCIPAL -->
   <div class="insight-bar">
     <div class="insight-text">
-      <h2>Jun/26 consolidado: NS em <b>85,17%</b>, CSAT em <b>78,00%</b>; Contact Rate Topo recua para <b>7,66%</b>, Resolutividade atinge <b>68,00%</b> e Stress Rate cai para <b>1,37%</b>.</h2>
-      <p>Junho consolidado para todos os indicadores (Comparativo de deltas realizados contra Maio consolidado). Dados atualizados de acordo com a volumetria mensal.</p>
+      <h2>Missões consolida 2026 com CSAT Voice beirando <b>89%</b> e Rechamada Chat em <b>12,9%</b></h2>
+      <p>Evolução do último trimestre (Mar → Jun/26) com 3 BPOs. Rechamada Chat cai -7,1 p.p. e Resolutividade Voice salta +33,0 p.p., atingindo 74,2%.</p>
     </div>
-    <div class="insight-badge">
-      <h3>JUN/26</h3>
-      <p>CONSOLIDADO • COMITÊ DE RESULTADOS</p>
+    
+    <div class="top-badges">
+      <div class="t-badge"><h3>3</h3><span>BPOs</span></div>
+      <div class="t-badge"><h3>8</h3><span>Indicadores</span></div>
+      <div class="t-badge"><h3>90</h3><span>Dias</span></div>
     </div>
   </div>
 
+  <!-- CONTEÚDO PRINCIPAL (3 COLUNAS) -->
   <div class="content">
-    <div class="grid">
-        
-        <!-- Card 1: Contact Rate Topo -->
-        <div class="card">
-            <div class="card-header bg-green">
-                <span>CONTACT RATE TOPO</span>
-                <span class="pill-weight">Peso 15%</span>
+    
+    <!-- COLUNA 1: EVOLUÇÃO CONSOLIDADA -->
+    <div class="col">
+      <div class="dash-card" style="height: 100%;">
+        <div class="dc-header bg-navy"><span>Evolução Consolidada</span><span class="light">Mar/26 vs Jun/26</span></div>
+        <div class="dc-body">
+          
+          <div class="evo-section">
+            <div class="evo-title txt-blue">CHAT</div>
+            <div class="evo-grid">
+              <div class="evo-pill bl">
+                <span class="lbl">CSAT</span>
+                <h4 class="up">+0,4pp</h4>
+                <span class="sub">75,3% → 75,7%</span>
+              </div>
+              <div class="evo-pill bl">
+                <span class="lbl">Resolutividade</span>
+                <h4 class="down" style="color: var(--agi-red);">-0,8pp</h4>
+                <span class="sub">67,2% → 66,4%</span>
+              </div>
+              <div class="evo-pill bl">
+                <span class="lbl">Rechamada</span>
+                <h4 class="down">-7,1pp</h4>
+                <span class="sub">20,0% → 12,9%</span>
+              </div>
+              <div class="evo-pill bl">
+                <span class="lbl">Shortcall</span>
+                <h4 class="up" style="color: var(--agi-red);">+0,1pp</h4>
+                <span class="sub">5,5% → 5,5%</span>
+              </div>
             </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">7,66% <span class="metric-desc">Volume total (bot + URA + humano) / base</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> CR%</div>
-                            <div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Vol.</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-down-good">▼ -0,12 p.p. vs Mai</div>
-                </div>
-                <div class="chart-container"><canvas id="chartCRTopo"></canvas></div>
-            </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho fecha em <strong>7,66%</strong> (567K vol.) — leve queda de <strong>0,12 p.p.</strong> vs Mai (7,78%). Redução sustentada.</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">7,66%</h4><p>Junho</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">7,78%</h4><p>Mai</p></div>
-                    <div class="footer-metric"><h4 class="val-green">-0,12pp</h4><p>Vs Mai</p></div>
-                </div>
-            </div>
-        </div>
+          </div>
 
-        <!-- Card 2: Nível de Serviço -->
-        <div class="card">
-            <div class="card-header bg-blue">
-                <span>NÍVEL DE SERVIÇO</span>
-                <span class="pill-weight">✓ Meta 75% - Peso 10%</span>
+          <div class="evo-section">
+            <div class="evo-title txt-green">VOICE</div>
+            <div class="evo-grid">
+              <div class="evo-pill gr">
+                <span class="lbl">CSAT</span>
+                <h4 class="up">+0,4pp</h4>
+                <span class="sub">88,5% → 88,9%</span>
+              </div>
+              <div class="evo-pill gr">
+                <span class="lbl">Resolutividade</span>
+                <h4 class="up">+33,0pp</h4>
+                <span class="sub">41,2% → 74,2%</span>
+              </div>
+              <div class="evo-pill gr">
+                <span class="lbl">Rechamada</span>
+                <h4 class="down">-1,7pp</h4>
+                <span class="sub">36,5% → 34,8%</span>
+              </div>
+              <div class="evo-pill gr">
+                <span class="lbl">Shortcall</span>
+                <h4 class="up" style="color: var(--agi-red);">+0,1pp</h4>
+                <span class="sub">2,0% → 2,1%</span>
+              </div>
             </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">85,17% <span class="metric-desc">% atendidas no tempo-alvo</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Geral</div>
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> Voz</div>
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-brown);"></div> Chat</div>
-                            <div class="legend-item"><div class="legend-color" style="background: #9ca3af; border-top: 2px dashed #9ca3af; height:0;"></div> Meta 75%</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-up-good">▲ +1,05 p.p. vs Mai</div>
-                </div>
-                <div class="chart-container"><canvas id="chartNS"></canvas></div>
-            </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho em <strong>85,17%</strong> — bem acima da meta mensal (75%). Voz avança para 92,43% e Chat 83,15%.</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">85,17%</h4><p>Junho</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">84,12%</h4><p>Mai</p></div>
-                    <div class="footer-metric"><h4 class="val-green">+1,05pp</h4><p>Vs Mai</p></div>
-                </div>
-            </div>
-        </div>
+          </div>
 
-        <!-- Card 3: Quantidade de PA's (MANTIDO INTACTO) -->
-        <div class="card">
-            <div class="card-header bg-green">
-                <span>QUANTIDADE DE PA'S</span>
-                <span class="pill-weight">Eficiência operacional</span>
-            </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">339 <span class="metric-desc">Volume total de PA's para Julho</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color bar" style="background: #e5e7eb;"></div> Histórico</div>
-                            <div class="legend-item"><div class="legend-color bar" style="background: var(--agi-green);"></div> Julho</div>
-                            <div class="legend-item"><div class="legend-color bar" style="background: #bfdbfe;"></div> Ago (P)</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-down-good">▼ -29 vs Mai</div>
-                </div>
-                <div class="chart-container">
-                    <div class="reduction-bracket"><div class="reduction-box">-160</div></div>
-                    <canvas id="chartPAs"></canvas>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho fecha em <strong>357</strong> PA's. Projeção de forte redução de <strong>160</strong> posições até Agosto (306).</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">306</h4><p>Ago (Proj)</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">466</h4><p>Dez/25</p></div>
-                    <div class="footer-metric"><h4 class="val-green">-160</h4><p>Vs Dez</p></div>
-                </div>
-            </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Card 4: CSAT -->
-        <div class="card">
-            <div class="card-header bg-blue">
-                <span>CSAT</span>
-                <span class="pill-weight">Peso 15%</span>
+    <!-- COLUNA 2: RANKING E PROJEÇÃO -->
+    <div class="col">
+      
+      <!-- Ranking -->
+      <div class="dash-card">
+        <div class="dc-header bg-blue"><span>Ranking Missões</span><span class="light">Jun/26</span></div>
+        <div class="dc-body" style="padding: 12px;">
+          
+          <div class="rank-row r-gold">
+            <div class="medal">1</div>
+            <div class="rank-info">
+              <h5>AEC</h5><p>CSAT Chat 80,8% · CSAT Voice 89,2% · Resolut Chat 72,4%</p>
             </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">78,00% <span class="metric-desc">Satisfação do cliente (nota 4+5)</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> CSAT</div>
-                            <div class="legend-item"><div class="legend-color bar" style="background: #f3f4f6; border: 1px dashed #ccc;"></div> Bench 72-76%</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-up-good">▲ +2,00 p.p. vs Mai</div>
-                </div>
-                <div class="chart-container"><canvas id="chartCSAT"></canvas></div>
+            <div class="rank-destaque">
+              <h4>Líder CSAT</h4><p>domina experiência</p>
             </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho em <strong>78,00%</strong> — superando o benchmark (72-76%); avanço consistente vs Mai (76,00%).</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">78,00%</h4><p>Junho</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">76,00%</h4><p>Mai</p></div>
-                    <div class="footer-metric"><h4 class="val-green">+2,00pp</h4><p>Vs Mai</p></div>
-                </div>
-            </div>
-        </div>
+          </div>
 
-        <!-- Card 5: Resolutividade -->
-        <div class="card">
-            <div class="card-header bg-green">
-                <span>RESOLUTIVIDADE</span>
-                <span class="pill-weight">Peso 15%</span>
+          <div class="rank-row r-silver">
+            <div class="medal">2</div>
+            <div class="rank-info">
+              <h5>TEL</h5><p>Recham Chat 11,6% · Recham Voice 31,8% · Resolut Voice 78,1%</p>
             </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">68,00% <span class="metric-desc">% resolvidas no 1º contato</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Geral</div>
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-green);"></div> Voz</div>
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-brown);"></div> Chat</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-up-good">▲ +3,00 p.p. vs Mai</div>
-                </div>
-                <div class="chart-container"><canvas id="chartResolutividade"></canvas></div>
+            <div class="rank-destaque">
+              <h4>Eficiência</h4><p>menor rechamada</p>
             </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho em <strong>68,00%</strong> — acima do topo do benchmark (55-65%). Voz atinge 74,00% e Chat 66,00%.</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">68,00%</h4><p>Junho</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">65,00%</h4><p>Mai</p></div>
-                    <div class="footer-metric"><h4 class="val-green">+3,00pp</h4><p>Vs Mai</p></div>
-                </div>
-            </div>
-        </div>
+          </div>
 
-        <!-- Card 6: Stress Rate -->
-        <div class="card">
-            <div class="card-header bg-brown">
-                <span>STRESS RATE</span>
-                <span class="pill-weight">Meta <2%</span>
+          <div class="rank-row r-bronze">
+            <div class="medal">3</div>
+            <div class="rank-info">
+              <h5>ALMAVIVA</h5><p>Resolut Voice 78,0% · Recham Chat 11,8% · CSAT Voice 88,4%</p>
             </div>
-            <div class="card-body">
-                <div class="metric-header">
-                    <div>
-                        <div class="metric-value">1,37% <span class="metric-desc">5+ acionamentos em 7d / base de CPFs</span></div>
-                        <div class="custom-legend">
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-blue);"></div> Stress</div>
-                            <div class="legend-item"><div class="legend-color" style="background: var(--agi-red); border-top: 2px dashed var(--agi-red); height:0;"></div> Meta <2%</div>
-                        </div>
-                    </div>
-                    <div class="delta-badge delta-down-good">▼ -0,24 p.p. vs Mai</div>
-                </div>
-                <div class="chart-container"><canvas id="chartStress"></canvas></div>
+            <div class="rank-destaque">
+              <h4 style="color: var(--agi-brown);">Alerta Chat</h4><p>csat chat em 70,8%</p>
             </div>
-            <div class="card-footer">
-                <div class="footer-text">Junho em <strong>1,37%</strong> — mantendo-se abaixo da meta (<2%) com conforto; recuo de 0,24 p.p. vs Mai.</div>
-                <div class="footer-metrics">
-                    <div class="footer-metric"><h4 class="val-green">1,37%</h4><p>Junho</p></div>
-                    <div class="footer-metric"><h4 class="val-blue">1,61%</h4><p>Mai</p></div>
-                    <div class="footer-metric"><h4 class="val-green">-0,24pp</h4><p>Vs Mai</p></div>
-                </div>
-            </div>
+          </div>
+
         </div>
+      </div>
+
+      <!-- Projeção -->
+      <div class="dash-card" style="flex: 1;">
+        <div class="dc-header bg-navy"><span>Projeção +4 Meses</span><span class="light">Out/26</span></div>
+        <div class="dc-body">
+          
+          <div class="proj-grid">
+            <div class="proj-box">
+              <span class="lbl">CSAT Chat<br>75,7%</span>
+              <span class="arrow">↗</span>
+              <h4>85%</h4>
+            </div>
+            <div class="proj-box">
+              <span class="lbl">Resolut. Chat<br>66,4%</span>
+              <span class="arrow">↗</span>
+              <h4>78%</h4>
+            </div>
+            <div class="proj-box">
+              <span class="lbl">Rechamada Chat<br>12,9%</span>
+              <span class="arrow">↘</span>
+              <h4>12%</h4>
+            </div>
+            <div class="proj-box">
+              <span class="lbl">CSAT Voice<br>88,9%</span>
+              <span class="arrow">↗</span>
+              <h4>92%</h4>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="tl-item"><span>Nov/25</span><b>Início</b></div>
+            <div class="tl-item"><span>Jun/26</span><b class="active">ATUAL</b></div>
+            <div class="tl-item"><span>Set/26</span><b>+3m</b></div>
+            <div class="tl-item"><span>Out/26</span><b class="meta">META</b></div>
+          </div>
+
+        </div>
+      </div>
 
     </div>
+
+    <!-- COLUNA 3: INSIGHTS E GANHOS -->
+    <div class="col">
+      
+      <!-- Insights -->
+      <div class="dash-card" style="flex: 1.2;">
+        <div class="dc-header bg-navy"><span>Insights Estratégicos</span></div>
+        <div class="dc-body">
+          <div class="insight-list">
+            <div class="insight-box"><b>CSAT Voice atinge 88,9%:</b> Estabilidade no trimestre (+0,4pp vs Mar). AEC lidera com 89,2%, seguida de perto por TEL (89,0%).</div>
+            <div class="insight-box"><b>Rechamada Chat despenca para 12,9%:</b> Queda expressiva de -7,1pp no tri. TEL (11,6%) e Almaviva (11,8%) puxam a eficiência.</div>
+            <div class="insight-box"><b>Resolut. Voice em alta performance:</b> Salto de +33,0pp no tri, atingindo 74,2%. TEL lidera o canal com 78,1%.</div>
+            <div class="insight-box"><b>AEC consolida liderança:</b> Maior CSAT no Chat (80,8%) e na Voz (89,2%), além de dominar a Resolutividade no Chat (72,4%).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ganhos -->
+      <div class="dash-card">
+        <div class="dc-header bg-blue"><span>Ganhos Acumulados</span><span class="light">Último Trimestre</span></div>
+        <div class="dc-body">
+          
+          <div class="ganhos-grid">
+            <div class="ganho-box"><h4>-35%</h4><p>Rechamada Chat</p></div>
+            <div class="ganho-box"><h4>+1%</h4><p>CSAT Chat</p></div>
+            <div class="ganho-box"><h4>+80%</h4><p>Resolut. Voice</p></div>
+          </div>
+
+          <div class="ganho-wide">
+            <h4>+5 a +6</h4>
+            <p>pontos de NPS<br>estimados no tri</p>
+          </div>
+          <div class="ganho-footer">Correlação histórica: cada 1pp CSAT = 0,6 NPS</div>
+
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
   <!-- RODAPÉ -->
   <div class="footer">
     <span class="confidencial">CONFIDENCIAL</span>
-    <span>Atendimento ao Cliente · Performance Operacional · Junho 2026</span>
-    <span>9 / 36</span>
+    <span class="footer-center">Atendimento ao Cliente · Missões · Junho 2026</span>
+    <span class="slide-counter">06 / 30</span>
   </div>
 
 </div>
 
 <script>
-  // Escala da Tela
   function resizeSlide() {
-    const wrapper = document.querySelector('.slide-wrapper');
+    const wrapper = document.getElementById('scale-wrapper');
     const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
     wrapper.style.transform = `scale(${scale})`;
   }
   window.addEventListener('resize', resizeSlide);
   resizeSlide();
-
-  // Registra o Plugin DataLabels Globalmente
-  Chart.register(ChartDataLabels);
-
-  // Common Chart.js Settings
-  Chart.defaults.font.family = "'Inter', sans-serif";
-  Chart.defaults.color = '#6b7280';
-  Chart.defaults.scale.grid.color = '#e5e7eb';
-  
-  const commonOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      devicePixelRatio: window.devicePixelRatio * 2, // Mantém a nitidez
-      plugins: { 
-          legend: { display: false }, 
-          tooltip: { mode: 'index', intersect: false },
-          datalabels: { display: false } 
-      },
-      scales: {
-          x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } },
-          y: { display: true, beginAtZero: false, border: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }
-      },
-      elements: {
-          line: { tension: 0.4, borderWidth: 2 },
-          point: { radius: 3, hitRadius: 10, hoverRadius: 5 }
-      }
-  };
-
-  const applySolidPointStyle = (color) => {
-      return { pointBackgroundColor: color, pointBorderColor: color, pointRadius: 3.5, pointBorderWidth: 1.5 };
-  };
-
-  // LABELS 
-  const labels1 = ['Out', 'Nov', 'Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
-  const labelsPA = ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago(P)'];
-
-  // Cores
-  const colorGreen = '#239a48';
-  const colorBlue = '#1a56db';
-  const colorBrown = '#b37022';
-  const colorRed = '#d93025';
-
-  // 1. Contact Rate Topo
-  new Chart(document.getElementById('chartCRTopo'), {
-      type: 'line',
-      data: {
-          labels: labels1,
-          datasets: [
-              {
-                  type: 'line', label: 'CR%',
-                  data: [12.20, 10.20, 8.60, 10.60, 9.40, 9.85, 8.59, 7.78, 7.66],
-                  borderColor: colorGreen, yAxisID: 'y',
-                  ...applySolidPointStyle(colorGreen),
-                  datalabels: {
-                      display: true, align: 'top', offset: 4, color: colorGreen, font: { size: 9, weight: 'bold' },
-                      formatter: function(value) { return value.toFixed(2).replace('.', ',') + '%'; }
-                  }
-              },
-              { type: 'bar', label: 'Volume', data: [720, 540, 330, 560, 520, 560, 540, 574, 567], backgroundColor: '#e5e7eb', borderRadius: 4, yAxisID: 'y1' }
-          ]
-      },
-      options: {
-          ...commonOptions, layout: { padding: { top: 20 } },
-          scales: {
-              x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } },
-              y: { display: false, min: 0, max: 15 },
-              y1: { display: false, position: 'right', min: 0, max: 1000 }
-          }
-      }
-  });
-
-  // 2. Nível de Serviço
-  new Chart(document.getElementById('chartNS'), {
-      type: 'line',
-      data: {
-          labels: labels1,
-          datasets: [
-              { label: 'Geral', data: [82.53, 84.83, 96.63, 82.34, 85.27, 72.14, 74.93, 84.12, 85.17], borderColor: colorBlue, ...applySolidPointStyle(colorBlue) },
-              { label: 'Voz', data: [79.50, 80.36, 94.14, 76.83, 80.38, 73.88, 83.25, 76.77, 92.43], borderColor: colorGreen, ...applySolidPointStyle(colorGreen) },
-              { label: 'Chat', data: [83.76, 86.60, 97.72, 84.82, 87.47, 71.48, 71.76, 86.87, 83.15], borderColor: colorBrown, ...applySolidPointStyle(colorBrown) },
-              { label: 'Meta', data: [75, 75, 75, 75, 75, 75, 75, 75, 75], borderColor: '#9ca3af', borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }
-          ]
-      },
-      options: { ...commonOptions, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 60, max: 100, ticks: { font: { size: 9, weight: 'bold' } } } } }
-  });
-
-  // 3. Quantidade de PA's (MANTIDO INTACTO)
-  const dataPAs = [466, 420, 362, 343, 377, 386, 357, 339, 306];
-  const bgColorsPAs = ['#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', '#e5e7eb', colorGreen, '#bfdbfe'];
-  new Chart(document.getElementById('chartPAs'), {
-      type: 'bar',
-      data: {
-          labels: labelsPA,
-          datasets: [
-              { type: 'line', label: 'Tendência', data: dataPAs, borderColor: '#9ca3af', borderWidth: 2, borderDash: [5, 5], fill: false, tension: 0.4, pointRadius: 0 },
-              { type: 'bar', label: 'PA\'s', data: dataPAs, backgroundColor: bgColorsPAs, borderRadius: 4, datalabels: { display: true, align: 'top', anchor: 'end', offset: 2, color: '#4b5563', font: { size: 9, weight: 'bold' } } }
-          ]
-      },
-      options: {
-          ...commonOptions, layout: { padding: { top: 30 } },
-          scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { display: false, min: 0, max: 550 } }
-      }
-  });
-
-  // 4. CSAT
-  new Chart(document.getElementById('chartCSAT'), {
-      type: 'line',
-      data: {
-          labels: labels1,
-          datasets: [{ label: 'CSAT', data: [65.0, 69.0, 74.0, 76.0, 76.0, 78.0, 78.0, 76.0, 78.0], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(1).replace('.', ',') + '%'; } } }]
-      },
-      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 60, max: 85, ticks: { font: { size: 9, weight: 'bold' } } } } }
-  });
-
-  // 5. Resolutividade
-  new Chart(document.getElementById('chartResolutividade'), {
-      type: 'line',
-      data: {
-          labels: labels1,
-          datasets: [
-              { label: 'Geral', data: [48.44, 51.60, 55.36, 58.0, 58.0, 60.0, 64.0, 65.0, 68.0], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(1).replace('.', ',') + '%'; } } },
-              { label: 'Voz', data: [32.0, 37.0, 35.0, 37.0, 39.0, 41.0, 57.0, 75.0, 74.0], borderColor: colorGreen, ...applySolidPointStyle(colorGreen) },
-              { label: 'Chat', data: [56.0, 59.0, 65.0, 66.0, 64.0, 67.0, 67.0, 63.0, 66.0], borderColor: colorBrown, ...applySolidPointStyle(colorBrown) }
-          ]
-      },
-      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 20, max: 80, ticks: { font: { size: 9, weight: 'bold' } } } } }
-  });
-
-  // 6. Stress Rate
-  new Chart(document.getElementById('chartStress'), {
-      type: 'line',
-      data: {
-          labels: labels1,
-          datasets: [
-              { label: 'Stress', data: [4.30, 3.80, 3.40, 3.00, 2.70, 2.73, 2.38, 1.61, 1.37], borderColor: colorBlue, ...applySolidPointStyle(colorBlue), datalabels: { display: true, align: 'top', anchor: 'end', offset: 4, color: colorBlue, font: { size: 9, weight: 'bold' }, formatter: function(value) { return value.toFixed(2).replace('.', ',') + '%'; } } },
-              { label: 'Meta', data: [2, 2, 2, 2, 2, 2, 2, 2, 2], borderColor: colorRed, borderDash: [5, 5], pointRadius: 0, borderWidth: 1 }
-          ]
-      },
-      options: { ...commonOptions, layout: { padding: { top: 20 } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }, y: { min: 0, max: 6, ticks: { font: { size: 9, weight: 'bold' } } } } }
-  });
 </script>
-
 </body>
 </html>
