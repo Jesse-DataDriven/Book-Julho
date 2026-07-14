@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <style>
   /* =======================================================================
-     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     AGIBANK CX - DESIGN SYSTEM BASE (MANTIDO NO ARQUIVO PARA NÃO QUEBRAR)
      ======================================================================= */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -26,12 +26,12 @@
     --orange-main: #ea580c;
     
     /* Heatmap (Tabela Direita) */
-    --hm-1: #fffbeb; /* Muito Baixo (<10%) */
-    --hm-2: #fef08a; /* Baixo (10-15%) */
-    --hm-3: #fde047; /* Médio (15-20%) */
-    --hm-4: #fcd34d; /* Alto (20-25%) */
-    --hm-5: #fbd38d; /* Muito Alto (25-30%) */
-    --hm-6: #fed7aa; /* Crítico (>30%) */
+    --hm-1: #fffbeb; /* Muito Baixo (<5%) */
+    --hm-2: #fef08a; /* Baixo (5-10%) */
+    --hm-3: #fde047; /* Médio (10-15%) */
+    --hm-4: #fcd34d; /* Alto (15-20%) */
+    --hm-5: #fbd38d; /* Muito Alto (20-25%) */
+    --hm-6: #fed7aa; /* Crítico (>25%) */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -45,7 +45,7 @@
     overflow: hidden;
   }
 
-  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  /* ================= CABEÇALHO PADRÃO ESTILO.CSS ================= */
   .header {
     background: var(--header-bg); color: white;
     height: 64px; min-height: 64px;
@@ -60,7 +60,7 @@
     font-weight: 800; font-size: 28px;
     padding: 6px 14px 8px 14px; border-radius: 8px;
     display: inline-flex; align-items: baseline; 
-    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+    letter-spacing: -1px; line-height: 1;
   }
   .agi-i {
     display: inline-block; width: 6px; height: 15px; 
@@ -71,7 +71,7 @@
     transform: translateX(-50%); width: 6.5px; height: 6.5px;
     background-color: var(--agi-green); border-radius: 50%;
   }
-  
+
   .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
   .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
   .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
@@ -130,7 +130,7 @@
   /* --- GRID DAS TABELAS --- */
   .tables-wrapper {
     display: grid;
-    grid-template-columns: 1.25fr 1fr; /* Esquerda um pouco maior para caber os 6 meses + YTD */
+    grid-template-columns: 1.25fr 1fr; 
     gap: 12px;
     flex: 1;
     min-height: 0;
@@ -146,8 +146,8 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
   }
 
-  .th-left { background: var(--header-bg); color: white; padding: 5px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-  .th-right { background: var(--purple-main); color: white; padding: 5px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .th-left { background: var(--header-bg); color: white; padding: 4px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .th-right { background: var(--purple-main); color: white; padding: 4px 10px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
 
   /* Compressão Extrema Das Tabelas */
   .data-table { width: 100%; border-collapse: collapse; text-align: right; }
@@ -164,11 +164,8 @@
   /* Tabela Esquerda Específicos */
   .col-ytd { font-weight: 800 !important; color: var(--agi-blue) !important; background: #f0f4ff; }
   .col-jun { font-weight: 800 !important; color: var(--header-bg) !important; background: #f8fafc; }
-  
-  /* Cores de Delta */
   .down-green { color: var(--agi-green); font-weight: 800; }
   .up-red { color: var(--agi-red); font-weight: 800; }
-  
   .row-demais td { background: #e0e7ff; font-weight: 800; border-top: 1px solid var(--border-color); }
   .row-top20 td { background: #f1f5f9; font-weight: 800; border-top: 1px solid var(--border-color); }
   .row-total td { background: var(--header-bg); color: white !important; font-weight: 800; border-top: 2px solid var(--agi-blue); }
@@ -185,12 +182,12 @@
   /* --- BARRA DE INSIGHTS INFERIOR --- */
   .insights-bar {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 15px;
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    padding: 8px 15px;
+    padding: 10px 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     flex-shrink: 0;
   }
@@ -200,6 +197,7 @@
   .dot-blue { background: var(--agi-blue); }
   .dot-purple { background: var(--purple-main); }
   .dot-green { background: var(--agi-green); }
+  .dot-gray { background: var(--text-gray); }
   .insight-text { font-size: 9.5px; color: var(--text-dark); line-height: 1.4; font-weight: 500; }
   .insight-text b { font-weight: 800; }
   .text-orange { color: var(--orange-main); font-weight: 800; }
@@ -211,7 +209,7 @@
 
 <div class="slide-wrapper" id="scale-wrapper">
   
-  <!-- CABEÇALHO PADRÃO -->
+  <!-- CABEÇALHO PADRÃO ESTILO.CSS -->
   <div class="header">
     <div class="header-left">
       <h1>Top 20 Motivos chamadores (Central)</h1>
@@ -229,11 +227,11 @@
     <div class="kpi-bar">
       <div class="kpi-item">
         <div class="kpi-title">VOL. JUN/26</div>
-        <div class="kpi-val val-blue">163.695</div>
+        <div class="kpi-val val-blue">123.696</div>
       </div>
       <div class="kpi-item">
         <div class="kpi-title">YTD JAN/26-JUN/26</div>
-        <div class="kpi-val val-dark">1,7M</div>
+        <div class="kpi-val val-dark">1,9M</div>
       </div>
       <div class="kpi-item">
         <div class="kpi-title">RECH. 48H JUN/26</div>
@@ -252,7 +250,7 @@
     <!-- GRID DAS TABELAS -->
     <div class="tables-wrapper">
       
-      <!-- TABELA ESQUERDA (Top Motivos Volume - NÃO ALTERADA) -->
+      <!-- TABELA ESQUERDA (Top Motivos Volume - ATUALIZADA COM IMAGEM 1) -->
       <div class="table-container">
         <div class="th-left">TOP MOTIVOS · VOL. ABERTURA <span style="font-weight: 500; text-transform: none; color: #cbd5e1; margin-left: 5px;">JAN/26-JUN/26</span></div>
         <table class="data-table">
@@ -262,34 +260,34 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Solicitação de Empréstimo</td><td>48.789</td><td>48.566</td><td>52.803</td><td>38.280</td><td>49.078</td><td class="col-jun">38.976</td><td class="col-ytd">276.492</td><td class="down-green">▼ -20,6%</td></tr>
-            <tr><td>Antecipação de Parcelas</td><td>21.980</td><td>18.578</td><td>17.692</td><td>13.635</td><td>13.920</td><td class="col-jun">11.406</td><td class="col-ytd">97.211</td><td class="down-green">▼ -18,1%</td></tr>
-            <tr><td>Parcelas Pagas</td><td>13.277</td><td>13.089</td><td>15.742</td><td>13.277</td><td>13.358</td><td class="col-jun">11.711</td><td class="col-ytd">80.454</td><td class="down-green">▼ -12,3%</td></tr>
-            <tr><td>Pix</td><td>15.336</td><td>10.748</td><td>11.092</td><td>11.102</td><td>12.519</td><td class="col-jun">9.449</td><td class="col-ytd">70.246</td><td class="down-green">▼ -24,5%</td></tr>
-            <tr><td>Cópia de Contrato</td><td>12.335</td><td>10.249</td><td>11.423</td><td>10.811</td><td>12.358</td><td class="col-jun">8.201</td><td class="col-ytd">65.377</td><td class="down-green">▼ -33,6%</td></tr>
-            <tr><td>Demonstrativo Evolução de Dívida</td><td>7.419</td><td>7.874</td><td>8.864</td><td>7.086</td><td>7.135</td><td class="col-jun">6.246</td><td class="col-ytd">44.624</td><td class="down-green">▼ -12,5%</td></tr>
-            <tr><td>Pagamento Benefício</td><td>9.287</td><td>7.319</td><td>6.750</td><td>6.841</td><td>9.200</td><td class="col-jun">8.221</td><td class="col-ytd">47.618</td><td class="down-green">▼ -10,6%</td></tr>
-            <tr><td style="color: var(--orange-main);">Cancelamento de Optante</td><td>4.927</td><td>5.139</td><td>6.264</td><td>6.642</td><td>9.681</td><td class="col-jun">11.322</td><td class="col-ytd">43.975</td><td class="up-red">▲ +17,0%</td></tr>
-            <tr><td>Ressarcimento</td><td>2.691</td><td>5.211</td><td>8.124</td><td>6.523</td><td>6.646</td><td class="col-jun">5.237</td><td class="col-ytd">34.432</td><td class="down-green">▼ -21,2%</td></tr>
-            <tr><td>Erro App</td><td>8.868</td><td>6.862</td><td>5.184</td><td>6.012</td><td>7.737</td><td class="col-jun">6.954</td><td class="col-ytd">41.617</td><td class="down-green">▼ -10,1%</td></tr>
-            <tr><td>Cancelamento de Seguro</td><td>3</td><td>5.499</td><td>6.972</td><td>6.000</td><td>6.933</td><td class="col-jun">6.366</td><td class="col-ytd">31.773</td><td class="down-green">▼ -8,2%</td></tr>
-            <tr><td>Valores debitados</td><td>3.323</td><td>4.331</td><td>4.127</td><td>5.896</td><td>16.227</td><td class="col-jun">9.865</td><td class="col-ytd">43.769</td><td class="down-green">▼ -39,2%</td></tr>
-            <tr><td>Baixa de Pagamento</td><td>3.736</td><td>3.895</td><td>6.748</td><td>5.703</td><td>3.999</td><td class="col-jun">3.702</td><td class="col-ytd">27.783</td><td class="down-green">▼ -7,4%</td></tr>
-            <tr><td>Extrato</td><td>5.961</td><td>5.160</td><td>5.280</td><td>5.368</td><td>9.811</td><td class="col-jun">7.512</td><td class="col-ytd">39.092</td><td class="down-green">▼ -23,4%</td></tr>
-            <tr><td>Parcela em Atraso</td><td>4.854</td><td>4.377</td><td>7.960</td><td>4.327</td><td>3.552</td><td class="col-jun">2.839</td><td class="col-ytd">27.909</td><td class="down-green">▼ -20,1%</td></tr>
-            <tr><td>Proposta em Andamento</td><td>7.664</td><td>4.540</td><td>4.824</td><td>4.080</td><td>7.069</td><td class="col-jun">4.672</td><td class="col-ytd">32.849</td><td class="down-green">▼ -33,9%</td></tr>
-            <tr><td>Dúvidas do Produto</td><td>2.648</td><td>3.438</td><td>3.999</td><td>3.416</td><td>3.283</td><td class="col-jun">2.734</td><td class="col-ytd">19.518</td><td class="down-green">▼ -16,7%</td></tr>
-            <tr><td style="color: var(--orange-main);">Acordo</td><td>4.854</td><td>3.753</td><td>4.586</td><td>3.390</td><td>3.542</td><td class="col-jun">3.766</td><td class="col-ytd">23.891</td><td class="up-red">▲ +6,3%</td></tr>
-            <tr><td style="color: var(--orange-main);">Limite Disponível</td><td>3.693</td><td>3.696</td><td>3.199</td><td>3.369</td><td>2.573</td><td class="col-jun">2.786</td><td class="col-ytd">19.316</td><td class="up-red">▲ +8,3%</td></tr>
-            <tr><td>Informação Sobre Acordo de Dívida</td><td>3.295</td><td>2.761</td><td>2.880</td><td>2.742</td><td>2.844</td><td class="col-jun">1.730</td><td class="col-ytd">16.252</td><td class="down-green">▼ -39,2%</td></tr>
-            <tr class="row-top20"><td>Top 20</td><td>184.944</td><td>175.085</td><td>194.513</td><td>164.500</td><td>201.465</td><td class="col-jun">163.695</td><td class="col-ytd">1.084.202</td><td class="up-red">▲ +29,9%</td></tr>
-            <tr class="row-demais"><td>Demais Motivos</td><td>117.202</td><td>76.383</td><td>84.926</td><td>75.289</td><td>91.314</td><td class="col-jun">179.746</td><td class="col-ytd">624.290</td><td class="down-green">▼ -9,7%</td></tr>
-            <tr class="row-total"><td>Total Central</td><td>302.146</td><td>251.468</td><td>279.439</td><td>239.789</td><td>292.209</td><td class="col-jun">343.441</td><td class="col-ytd">1.708.492</td><td class="up-red">▲ +17,5%</td></tr>
+            <tr><td>Solicitação de Empréstimo</td><td>38.550</td><td>37.801</td><td>40.358</td><td>27.933</td><td>33.420</td><td class="col-jun">25.332</td><td class="col-ytd">203.394</td><td class="down-green">▼ -24,2%</td></tr>
+            <tr><td>Antecipação de Parcelas</td><td>12.971</td><td>11.385</td><td>11.213</td><td>10.681</td><td>10.360</td><td class="col-jun">8.460</td><td class="col-ytd">65.070</td><td class="down-green">▼ -18,3%</td></tr>
+            <tr><td>Parcelas Pagas</td><td>10.778</td><td>10.753</td><td>12.535</td><td>12.436</td><td>11.438</td><td class="col-jun">10.131</td><td class="col-ytd">68.071</td><td class="down-green">▼ -11,4%</td></tr>
+            <tr><td>Pix</td><td>15.132</td><td>11.316</td><td>12.249</td><td>12.697</td><td>11.268</td><td class="col-jun">8.028</td><td class="col-ytd">70.690</td><td class="down-green">▼ -28,8%</td></tr>
+            <tr><td>Cópia de Contrato</td><td>10.762</td><td>10.943</td><td>10.581</td><td>9.154</td><td>9.622</td><td class="col-jun">6.869</td><td class="col-ytd">57.931</td><td class="down-green">▼ -28,6%</td></tr>
+            <tr><td>Demonstrativo Evolução de Dívida</td><td>5.199</td><td>6.586</td><td>7.352</td><td>5.779</td><td>5.649</td><td class="col-jun">5.151</td><td class="col-ytd">35.716</td><td class="down-green">▼ -8,8%</td></tr>
+            <tr><td>Pagamento Benefício</td><td>8.800</td><td>7.335</td><td>6.834</td><td>6.785</td><td>7.117</td><td class="col-jun">6.239</td><td class="col-ytd">43.110</td><td class="down-green">▼ -12,3%</td></tr>
+            <tr><td style="color: var(--orange-main);">Cancelamento de Optante</td><td>3.679</td><td>4.494</td><td>5.430</td><td>5.419</td><td>7.276</td><td class="col-jun">8.607</td><td class="col-ytd">34.905</td><td class="up-red">▲ +18,3%</td></tr>
+            <tr><td>Ressarcimento</td><td>2.384</td><td>4.822</td><td>7.436</td><td>6.121</td><td>5.317</td><td class="col-jun">4.404</td><td class="col-ytd">30.484</td><td class="down-green">▼ -17,2%</td></tr>
+            <tr><td>Erro App</td><td>8.367</td><td>6.878</td><td>5.183</td><td>6.046</td><td>6.354</td><td class="col-jun">5.682</td><td class="col-ytd">38.510</td><td class="down-green">▼ -10,6%</td></tr>
+            <tr><td>Cancelamento de Seguro</td><td>0</td><td>4.734</td><td>6.214</td><td>5.230</td><td>4.924</td><td class="col-jun">4.618</td><td class="col-ytd">25.720</td><td class="down-green">▼ -6,2%</td></tr>
+            <tr><td>Valores debitados</td><td>5.119</td><td>6.554</td><td>6.602</td><td>7.969</td><td>12.272</td><td class="col-jun">7.458</td><td class="col-ytd">46.024</td><td class="down-green">▼ -39,2%</td></tr>
+            <tr><td>Baixa de Pagamento</td><td>2.748</td><td>3.096</td><td>5.296</td><td>5.019</td><td>3.262</td><td class="col-jun">3.100</td><td class="col-ytd">22.521</td><td class="down-green">▼ -5,0%</td></tr>
+            <tr><td>Extrato</td><td>5.448</td><td>4.838</td><td>5.058</td><td>5.208</td><td>7.524</td><td class="col-jun">5.859</td><td class="col-ytd">33.935</td><td class="down-green">▼ -22,1%</td></tr>
+            <tr><td>Parcela em Atraso</td><td>3.168</td><td>3.002</td><td>4.970</td><td>3.625</td><td>3.148</td><td class="col-jun">2.595</td><td class="col-ytd">20.508</td><td class="down-green">▼ -17,6%</td></tr>
+            <tr><td>Proposta em Andamento</td><td>6.958</td><td>4.077</td><td>4.510</td><td>3.893</td><td>5.018</td><td class="col-jun">3.671</td><td class="col-ytd">28.127</td><td class="down-green">▼ -26,8%</td></tr>
+            <tr><td>Dúvidas do Produto</td><td>2.076</td><td>3.010</td><td>3.474</td><td>3.155</td><td>2.795</td><td class="col-jun">2.307</td><td class="col-ytd">16.817</td><td class="down-green">▼ -17,5%</td></tr>
+            <tr><td style="color: var(--orange-main);">Acordo</td><td>2.182</td><td>2.322</td><td>2.487</td><td>1.871</td><td>2.115</td><td class="col-jun">2.293</td><td class="col-ytd">13.270</td><td class="up-red">▲ +8,4%</td></tr>
+            <tr><td style="color: var(--orange-main);">Limite Disponível</td><td>3.069</td><td>3.082</td><td>2.540</td><td>2.502</td><td>1.533</td><td class="col-jun">1.606</td><td class="col-ytd">14.332</td><td class="up-red">▲ +4,8%</td></tr>
+            <tr><td>Informação Sobre Acordo de Dívida</td><td>2.706</td><td>2.307</td><td>2.228</td><td>2.235</td><td>1.942</td><td class="col-jun">1.283</td><td class="col-ytd">12.701</td><td class="down-green">▼ -33,9%</td></tr>
+            <tr class="row-top20"><td>Top 20</td><td>150.096</td><td>149.335</td><td>162.550</td><td>143.758</td><td>152.354</td><td class="col-jun">123.693</td><td class="col-ytd">881.786</td><td class="down-green">▼ -18,8%</td></tr>
+            <tr class="row-demais"><td>Demais Motivos</td><td>156.304</td><td>142.650</td><td>176.365</td><td>191.083</td><td>207.418</td><td class="col-jun">188.844</td><td class="col-ytd">1.062.664</td><td class="down-green">▼ -9,0%</td></tr>
+            <tr class="row-total"><td>Total Central</td><td>306.400</td><td>291.985</td><td>338.915</td><td>334.841</td><td>359.772</td><td class="col-jun">312.537</td><td class="col-ytd">1.944.450</td><td class="down-green">▼ -13,1%</td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- TABELA DIREITA (Recontato Timeline - ATUALIZADA) -->
+      <!-- TABELA DIREITA (Recontato Timeline - NÃO ALTERADA) -->
       <div class="table-container">
         <div class="th-right">RECONTATO 48H POR MOTIVO · TIMELINE <span style="font-weight: 500; text-transform: none; color: #e9d5ff; margin-left: 5px;">CPF + motivo ≤48h</span></div>
         <table class="data-table">
@@ -326,12 +324,12 @@
 
     </div>
 
-    <!-- BARRA DE INSIGHTS (NÃO ALTERADA) -->
+    <!-- BARRA DE INSIGHTS INFERIOR -->
     <div class="insights-bar">
       <div class="insight-block">
         <div class="insight-title"><span class="dot dot-blue"></span> VOLUME E TENDÊNCIA</div>
         <div class="insight-text">
-          <b>Total Central:</b> 343.441 casos em JUN/26. <b>Top 20:</b> representa <span class="text-green">48% do Total</span>. Queda na comparação MoM: <span class="text-orange">-14,19%</span> (Mai→Jun).
+          <b>Total Central:</b> 312.537 casos em JUN/26. <b>Top 20:</b> representa <span class="text-green">40% do Total</span>. Queda na comparação MoM: <span class="text-orange">-2%</span> (Mai→Jun).
         </div>
       </div>
       <div class="insight-block">
@@ -344,6 +342,12 @@
         <div class="insight-title"><span class="dot dot-green"></span> INSIGHTS</div>
         <div class="insight-text">
           A volumetria total apresentou avanço, mas a taxa global de rechamada 48h subiu para <b>16,60%</b>. Cancelamento de Optante teve alta de <b>+17%</b> no volume.
+        </div>
+      </div>
+      <div class="insight-block">
+        <div class="insight-title"><span class="dot dot-gray"></span> CONCEITO</div>
+        <div class="insight-text">
+          <b>OBS:</b> Esta memória de rechamada considera 48hrs e no <b>mesmo motivo</b>, métrica diferente da Rechamada por CPF em 48hrs.
         </div>
       </div>
     </div>
