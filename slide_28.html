@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 <style>
   /* =======================================================================
-     AGIBANK CX - DESIGN SYSTEM & BRANDBOOK (estilo.css BASE)
+     AGIBANK CX - DESIGN SYSTEM BASE (MANTIDO NO ARQUIVO PARA NÃO QUEBRAR)
      ======================================================================= */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -22,6 +22,15 @@
     --text-dark: #111827;      
     --text-gray: #6b7280;      
     --border-color: #e5e7eb;   
+    
+    --trend-green-bg: #e6f4ea;
+    --trend-green-txt: #1b853f;
+    --trend-red-bg: #fce8e6;
+    --trend-red-txt: #c5221f;
+
+    /* Variáveis Específicas Deste Slide */
+    --purple-main: #6b21a8;
+    --orange-main: #ea580c;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', Arial, sans-serif; }
@@ -35,7 +44,7 @@
     overflow: hidden;
   }
 
-  /* ================= CABEÇALHO (REGRAS ESTILO.CSS) ================= */
+  /* ================= CABEÇALHO PADRÃO ================= */
   .header {
     background: var(--header-bg); color: white;
     height: 64px; min-height: 64px;
@@ -50,7 +59,7 @@
     font-weight: 800; font-size: 28px;
     padding: 6px 14px 8px 14px; border-radius: 8px;
     display: inline-flex; align-items: baseline; 
-    letter-spacing: -1px; line-height: 1; flex-shrink: 0;
+    letter-spacing: -1px; line-height: 1;
   }
   .agi-i {
     display: inline-block; width: 6px; height: 15px; 
@@ -61,22 +70,24 @@
     transform: translateX(-50%); width: 6.5px; height: 6.5px;
     background-color: var(--agi-green); border-radius: 50%;
   }
-  
+
   .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin: 0;}
   .header-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end;}
   .slide-num { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
   .slide-date { font-size: 26px; font-weight: 900; color: var(--agi-green-light); letter-spacing: -1px; line-height: 1;}
 
-  /* ================= RODAPÉ (REGRAS ESTILO.CSS) ================= */
+  /* ================= RODAPÉ ================= */
   .footer {
     background: var(--header-bg); color: white; height: 40px; min-height: 40px;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: center; align-items: center;
     padding: 0 30px; font-size: 11px; font-weight: 600; margin-top: auto;
-    flex-shrink: 0;
+    flex-shrink: 0; position: relative;
   }
-  .footer .confidencial { color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .confidencial { position: absolute; left: 30px; color: var(--agi-green); font-weight: 800; letter-spacing: 1px;}
+  .footer .slide-counter { position: absolute; right: 30px; color: white;}
+  .footer .footer-center { color: rgba(255,255,255,0.8); }
 
-  /* ================= CONTEÚDO ESPECÍFICO DO SLIDE 32 ================= */
+  /* ================= CONTEÚDO DO SLIDE ================= */
   .content { padding: 15px 30px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 15px; background: var(--bg-main);}
 
   /* --- TOP BAR (KPIs + Insight) --- */
@@ -129,8 +140,8 @@
   tr:last-child td { border-bottom: none; }
   
   .row-total td { font-weight: 800; color: var(--header-bg); background: #f0f7ff;}
-  .col-ytd { font-weight: 800; color: var(--agi-blue); background: #f8f9fa;}
-  th.col-ytd { color: var(--agi-blue); }
+  .col-jun { font-weight: 800; color: var(--agi-blue); background: #f0f7ff;}
+  th.col-jun { color: var(--agi-blue); background: #e0e7ff;}
   .td-empty { color: #9ca3af; }
 
   /* --- ÁREA DE PLOTAGEM (GRÁFICOS INFERIORES) --- */
@@ -155,10 +166,10 @@
 
 <div class="slide-wrapper" id="scale-wrapper">
   
-  <!-- CABEÇALHO (REGRAS ESTILO.CSS) -->
+  <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
-      <h1>Custo Operacional PA</h1>
+      <h1>Dimensionamento Operacional PA</h1>
     </div>
     <div class="header-right">
       <div class="slide-num">SLIDE 28 DE 30</div>
@@ -172,9 +183,9 @@
     <div class="top-bar">
       <div class="kpi-section">
         <div class="kpi-block c-darkblue">
-          <h3>4.363</h3>
-          <p>TOTAL PA 2025</p>
-          <span class="kpi-pill pill-orange">Central Atend.</span>
+          <h3>466</h3>
+          <p>QTDE DE PA DEZ/2025</p>
+          <span class="kpi-pill pill-orange">FECHAMENTO 2025</span>
         </div>
         <div class="kpi-block c-blue">
           <h3>357</h3>
@@ -187,14 +198,14 @@
           <span class="kpi-pill pill-green">Referência 26</span>
         </div>
         <div class="kpi-block c-orange">
-          <h3>+30</h3>
-          <p>FUGA - PA EQUIV.</p>
-          <span class="kpi-pill pill-orange">Q1+Q2/25</span>
+          <h3>-121</h3>
+          <p>REDUÇÃO DE PA</p>
+          <span class="kpi-pill pill-orange">SET/25 vs JUN/26</span>
         </div>
       </div>
 
       <div class="insight-section">
-        <p>Central de Atendimento: 1.031 PAs no 4ºTri/25 ➔ 357 em Jun/26 (-65%). N1 Chat recua para 170 PAs em Jun/26. Operações AgiReverte (Chat e Fonado) foram zeradas no mês.</p>
+        <p>Central de Atendimento: 466 PAs no fechamento de 2025 ➔ 357 em Jun/26 (-23%). N1 Chat recua para 170 PAs em Jun/26. Operações AgiReverte (Chat e Fonado) foram zeradas em Junho e entra Faixa Preta e Concierge.</p>
       </div>
     </div>
 
@@ -202,61 +213,40 @@
     <div class="tbl-container">
       <div class="tbl-header">
         <div><span class="dot"></span> PA POR ÁREA</div>
-        <span class="light">← 2025 trimestral · 2026 mensal →</span>
+        <span class="light">Evolução Mensal 2026</span>
       </div>
       <table>
         <thead>
           <tr>
             <th>Área</th>
-            <th>1ºTri/25</th>
-            <th>2ºTri/25</th>
-            <th>3ºTri/25</th>
-            <th>4ºTri/25</th>
-            <th class="col-ytd">Total 25</th>
             <th>Jan/26</th>
             <th>Fev/26</th>
             <th>Mar/26</th>
             <th>Abr/26</th>
             <th>Mai/26</th>
-            <th>Jun/26</th>
-            <th class="col-ytd">Total 26</th>
+            <th class="col-jun">Jun/26</th>
           </tr>
         </thead>
         <tbody>
           <tr class="row-total">
-            <td>CENTRAL ATENDIMENTO</td>
-            <td>879</td><td>1.268</td><td>1.185</td><td>1.031</td><td class="col-ytd">4.363</td>
-            <td>383</td><td>316</td><td>321</td><td>350</td><td>369</td><td>357</td><td class="col-ytd">2.097</td>
+            <td>AREA CENTRAL DE ATENDIMENTO</td>
+            <td>383</td><td>316</td><td>321</td><td>350</td><td>369</td><td class="col-jun">357</td>
           </tr>
           <tr>
             <td style="padding-left: 20px;">Service N1 (CHAT)</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td>227</td><td>182</td><td>183</td><td>212</td><td>236</td><td>170</td><td class="col-ytd">1.210</td>
+            <td>227</td><td>182</td><td>183</td><td>212</td><td>236</td><td class="col-jun">170</td>
           </tr>
           <tr>
             <td style="padding-left: 20px;">Service N1 (FONADO)</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td>91</td><td>72</td><td>72</td><td>72</td><td>69</td><td>69</td><td class="col-ytd">445</td>
+            <td>91</td><td>72</td><td>72</td><td>72</td><td>69</td><td class="col-jun">69</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">AgiReverte (CHAT)</td>
-            <td>26</td><td>29</td><td>45</td><td>48</td><td class="col-ytd">148</td>
-            <td>14</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">54</td>
+            <td style="padding-left: 20px;">Service SAC (FONADO)</td>
+            <td>16</td><td>14</td><td>18</td><td>18</td><td>16</td><td class="col-jun">16</td>
           </tr>
           <tr>
-            <td style="padding-left: 20px;">AgiReverte (FONADO)</td>
-            <td>26</td><td>29</td><td>48</td><td>46</td><td class="col-ytd">149</td>
-            <td>12</td><td>10</td><td>10</td><td>10</td><td>10</td><td>0</td><td class="col-ytd">52</td>
-          </tr>
-          <tr>
-            <td style="padding-left: 20px;">Mídias Sociais</td>
-            <td>15</td><td class="td-empty">-</td><td>5</td><td>5</td><td class="col-ytd">5</td>
-            <td class="td-empty">-</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td class="col-ytd">25</td>
-          </tr>
-          <tr>
-            <td style="padding-left: 20px;">Fuga</td>
-            <td>15</td><td>15</td><td>30</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
-            <td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="td-empty">-</td><td class="col-ytd td-empty">-</td>
+            <td style="padding-left: 20px;">AREA SUPORTE A NEGOCIOS</td>
+            <td>18</td><td>20</td><td>23</td><td>30</td><td>16</td><td class="col-jun">16</td>
           </tr>
         </tbody>
       </table>
@@ -270,8 +260,8 @@
         <div class="chart-header">
           <div class="chart-title">CENTRAL DE ATENDIMENTO — EVOLUÇÃO DE PA's</div>
           <div class="chart-legend">
-            <div class="legend-item"><div class="box" style="background: var(--header-bg);"></div> 2025 (Trimestral)</div>
-            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> 2026 (Mensal)</div>
+            <div class="legend-item"><div class="box" style="background: var(--header-bg);"></div> 2025</div>
+            <div class="legend-item"><div class="box" style="background: var(--agi-blue);"></div> 2026</div>
           </div>
         </div>
         <div class="canvas-wrapper">
@@ -282,7 +272,7 @@
       <!-- Gráfico Donut (Share 2026) -->
       <div class="chart-box">
         <div class="chart-header">
-          <div class="chart-title">SHARE YTD 2026 (CHAT vs FONADO)</div>
+          <div class="chart-title">SHARE JUN/26 (CHAT vs FONADO)</div>
         </div>
         <div class="canvas-wrapper">
           <canvas id="donutChart"></canvas>
@@ -296,8 +286,8 @@
   <!-- RODAPÉ -->
   <div class="footer">
     <span class="confidencial">CONFIDENCIAL</span>
-    <span>Agibank · Jun/26 · Custo Operacional PA</span>
-    <span>28 / 30</span>
+    <span class="footer-center">Agibank · Jun/26 · Custo Operacional PA</span>
+    <span class="slide-counter">28 / 30</span>
   </div>
 
 </div>
@@ -320,11 +310,11 @@
   new Chart(ctxEvo, {
       type: 'bar',
       data: {
-          labels: ['1ºTri/25', '2ºTri/25', '3ºTri/25', '4ºTri/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
+          labels: ['Set/25', 'Out/25', 'Nov/25', 'Dez/25', 'Jan/26', 'Fev/26', 'Mar/26', 'Abr/26', 'Mai/26', 'Jun/26'],
           datasets: [
               {
                   label: 'PA\'s',
-                  data: [879, 1268, 1185, 1031, 383, 316, 321, 350, 369, 357],
+                  data: [478, 475, 476, 466, 383, 316, 321, 350, 369, 357],
                   // Cores: 4 primeiras (2025) em Azul Escuro, 6 últimas (2026) em Azul Agibank
                   backgroundColor: ['#000c36', '#000c36', '#000c36', '#000c36', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db', '#1a56db'], 
                   borderRadius: 4,
@@ -346,19 +336,19 @@
           },
           scales: {
               x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#6b7280' } },
-              y: { display: false, min: 0, suggestedMax: 1400 } // Esconde eixo Y, dá folga no topo
+              y: { display: false, min: 0, suggestedMax: 600 } // Esconde eixo Y, dá folga no topo
           }
       }
   });
 
-  // 2. Gráfico Donut (Share YTD 2026)
+  // 2. Gráfico Donut (Share Jun/26)
   const ctxDonut = document.getElementById('donutChart').getContext('2d');
   new Chart(ctxDonut, {
       type: 'doughnut',
       data: {
           labels: ['N1 Chat', 'N1 Fonado'],
           datasets: [{
-              data: [1210, 445], // Dados extraídos da coluna Total 26
+              data: [170, 69], // Dados de Jun/26
               backgroundColor: ['#1a56db', '#34a853'], // Azul e Verde Agibank
               borderWidth: 2, borderColor: '#ffffff'
           }]
