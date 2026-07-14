@@ -76,105 +76,105 @@
   .footer .slide-counter { position: absolute; right: 30px; color: white;}
   .footer .footer-center { color: rgba(255,255,255,0.8); }
 
-  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 11 ================= */
-  .content { padding: 15px 30px; display: flex; flex-direction: row; gap: 20px; flex: 1; min-height: 0; background: var(--bg-main);}
+  /* ================= AJUSTES ESPECÍFICOS DO SLIDE 06 ================= */
+  /* Redução de padding e gap para evitar o corte na parte inferior */
+  .content { padding: 10px 30px; display: flex; flex-direction: row; gap: 15px; flex: 1; min-height: 0; background: var(--bg-main);}
   
   /* --- Insight Bar Customizado --- */
   .insight-bar { 
     background: white; border-bottom: 1px solid var(--border-color);
-    height: 85px; min-height: 85px; padding: 10px 30px; 
+    height: 75px; min-height: 75px; padding: 10px 30px; 
     display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
   }
   .insight-text { width: 75%; }
-  .insight-text h2 { font-size: 18px; margin-bottom: 4px; color: var(--text-dark); font-weight: 500; letter-spacing: -0.5px;}
+  .insight-text h2 { font-size: 17px; margin-bottom: 2px; color: var(--text-dark); font-weight: 500; letter-spacing: -0.5px;}
   .insight-text h2 b { color: var(--agi-blue); font-weight: 800;}
-  .insight-text p { font-size: 11px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
+  .insight-text p { font-size: 10.5px; color: var(--text-gray); line-height: 1.4; font-weight: 500;}
   
   /* Badges Redondos do Topo */
-  .top-badges { display: flex; gap: 15px; }
+  .top-badges { display: flex; gap: 12px; }
   .t-badge { 
-    background: white; border: 1px solid #dbeafe; border-radius: 12px; 
-    width: 75px; height: 60px; display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(26, 86, 219, 0.05);
+    background: white; border: 1px solid #dbeafe; border-radius: 8px; 
+    width: 70px; height: 50px; display: flex; flex-direction: column; 
+    align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(26, 86, 219, 0.05);
   }
-  .t-badge h3 { font-size: 24px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
-  .t-badge span { font-size: 8px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px;}
+  .t-badge h3 { font-size: 20px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
+  .t-badge span { font-size: 7.5px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; margin-top: 2px; letter-spacing: 0.5px;}
 
   /* --- Colunas Principais --- */
-  .col { display: flex; flex-direction: column; gap: 15px; flex: 1; min-width: 0; }
+  .col { display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 0; }
   
   /* Estilo Base dos Cards deste Slide */
   .dash-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-  .dc-header { padding: 8px 15px; color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
+  .dc-header { padding: 6px 15px; color: white; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
   .dc-header span.light { color: rgba(255,255,255,0.7); font-weight: 600; text-transform: none;}
   .bg-navy { background: var(--header-bg); }
   .bg-blue { background: var(--agi-blue); }
-  .dc-body { padding: 15px; display: flex; flex-direction: column; flex: 1; justify-content: center;}
+  .dc-body { padding: 10px 15px; display: flex; flex-direction: column; flex: 1; justify-content: center;}
 
   /* --- COLUNA 1: Evolução Consolidada --- */
-  .evo-section { margin-bottom: 15px; }
+  .evo-section { margin-bottom: 10px; }
   .evo-section:last-child { margin-bottom: 0; }
-  .evo-title { font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;}
+  .evo-title { font-size: 9px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;}
   .txt-blue { color: var(--agi-blue); } .txt-green { color: var(--agi-green); }
   
-  .evo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .evo-pill { background: #f8f9fa; border-radius: 6px; padding: 10px 12px; border-left: 3px solid; display: flex; flex-direction: column;}
+  .evo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .evo-pill { background: #f8f9fa; border-radius: 6px; padding: 8px 10px; border-left: 3px solid; display: flex; flex-direction: column;}
   .evo-pill.bl { border-left-color: var(--agi-blue); }
   .evo-pill.gr { border-left-color: var(--agi-green); }
-  .evo-pill span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
-  .evo-pill h4 { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; letter-spacing: -0.5px;}
+  .evo-pill span.lbl { font-size: 8.5px; color: var(--text-gray); font-weight: 600; margin-bottom: 2px;}
+  .evo-pill h4 { font-size: 20px; font-weight: 900; line-height: 1; margin-bottom: 2px; letter-spacing: -0.5px;}
   .evo-pill h4.up { color: var(--agi-green); } .evo-pill h4.down { color: var(--agi-blue); }
-  .evo-pill span.sub { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  .evo-pill span.sub { font-size: 8px; color: var(--text-gray); font-weight: 500;}
 
   /* --- COLUNA 2: Ranking & Projeção --- */
   /* Ranking */
-  .rank-row { display: flex; align-items: center; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 10px; border-left-width: 4px;}
+  .rank-row { display: flex; align-items: center; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; border-left-width: 4px;}
   .rank-row:last-child { margin-bottom: 0; }
   .r-gold { border-left-color: #f59e0b; background: #fffbeb;}
   .r-silver { border-left-color: #9ca3af; background: #f3f4f6;}
-  .r-bronze { border-left-color: #d97706; background: #fff7ed;}
   
-  .medal { width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 12px;}
-  .r-gold .medal { color: #f59e0b; } .r-silver .medal { color: #6b7280; } .r-bronze .medal { color: #d97706; }
+  .medal { width: 22px; height: 22px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 10px;}
+  .r-gold .medal { color: #f59e0b; } .r-silver .medal { color: #6b7280; }
   
   .rank-info { flex: 1; }
-  .rank-info h5 { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
-  .rank-info p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  .rank-info h5 { font-size: 11px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px;}
+  .rank-info p { font-size: 8.5px; color: var(--text-gray); font-weight: 500;}
   
   .rank-destaque { text-align: right; }
-  .rank-destaque h4 { font-size: 13px; font-weight: 800; color: var(--agi-green); line-height: 1.2;}
-  .rank-destaque p { font-size: 9px; color: var(--text-gray); font-weight: 500;}
+  .rank-destaque h4 { font-size: 12px; font-weight: 800; color: var(--agi-green); line-height: 1.2;}
+  .rank-destaque p { font-size: 8px; color: var(--text-gray); font-weight: 500;}
 
   /* Projeção */
-  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;}
-  .proj-box { border: 1px solid #dbeafe; border-radius: 6px; padding: 12px; text-align: center; background: #f8fafc;}
-  .proj-box span.lbl { font-size: 9px; color: var(--text-gray); font-weight: 600; display: block;}
-  .proj-box .arrow { font-size: 12px; color: var(--agi-blue); margin: 2px 0; display: block; font-weight: bold;}
-  .proj-box h4 { font-size: 22px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;}
+  .proj-box { border: 1px solid #dbeafe; border-radius: 6px; padding: 8px; text-align: center; background: #f8fafc;}
+  .proj-box span.lbl { font-size: 8px; color: var(--text-gray); font-weight: 600; display: block;}
+  .proj-box .arrow { font-size: 11px; color: var(--agi-blue); margin: 1px 0; display: block; font-weight: bold;}
+  .proj-box h4 { font-size: 20px; font-weight: 900; color: var(--agi-blue); line-height: 1;}
   
-  .timeline { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px;}
+  .timeline { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 10px;}
   .tl-item { text-align: center; }
-  .tl-item span { display: block; font-size: 9px; color: var(--text-gray); font-weight: 600;}
-  .tl-item b { font-size: 10px; font-weight: 800; color: var(--text-gray);}
+  .tl-item span { display: block; font-size: 8px; color: var(--text-gray); font-weight: 600;}
+  .tl-item b { font-size: 9px; font-weight: 800; color: var(--text-gray);}
   .tl-item b.active { color: var(--agi-green); }
   .tl-item b.meta { color: var(--agi-blue); }
 
   /* --- COLUNA 3: Insights & Ganhos --- */
-  /* Insights (CORREÇÃO APLICADA AQUI PARA NÃO CORTAR O TEXTO) */
+  /* Insights */
   .insight-list { display: flex; flex-direction: column; gap: 8px; }
   .insight-box { border: 1px solid var(--border-color); border-left: 3px solid var(--agi-green); border-radius: 6px; padding: 8px 12px; font-size: 10.5px; color: var(--text-dark); line-height: 1.3;}
   .insight-box b { font-weight: 700; color: var(--header-bg); }
 
   /* Ganhos */
-  .ganhos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px;}
-  .ganho-box { background: #e6f4ea; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 5px; text-align: center;}
-  .ganho-box h4 { font-size: 20px; font-weight: 900; color: var(--agi-green); line-height: 1; margin-bottom: 4px;}
-  .ganho-box p { font-size: 9px; color: var(--text-dark); font-weight: 600;}
+  .ganhos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;}
+  .ganho-box { background: #e6f4ea; border: 1px solid #bbf7d0; border-radius: 6px; padding: 10px 5px; text-align: center;}
+  .ganho-box h4 { font-size: 18px; font-weight: 900; color: var(--agi-green); line-height: 1; margin-bottom: 2px;}
+  .ganho-box p { font-size: 8px; color: var(--text-dark); font-weight: 600;}
   
-  .ganho-wide { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 15px; display: flex; align-items: center; justify-content: center; gap: 15px;}
-  .ganho-wide h4 { font-size: 24px; font-weight: 900; color: var(--agi-green);}
-  .ganho-wide p { font-size: 10px; color: var(--text-dark); font-weight: 600; line-height: 1.3;}
-  .ganho-footer { text-align: center; font-size: 9px; color: var(--text-gray); margin-top: 8px;}
+  .ganho-wide { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 12px 15px; display: flex; align-items: center; justify-content: center; gap: 15px;}
+  .ganho-wide h4 { font-size: 22px; font-weight: 900; color: var(--agi-green);}
+  .ganho-wide p { font-size: 9.5px; color: var(--text-dark); font-weight: 600; line-height: 1.3;}
+  .ganho-footer { text-align: center; font-size: 8px; color: var(--text-gray); margin-top: 6px;}
 </style>
 </head>
 <body>
@@ -184,6 +184,7 @@
   <!-- CABEÇALHO -->
   <div class="header">
     <div class="header-left">
+      <div class="logo">ag<span class="agi-i"></span></div>
       <h1>Performance Operacional</h1>
     </div>
     <div class="header-right">
@@ -196,7 +197,7 @@
   <div class="insight-bar">
     <div class="insight-text">
       <h2>Missões consolida 2026 com CSAT Voice beirando <b>89%</b> e Rechamada Chat em <b>12,9%</b></h2>
-      <p>Evolução do último trimestre (Mar → Jun/26) com 3 BPOs. Rechamada Chat cai -7,1 p.p. e Resolutividade Voice salta +33,0 p.p., atingindo 74,2%.</p>
+      <p>Evolução do último trimestre (Mar → Jun/26) com 2 BPOs. Rechamada Chat cai -7,1 p.p. e Resolutividade Voice salta +33,0 p.p., atingindo 74,2%.</p>
     </div>
     
     <div class="top-badges">
@@ -271,41 +272,31 @@
       </div>
     </div>
 
-    <!-- COLUNA 2: RANKING E PROJEÇÃO -->
+    <!-- COLUNA 2: DESTAQUES E PROJEÇÃO -->
     <div class="col">
       
-      <!-- Ranking -->
+      <!-- Destaques -->
       <div class="dash-card">
-        <div class="dc-header bg-blue"><span>Ranking Missões</span><span class="light">Jun/26</span></div>
+        <div class="dc-header bg-blue"><span>Destaques missões</span><span class="light">Jun/26</span></div>
         <div class="dc-body" style="padding: 12px;">
           
           <div class="rank-row r-gold">
-            <div class="medal">1</div>
+            <div class="medal">✓</div>
             <div class="rank-info">
-              <h5>AEC</h5><p>CSAT Chat 80,8% · CSAT Voice 89,2% · Resolut Chat 72,4%</p>
+              <h5>AEC</h5><p>CSAT Chat 80,8% · CSAT Voz 89,2% · Resolut Chat 72,4%</p>
             </div>
             <div class="rank-destaque">
-              <h4>Líder CSAT</h4><p>domina experiência</p>
+              <h4>Líder Experiência</h4><p>domina csat e resolut</p>
             </div>
           </div>
 
           <div class="rank-row r-silver">
-            <div class="medal">2</div>
+            <div class="medal">✓</div>
             <div class="rank-info">
-              <h5>TEL</h5><p>Recham Chat 11,6% · Recham Voice 31,8% · Resolut Voice 78,1%</p>
+              <h5>ALMAVIVA</h5><p>Resolut Voz 78,0% · Recham Chat 11,8% · Shortcall Voz 1,1%</p>
             </div>
             <div class="rank-destaque">
-              <h4>Eficiência</h4><p>menor rechamada</p>
-            </div>
-          </div>
-
-          <div class="rank-row r-bronze">
-            <div class="medal">3</div>
-            <div class="rank-info">
-              <h5>ALMAVIVA</h5><p>Resolut Voice 78,0% · Recham Chat 11,8% · CSAT Voice 88,4%</p>
-            </div>
-            <div class="rank-destaque">
-              <h4 style="color: var(--agi-brown);">Alerta Chat</h4><p>csat chat em 70,8%</p>
+              <h4 style="color: var(--agi-brown);">Líder Eficiência</h4><p>menor rechamada</p>
             </div>
           </div>
 
@@ -360,9 +351,9 @@
         <div class="dc-header bg-navy"><span>Insights Estratégicos</span></div>
         <div class="dc-body">
           <div class="insight-list">
-            <div class="insight-box"><b>CSAT Voice atinge 88,9%:</b> Estabilidade no trimestre (+0,4pp vs Mar). AEC lidera com 89,2%, seguida de perto por TEL (89,0%).</div>
-            <div class="insight-box"><b>Rechamada Chat despenca para 12,9%:</b> Queda expressiva de -7,1pp no tri. TEL (11,6%) e Almaviva (11,8%) puxam a eficiência.</div>
-            <div class="insight-box"><b>Resolut. Voice em alta performance:</b> Salto de +33,0pp no tri, atingindo 74,2%. TEL lidera o canal com 78,1%.</div>
+            <div class="insight-box"><b>CSAT Voice atinge 88,9%:</b> Estabilidade no trimestre (+0,4pp vs Mar). AEC lidera com 89,2%, seguida de perto por Almaviva (88,4%).</div>
+            <div class="insight-box"><b>Rechamada Chat despenca para 12,9%:</b> Queda expressiva de -7,1pp no tri. Almaviva (11,8%) puxa a eficiência do canal.</div>
+            <div class="insight-box"><b>Resolut. Voice em alta performance:</b> Salto de +33,0pp no tri, atingindo 74,2%. Almaviva lidera o canal com 78,0%.</div>
             <div class="insight-box"><b>AEC consolida liderança:</b> Maior CSAT no Chat (80,8%) e na Voz (89,2%), além de dominar a Resolutividade no Chat (72,4%).</div>
           </div>
         </div>
